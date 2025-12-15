@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ocean Tracers Net - Smart Sanctuary for marine conservation using AI-powered technology">
+    <title>Smart Sanctuary | Ocean Tracers Net - Networks of Tomorrow</title>
+    <link rel="stylesheet" href="oceans.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="logo-animation">
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                    <div class="wave"></div>
+                </div>
+                <h2>Ocean Tracers Net Co.</h2>
+                <p>Networks of Tomorrow</p>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <div class="logo-animation">
+                        <div class="fas fa-water"></div>
+                        <div class="wave"></div>
+                        <div class="wave"></div>
+                    </div>
+                </div>
+                <div class="logo-text">
+                    <h1>Ocean Tracers Net</h1>
+                    <p class="slogan">Networks of Tomorrow</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#home" class="nav-link active">Home</a></li>
+                    <li><a href="#about" class="nav-link">About</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#technology" class="nav-link">Technology</a></li>
+                    <li><a href="#impact" class="nav-link">Impact</a></li>
+                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="#" class="btn-connect" id="connect-wallet">Connect Wallet</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-video">
+            <div class="video-placeholder">
+                <div class="video-overlay">
+                    <div class="video-fallback">
+                        <div class="wave-animation">
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                            <div class="wave"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title" data-editable="hero-title">Smart Sanctuary</h2>
+                <p class="hero-subtitle" data-editable="hero-subtitle">
+                    Where cutting-edge care meets the ocean's ancient rhythm.
+                </p>
+                <p class="hero-slogan" data-editable="hero-slogan">
+                    Networks of Tomorrow - Silent tech dances with the tides to protect paradise.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary">Get Involved</a>
+                    <a href="#services" class="btn btn-secondary">Our Services</a>
+                </div>
+                <div class="web3-status" id="web3-status">
+                    <!-- <div class="status-indicator disconnected"></div> -->
+                    <!-- <span>Web3 Disconnected</span> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2>About Our Smart Sanctuary</h2>
+                <p class="section-subtitle">
+                    Technology that treads lightly, so marine life dances forever
+                </p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <p data-editable="about-text-1">
+                        "Where Luxury Meets the Ocean's Whisper" Step into resorts where crystal waters stay forever vibrant—protected by an invisible harmony of innovation and nature. Your escape not only pampers you but preserves paradise.
+                    </p>
+                    <p data-editable="about-text-2">
+                        "The First Resort That Loves the Ocean Back" Swim, unwind, and explore knowing every detail—from the coral below to the cocktail in your hand—is designed to cherish, not exploit, the sea's fragile magic.
+                    </p>
+                    <p data-editable="about-text-3">
+                        "We Built Resorts That Protect, Not Just Impress" Because paradise isn't a postcard—it's a living, breathing world. Our sanctuaries use unseen care to keep waters wild, so generations after you will sink their toes into the same golden sands.
+                    </p>
+                    <p data-editable="about-text-4">
+                        "Take Only Photos, Leave Only Bubbles" Even the most luxurious escapes should vanish without a trace—except in your heart. That's the promise of a stay where technology and tide move as one.
+                    </p>
+                    <h2><span class="slogan-badge">Who We Are?</span></h2>
+                    <p data-editable="who-we-are-1">
+                        We are a group of companies driven by innovative trends in technology to develop solutions with a budget-friendly approach. Our goal is to be the most promising outsourcing company in Uganda.
+                    </p>
+                    <p data-editable="who-we-are-2">
+                        Ocean Trace Net {U} Ltd is nurtured by a group of passionate individuals all of who are tech-experts and experienced for excellence.
+                    </p>
+                    <p data-editable="who-we-are-3">
+                        We thrive to serve brands and businesses with all that they require to progress with respect to information and communication technology. We plan and execute your venture into a huge success.
+                    </p>
+                </div>
+                <div class="about-image">
+                    <div class="image-placeholder editable" id="sanctuary-image">
+                        <img src="img/salim.jpg" alt="Smart Sanctuary Technology">
+                    </div>
+                    <div class="image-caption">Our Smart Sanctuary in action</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Values Section -->
+        <div class="container">
+            <div class="section-header">
+                <h2><span class="slogan-badge">Our Values</span></h2>
+                <p class="section-subtitle">
+                    Every innovation in our "Networks of Tomorrow" isn't just technology—it's a lifeline for the ocean
+                </p>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Integrity</h3>
+                    <p data-editable="integrity-text">Honors all commitments to our customers, employees and business with unwavering high standards of honesty, trust and professionalism.</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3>Quality</h3>
+                    <p data-editable="quality-text">Put the interest of our customers first and dedicated to providing an individualized business experience that assures customer satisfaction.</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Teamwork</h3>
+                    <p data-editable="teamwork-text">Work as one cohesive team from the smallest unit to the Board of directors while developing and retaining leaders who continually raise the bar.</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Strategic Growth</h3>
+                    <p data-editable="growth-text">
+                        Dedicated to continuous innovation and pursuit of new ideas and opportunities to accelerate profitable growth.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2><span class="slogan-badge">Our Services</span></h2>
+                <p class="section-subtitle">
+                    Comprehensive solutions to drive your business forward
+                </p>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>IT Consulting</h3>
+                    <p>Strategic technology guidance to transform your business operations and digital capabilities.</p>
+                    <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Project Outsourcing</h3>
+                    <p>Access our skilled talent pool for cost-effective project delivery with exceptional quality.</p>
+                    <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-plane"></i>
+                    </div>
+                    <h3>Travel & Safaris</h3>
+                    <p>Unforgettable Ugandan adventures showcasing wildlife, culture, and natural beauty.</p>
+                    <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>E-commerce Solutions</h3>
+                    <p>Complete digital storefront development with integrated marketing strategies.</p>
+                    <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-water"></i>
+                    </div>
+                    <h3>Marine Conservation</h3>
+                    <p>AI-powered solutions to protect and monitor marine ecosystems and biodiversity.</p>
+                    <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3>Network Solutions</h3>
+                    <p>Robust connectivity and infrastructure for modern business requirements.</p>
+                    <a href="#contact" class="service-link">Learn More <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Section -->
+    <section id="technology" class="technology section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2><span class="slogan-badge">Our Technology</span></h2>
+                <p class="section-subtitle">
+                    Cutting-edge solutions powering our marine conservation and business services
+                </p>
+            </div>
+            <div class="tech-showcase">
+                <div class="tech-item">
+                    <div class="tech-content">
+                        <h3>AI-Powered Marine Monitoring</h3>
+                        <p>Our proprietary AI systems analyze thousands of data points daily to track marine health, detect threats, and predict environmental changes.</p>
+                        <ul>
+                            <li>Real-time species tracking</li>
+                            <li>Pollution detection algorithms</li>
+                            <li>Predictive ecosystem modeling</li>
+                        </ul>
+                    </div>
+                    <div class="tech-visual">
+                        <div class="tech-animation">
+                            <div class="data-point"></div>
+                            <div class="data-point"></div>
+                            <div class="data-point"></div>
+                            <div class="network-line"></div>
+                            <div class="network-line"></div>
+                            <div class="network-line"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tech-item reverse">
+                    <div class="tech-content">
+                        <h3>Blockchain for Conservation</h3>
+                        <p>Transparent, secure tracking of conservation efforts and donations through blockchain technology.</p>
+                        <ul>
+                            <li>Donation transparency</li>
+                            <li>Impact verification</li>
+                            <li>Smart contract automation</li>
+                        </ul>
+                    </div>
+                    <div class="tech-visual">
+                        <div class="blockchain-animation">
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="block"></div>
+                            <div class="chain"></div>
+                            <div class="chain"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="impact section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2><span class="slogan-badge">Our Impact</span></h2>
+                <p class="section-subtitle">
+                    Every innovation in our "Networks of Tomorrow" isn't just technology—it's a lifeline for the ocean
+                </p>
+            </div>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-fish"></i>
+                    </div>
+                    <h3 data-count="100">0</h3>
+                    <p>Marine Species Thriving</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3>24/7</h3>
+                    <p>Eyes on the Ecosystem</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line-down"></i>
+                    </div>
+                    <h3 data-count="75">0</h3>
+                    <p>Fewer Threats to Marine Sanctuaries</p>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3 data-count="5000">0</h3>
+                    <p>Data Points Analyzed Daily</p>
+                </div>
+            </div>
+            <div class="impact-testimonials">
+                <div class="testimonial-card">
+                    <div class="testimonial-author">
+                        <div class="author-image editable" id="author-image-container">
+                            <img src="assets/ceo.jpg" alt="CEO Seguya Salim Muko">
+                        </div>
+                        <div>
+                            <p data-editable="ceo-belief-1">
+                                I strongly believe that organizations who invest wisely in technology increase their operational maturity much faster than their competitors.
+                            </p>
+                            <br>
+                            <h4 data-editable="ceo-signature">SSEGUYA SALIM MUKO.<br>
+                                CEO | FOUNDER | DEVELOPER.<br>
+                                OCEAN TRACERS NET Co LTD.
+                            </h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact section-padding">
+        <div class="container">
+            <div class="section-header">
+                <h2><span class="slogan-badge">Join Our Networks of Tomorrow</span></h2>
+                <p class="section-subtitle">
+                    "Step into the 'Networks of Tomorrow'—a movement where every wave you love stays wild forever."
+                </p>
+            </div>
+            <div class="contact-container">
+                <form id="contact-form" class="contact-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="Your Name" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Your Email" required />
+                    </div>
+                    <div class="form-group">
+                        <select id="interest" name="interest" required>
+                            <option value="" disabled selected>How would you like to get involved?</option>
+                            <option value="partner">Partnership</option>
+                            <option value="volunteer">Volunteer</option>
+                            <option value="donate">Donate</option>
+                            <option value="learn">Learn More</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" name="message" placeholder="Your Message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Connect With Us</button>
+                </form>
+                <div class="contact-info">
+                    <h3>Company Information</h3>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p data-editable="company-address">101 Ocean Drive, Kampala City, K'LA 170410</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <p data-editable="company-phone">+256 (774) 380-011</p>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <p data-editable="company-email">oceantracersnet101@gmail.com</p>
+                    </div>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div id="form-success" class="success-message hidden">
+                <i class="fas fa-check-circle"></i>
+                <p>Thank you for your message! We'll get back to you soon.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-animation">
+                        <div class="wave"></div>
+                        <div class="wave"></div>
+                        <div class="wave"></div>
+                    </div>
+                    <div>
+                        <h3>Ocean Tracers Net</h3>
+                        <p class="slogan">Networks of Tomorrow</p>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#services">Services</a></li>
+                        <li><a href="#technology">Technology</a></li>
+                        <li><a href="#impact">Impact</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-services">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#services">IT Consulting</a></li>
+                        <li><a href="#services">Project Outsourcing</a></li>
+                        <li><a href="#services">Travel & Safaris</a></li>
+                        <li><a href="#services">E-commerce Solutions</a></li>
+                        <li><a href="#services">Marine Conservation</a></li>
+                    </ul>
+                </div>
+                <div class="footer-newsletter">
+                    <h4>Stay Updated</h4>
+                    <p>Subscribe to our newsletter for the latest updates</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" required>
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; <span id="year"></span> Ocean Tracers Net Co. All rights reserved.</p>
+                </div>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Web3 Wallet Modal -->
+    <div id="wallet-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Connect Your Wallet</h3>
+            <p>Connect to access Web3 features and support our marine conservation efforts.</p>
+            <div class="wallet-options">
+                <button class="wallet-btn" id="metamask-btn">
+                    <i class="fab fa-ethereum"></i>
+                    <span>MetaMask</span>
+                </button>
+                <button class="wallet-btn" id="walletconnect-btn">
+                    <i class="fas fa-wallet"></i>
+                    <span>WalletConnect</span>
+                </button>
+            </div>
+            <div id="wallet-status" class="wallet-status"></div>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel" class="admin-panel">
+        <div class="admin-header">
+            <h3>Content Editor</h3>
+            <button id="close-admin" class="close-admin">&times;</button>
+        </div>
+        <div class="admin-content">
+            <div class="admin-section">
+                <h4>Smart Sanctuary Content</h4>
+                <div class="form-group">
+                    <label>Hero Title</label>
+                    <input type="text" id="edit-hero-title" data-target="hero-title">
+                </div>
+                <div class="form-group">
+                    <label>Hero Subtitle</label>
+                    <textarea id="edit-hero-subtitle" data-target="hero-subtitle"></textarea>
+                </div>
+            </div>
+            
+            <div class="admin-section">
+                <h4>Images</h4>
+                <div class="form-group">
+                    <label>Smart Sanctuary Image URL</label>
+                    <input type="text" id="edit-sanctuary-image" placeholder="Enter image URL">
+                    <button type="button" id="update-sanctuary-image">Update Image</button>
+                </div>
+                <div class="form-group">
+                    <label>Author Image URL</label>
+                    <input type="text" id="edit-author-image" placeholder="Enter image URL">
+                    <button type="button" id="update-author-image">Update Image</button>
+                </div>
+            </div>
+            
+            <div class="admin-actions">
+                <button id="save-content" class="btn btn-primary">Save All Changes</button>
+                <button id="reset-content" class="btn btn-secondary">Reset to Default</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Toggle Button -->
+    <button id="admin-toggle" class="admin-toggle" title="Admin Panel">
+        <i class="fas fa-cog"></i>
+    </button>
+
+    <!-- Load Web3 Library -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.7.0/dist/web3.min.js"></script>
+    <!-- Load JavaScript Files -->
+    <script src="oceans database.js"></script>
+    <script src="oceans.js"></script>
+</body>
+</html>
