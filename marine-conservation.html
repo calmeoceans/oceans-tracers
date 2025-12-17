@@ -3,1048 +3,825 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ISM - E-Learning System</title>
-    <link rel="stylesheet" href="e-learning.css">
+    <title>Marine Conservation | Ocean Tracers Net</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #0a2463;
+            --secondary-blue: #1e90ff;
+            --ocean-green: #2a9d8f;
+            --light-blue: #a8dadc;
+            --sand-color: #f4e9cd;
+            --white: #ffffff;
+            --text-dark: #2a2a2a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            padding: 1.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .logo i {
+            color: var(--light-blue);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        nav a:hover {
+            color: var(--light-blue);
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .current-page {
+            color: var(--light-blue);
+            border-bottom: 2px solid var(--light-blue);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(10, 36, 99, 0.85), rgba(30, 144, 255, 0.8)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2073&q=80');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            text-align: center;
+            padding: 6rem 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .hero h1 {
+            font-size: 3.2rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--ocean-green);
+            color: var(--white);
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .cta-button:hover {
+            background-color: var(--light-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* Section Styles */
+        section {
+            padding: 4rem 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary-blue);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: var(--ocean-green);
+            border-radius: 2px;
+        }
+        
+        /* Conservation Cards */
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .card {
+            background-color: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-img {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+        }
+        
+        .card h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        
+        .card p {
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-link {
+            color: var(--ocean-green);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .card-link:hover {
+            text-decoration: underline;
+        }
+        
+        /* Threats Section */
+        .threats-container {
+            background-color: var(--white);
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .threat-item {
+            display: flex;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .threat-item:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .threat-icon {
+            background-color: rgba(42, 157, 143, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1.5rem;
+            flex-shrink: 0;
+        }
+        
+        .threat-icon i {
+            font-size: 1.8rem;
+            color: var(--ocean-green);
+        }
+        
+        .threat-content h3 {
+            color: var(--primary-blue);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Action Grid */
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+        
+        .action-item {
+            text-align: center;
+            padding: 2rem 1.5rem;
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        
+        .action-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-icon {
+            background-color: rgba(30, 144, 255, 0.1);
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+        
+        .action-icon i {
+            font-size: 2.5rem;
+            color: var(--secondary-blue);
+        }
+        
+        .action-item h3 {
+            color: var(--primary-blue);
+            margin-bottom: 1rem;
+        }
+        
+        /* Tracker Section */
+        .tracker-container {
+            background: linear-gradient(to right, var(--primary-blue), var(--secondary-blue));
+            color: var(--white);
+            border-radius: 15px;
+            padding: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .tracker-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .tracker-text {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .tracker-text h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .tracker-stats {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--light-blue);
+        }
+        
+        .tracker-form {
+            flex: 1;
+            min-width: 300px;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+        
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border-radius: 5px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .form-button {
+            background-color: var(--ocean-green);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        .form-button:hover {
+            background-color: var(--light-blue);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--primary-blue);
+            color: var(--white);
+            padding: 3rem 0 1.5rem;
+            margin-top: 4rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h3 {
+            color: var(--light-blue);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+        
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--light-blue);
+        }
+        
+        .social-icons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-icons a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--secondary-blue);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            nav ul {
+                gap: 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .tracker-content {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .threat-item {
+                flex-direction: column;
+            }
+            
+            .threat-icon {
+                margin-right: 0;
+                margin-bottom: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .tracker-container {
+                padding: 2rem 1.5rem;
+            }
+            
+            .tracker-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="nav-container">
+    <!-- Header -->
+    <header>
+        <div class="container header-content">
             <div class="logo">
-                <i class="fas fa-graduation-cap"></i>
-                <span>ISM</span>
+                <i class="fas fa-water"></i>
+                <span>Ocean Tracers Net</span>
             </div>
-            <ul class="nav-menu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#about" class="nav-link">About Us</a></li>
-                <li><a href="#e-learning" class="nav-link">E-Learning</a></li>
-                <li><a href="#course-units" class="nav-link">Course Units</a></li>
-                <li><a href="#enrollment" class="nav-link">Enroll Now</a></li>
-                <li><a href="#location" class="nav-link">Location</a></li>
-                <li><a href="#contact" class="nav-link">Contact Us</a></li>
-                <li><a href="#" id="login-nav-link" class="nav-link">Login</a></li>
-            </ul>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="#" class="current-page">Marine Conservation</a></li>
+                    <li><a href="#">Tracking Projects</a></li>
+                    <li><a href="#">Research</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
         </div>
-    </nav>
+    </header>
 
-    <!-- Main Content Sections -->
-    <section id="home" class="section active">
+    <!-- Hero Section -->
+    <section class="hero">
         <div class="container">
-            <div class="home-container">
-                <div class="home-content">
-                    <h1>Welcome to Information System Management E-Learning</h1>
-                    <p>A comprehensive platform designed to enhance the educational experience for students and educators alike.</p>
-                    <div class="home-buttons">
-                        <button class="btn btn-primary" id="get-started-btn">Get Started</button>
-                        <button class="btn btn-secondary" id="learn-more-btn">Learn More</button>
-                    </div>
+            <h1>Marine Conservation</h1>
+            <p>Protecting our oceans through tracking, research, and global collaboration. Join us in preserving marine ecosystems for future generations.</p>
+            <a href="#tracker" class="cta-button">Track Conservation Efforts <i class="fas fa-arrow-down"></i></a>
+        </div>
+    </section>
+
+    <!-- Conservation Initiatives -->
+    <section class="container">
+        <h2 class="section-title">Our Conservation Initiatives</h2>
+        <div class="card-container">
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1599302592348-50f51eb6d43c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <h3>Coral Reef Restoration</h3>
+                    <p>Using advanced tracking technology to monitor coral health and deploy restoration efforts in threatened reef ecosystems worldwide.</p>
+                    <a href="#" class="card-link">Learn More <i class="fas fa-chevron-right"></i></a>
                 </div>
-                <div class="home-image">
-                    <img src="img/group img" alt="E Learning">
+            </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1564507004663-b6dfb3e2ede5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <h3>Marine Protected Areas</h3>
+                    <p>Tracking vessel movements to enforce protected zones and reduce illegal fishing activities in sensitive marine habitats.</p>
+                    <a href="#" class="card-link">Explore MPAs <i class="fas fa-chevron-right"></i></a>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="card-img" style="background-image: url('https://images.unsplash.com/photo-1536152471326-6427c8d104d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                <div class="card-content">
+                    <h3>Plastic Pollution Tracking</h3>
+                    <p>Using tracer technology to map plastic waste movement in ocean currents to develop targeted cleanup strategies.</p>
+                    <a href="#" class="card-link">View Tracking Data <i class="fas fa-chevron-right"></i></a>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="about" class="section">
-        <div class="container">
-            <h2 class="section-title">About Us</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <h3>Our Mission</h3>
-                    <p>ISM E-Learning is committed to providing high-quality, accessible education through innovative technology and personalized learning experiences.</p>
+    <!-- Threats to Marine Ecosystems -->
+    <section class="container">
+        <h2 class="section-title">Threats to Marine Ecosystems</h2>
+        <div class="threats-container">
+            <div class="threat-item">
+                <div class="threat-icon">
+                    <i class="fas fa-fish"></i>
+                </div>
+                <div class="threat-content">
+                    <h3>Overfishing</h3>
+                    <p>Unsustainable fishing practices are depleting fish populations faster than they can reproduce, disrupting marine food webs and ecosystems.</p>
+                </div>
+            </div>
+            
+            <div class="threat-item">
+                <div class="threat-icon">
+                    <i class="fas fa-temperature-high"></i>
+                </div>
+                <div class="threat-content">
+                    <h3>Climate Change</h3>
+                    <p>Rising ocean temperatures and acidification are causing coral bleaching, shifting species distributions, and altering marine habitats.</p>
+                </div>
+            </div>
+            
+            <div class="threat-item">
+                <div class="threat-icon">
+                    <i class="fas fa-trash"></i>
+                </div>
+                <div class="threat-content">
+                    <h3>Pollution</h3>
+                    <p>Plastic waste, agricultural runoff, and industrial chemicals are contaminating marine environments, harming wildlife and ecosystems.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How You Can Help -->
+    <section class="container">
+        <h2 class="section-title">How You Can Help</h2>
+        <div class="action-grid">
+            <div class="action-item">
+                <div class="action-icon">
+                    <i class="fas fa-hands-helping"></i>
+                </div>
+                <h3>Volunteer</h3>
+                <p>Join beach cleanups, citizen science projects, or conservation expeditions to make a direct impact.</p>
+            </div>
+            
+            <div class="action-item">
+                <div class="action-icon">
+                    <i class="fas fa-shopping-bag"></i>
+                </div>
+                <h3>Conscious Consumer</h3>
+                <p>Choose sustainable seafood, reduce plastic use, and support eco-friendly products and companies.</p>
+            </div>
+            
+            <div class="action-item">
+                <div class="action-icon">
+                    <i class="fas fa-donate"></i>
+                </div>
+                <h3>Support Organizations</h3>
+                <p>Contribute to marine conservation groups and research initiatives working to protect our oceans.</p>
+            </div>
+            
+            <div class="action-item">
+                <div class="action-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>Track & Report</h3>
+                <p>Use our tracking tools to monitor marine health and report environmental concerns in your area.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Conservation Tracker -->
+    <section id="tracker" class="container">
+        <div class="tracker-container">
+            <div class="tracker-content">
+                <div class="tracker-text">
+                    <h2>Track Conservation Progress</h2>
+                    <p>Use our interactive tracker to monitor marine conservation efforts worldwide. See real-time data on protected areas, species recovery, and pollution reduction initiatives.</p>
                     
-                    <h3>Our Vision</h3>
-                    <p>To be the leading e-learning platform that transforms education by making it accessible, engaging, and effective for all learners.</p>
-                    
-                    <h3>Our Values</h3>
-                    <ul>
-                        <li><strong>Excellence:</strong> We strive for the highest standards in education</li>
-                        <li><strong>Innovation:</strong> We embrace new technologies and teaching methods</li>
-                        <li><strong>Accessibility:</strong> We make education available to everyone</li>
-                        <li><strong>Collaboration:</strong> We foster a community of learners and educators</li>
-                    </ul>
-                </div>
-                <div class="about-stats">
-                    <div class="stat-card">
-                        <div class="stat-number">5000+</div>
-                        <div class="stat-label">Students Enrolled</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">150+</div>
-                        <div class="stat-label">Course Units</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Satisfaction Rate</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">50+</div>
-                        <div class="stat-label">Expert Lecturers</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="e-learning" class="section">
-        <div class="container">
-            <h2 class="section-title">E-Learning Platform</h2>
-            <div class="platform-features">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-laptop"></i>
-                    </div>
-                    <h3>Interactive Learning</h3>
-                    <p>Engage with multimedia content, interactive quizzes, and virtual classrooms.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Mobile Friendly</h3>
-                    <p>Access your courses anytime, anywhere on any device.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3>Progress Tracking</h3>
-                    <p>Monitor your learning journey with detailed analytics and reports.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Collaborative Tools</h3>
-                    <p>Work with peers and instructors through discussion forums and group projects.</p>
-                </div>
-            </div>
-            <div class="platform-demo">
-                <h3>Experience Our Platform</h3>
-                <!-- <div class="demo-video">
-                    <div class="video-placeholder">
-                        <i class="fas fa-play-circle"></i>
-                        <p>ISM</p>
-                    </div>
-                </div> -->
-            </div>
-        </div>
-    </section>
-
-    <section id="course-units" class="section">
-        <div class="container">
-            <h2 class="section-title">Course Units</h2>
-            <div class="course-filters">
-                <div class="filter-group">
-                    <label for="department-filter">Department:</label>
-                    <select id="department-filter">
-                        <option value="all">All Departments</option>
-                        <option value="computer-science">Computer Science</option>
-                        <option value="engineering">Software Engineering</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="level-filter">Level:</label>
-                    <select id="level-filter">
-                        <option value="all">All Levels</option>
-                        <option value="diploma">Diploma</option>
-                        <option value="masters">Masters</option>
-                        <option value="phd">PhD</option>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label for="intake-filter">Intake:</label>
-                    <select id="intake-filter">
-                        <option value="all">All Intakes</option>
-                        <option value="january">January Intake</option>
-                        <option value="july">July Intake</option>
-                    </select>
-                </div>
-            </div>
-            <div class="courses-grid" id="courses-grid">
-                <!-- Course cards will be populated by JavaScript -->
-            </div>
-        </div>
-    </section>
-
-    <section id="enrollment" class="section">
-        <div class="container">
-            <h2 class="section-title">Enroll Now</h2>
-            <div class="enrollment-container">
-                <div class="enrollment-info">
-                    <h3>Start Your Learning Journey</h3>
-                    <p>Join thousands of students who have transformed their careers through our comprehensive e-learning programs. Our application process is simple and straightforward.</p>
-                    
-                    <div class="enrollment-steps">
-                        <div class="step">
-                            <div class="step-number">1</div>
-                            <div class="step-content">
-                                <h4>Fill the Enrollment Form</h4>
-                                <p>Provide your personal and educational details</p>
-                            </div>
+                    <div class="tracker-stats">
+                        <div class="stat">
+                            <div class="stat-number">1,240</div>
+                            <div>Protected Areas</div>
                         </div>
-                        <div class="step">
-                            <div class="step-number">2</div>
-                            <div class="step-content">
-                                <h4>Submit Required Documents</h4>
-                                <p>Upload necessary documents for verification</p>
-                            </div>
+                        <div class="stat">
+                            <div class="stat-number">78%</div>
+                            <div>Coral Health Index</div>
                         </div>
-                        <div class="step">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>Administrator Review</h4>
-                                <p>Our team will review your application</p>
-                            </div>
-                        </div>
-                        <div class="step">
-                            <div class="step-number">4</div>
-                            <div class="step-content">
-                                <h4>Get Approved & Start Learning</h4>
-                                <p>Receive confirmation and access your courses</p>
-                            </div>
+                        <div class="stat">
+                            <div class="stat-number">42K</div>
+                            <div>Species Tracked</div>
                         </div>
                     </div>
                 </div>
                 
-                <div class="enrollment-form-container">
-                    <form id="enrollment-form" class="enrollment-form">
-                        <h3>Student Enrollment Form</h3>
-                        
-                        <div class="form-section">
-                            <h4>Personal Information</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="first-name">First Name *</label>
-                                    <input type="text" id="first-name" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="last-name">Last Name *</label>
-                                    <input type="text" id="last-name" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="email">Email Address *</label>
-                                    <input type="email" id="email" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="phone">Phone Number *</label>
-                                    <input type="tel" id="phone" required>
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="dob">Date of Birth *</label>
-                                    <input type="date" id="dob" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="gender">Gender *</label>
-                                    <select id="gender" required>
-                                        <option value="">Select Gender</option>
-                                        <option value="male">Male</option>
-                                        <option value="female">Female</option>
-                                        <option value="other">Other</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="address">Address *</label>
-                                <textarea id="address" rows="2" required></textarea>
-                            </div>
-                        </div>
-                        
-                        <div class="form-section">
-                            <h4>Educational Information</h4>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="education-level">Highest Education Level *</label>
-                                    <select id="education-level" required>
-                                        <option value="">Select Level</option>
-                                        <option value="diploma">Diploma</option>
-                                        <option value="master">Master's Degree</option>
-                                        <option value="phd">PhD</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="previous-school">Previous School/Institution</label>
-                                    <input type="text" id="previous-school">
-                                </div>
-                            </div>
-                            
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="program">Program of Interest *</label>
-                                    <select id="program" required>
-                                        <option value="">Select Program</option>
-                                        <option value="database">DATABASE</option>
-                                        <option value="mis">MIS</option>
-                                        <option value="management-skills">Management SKILLS</option>
-                                        <option value="system-security">System Security</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="intake">Preferred Intake *</label>
-                                    <select id="intake" required>
-                                        <option value="">Select Intake</option>
-                                        <option value="january">January Intake</option>
-                                        <option value="july">July Intake</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="form-section">
-                            <h4>Document Upload</h4>
-                            <div class="form-group">
-                                <label for="id-document">ID Document *</label>
-                                <input type="file" id="id-document" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <small>Upload a scanned copy of your national ID or passport (PDF, JPG, PNG)</small>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="academic-document">Academic Certificates *</label>
-                                <input type="file" id="academic-document" accept=".pdf,.jpg,.jpeg,.png" required>
-                                <small>Upload your academic certificates or transcripts (PDF, JPG, PNG)</small>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label for="photo">Passport Photo *</label>
-                                <input type="file" id="photo" accept=".jpg,.jpeg,.png" required>
-                                <small>Upload a recent passport-size photo (JPG, PNG)</small>
-                            </div>
-                        </div>
-                        
-                        <div class="form-group checkbox-group">
-                            <input type="checkbox" id="terms" required>
-                            <label for="terms">I agree to the <a href="#" class="terms-link">Terms and Conditions</a> and <a href="#" class="terms-link">Privacy Policy</a> *</label>
-                        </div>
-                        
-                        <button type="submit" class="btn btn-primary btn-full">Submit Enrollment Application</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="location" class="section">
-        <div class="container">
-            <h2 class="section-title">Our Location</h2>
-            <div class="location-content">
-                <div class="location-info">
-                    <h3>UMI Kampala Campus</h3>
-                    <p><i class="fas fa-map-marker-alt"></i> Plot 2, Port Bell Road, Nakawa, Kampala, Uganda</p>
-                    <p><i class="fas fa-phone"></i> +256 (0) 774-380011</p>
-                    <p><i class="fas fa-envelope"></i> info@ism2025.com</p>
-                    <div class="location-hours">
-                        <h4>Operating Hours</h4>
-                        <p>Monday - Friday: 8:00 AM - 6:00 PM</p>
-                        <p>Saturday: 9:00 AM - 1:00 PM</p>
-                        <p>Sunday: Closed</p>
-                    </div>
-                </div>
-                <div class="location-map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3989.752402807582!2d32.61327757477319!3d0.3372993640663115!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbb6e8d6d3a2f%3A0x8c5c8e7a5e5e5e5e!2sUganda%20Management%20Institute%20(UMI)%20Kampala%20Campus!5e0!3m2!1sen!2sug!4v1690000000000!5m2!1sen!2sug" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="contact" class="section">
-        <div class="container">
-            <h2 class="section-title">Contact Us</h2>
-            <div class="contact-content">
-                <div class="contact-info">
-                    <h3>Get In Touch</h3>
-                    <p>Have questions about our e-learning platform? We're here to help!</p>
-                    <div class="contact-details">
-                        <div class="contact-item">
-                            <i class="fas fa-envelope"></i>
-                            <div>
-                                <h4>Email</h4>
-                                <p>info@ism2025.com</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-phone"></i>
-                            <div>
-                                <h4>Phone</h4>
-                                <p>+256 (0) 774-380011</p>
-                            </div>
-                        </div>
-                        <div class="contact-item">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <div>
-                                <h4>Address</h4>
-                                <p>UMI, Kampala Campus</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="contact-form">
-                    <form id="contact-form">
+                <div class="tracker-form">
+                    <h3>Get Conservation Updates</h3>
+                    <form id="trackerForm">
                         <div class="form-group">
-                            <label for="name">Name</label>
-                            <input type="text" id="name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email</label>
-                            <input type="email" id="email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="subject">Subject</label>
-                            <input type="text" id="subject" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Message</label>
-                            <textarea id="message" rows="5" required></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Login Section -->
-    <section id="login-section" class="section hidden">
-        <div class="login-container">
-            <div class="login-header">
-                <i class="fas fa-graduation-cap"></i>
-                <h1>ISM E-Learning</h1>
-                <p>Please select your login type</p>
-            </div>
-            
-            <div class="login-options">
-                <div class="login-card" id="admin-login">
-                    <div class="login-icon">
-                        <i class="fas fa-user-shield"></i>
-                    </div>
-                    <h3>Administrator</h3>
-                    <p>Access to system management</p>
-                </div>
-                
-                <div class="login-card" id="student-login">
-                    <div class="login-icon">
-                        <i class="fas fa-user-graduate"></i>
-                    </div>
-                    <h3>Student</h3>
-                    <p>Access to learning materials</p>
-                </div>
-            </div>
-            
-            <!-- Admin Login Form -->
-            <div id="admin-form" class="login-form">
-                <h2>Administrator Login</h2>
-                <form id="admin-login-form">
-                    <div class="form-group">
-                        <label for="admin-username">Username</label>
-                        <input type="text" id="admin-username" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="admin-password">Password</label>
-                        <input type="password" id="admin-password" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="admin-security-code">Security Code</label>
-                        <input type="text" id="admin-security-code" required />
-                        <small>Enter the 6-digit code sent to your registered device</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="admin-department">Department</label>
-                        <select id="admin-department" required>
-                            <option value="">Select Department</option>
-                            <option value="academic">Academic Affairs</option>
-                            <option value="registry">Registry</option>
-                            <option value="finance">Finance</option>
-                            <option value="it">IT Department</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" id="admin-audit-log" required>
-                        <label for="admin-audit-log">I acknowledge that my actions will be logged for audit purposes</label>
-                    </div>
-                    <button type="submit" class="btn">Login as Admin</button>
-                </form>
-                <button class="btn-back" id="back-from-admin">Back</button>
-            </div>
-            
-            <!-- Student Login Form -->
-            <div id="student-form" class="login-form">
-                <h2>Student Login</h2>
-                <form id="student-login-form">
-                    <div class="form-group">
-                        <label for="student-id">Student ID</label>
-                        <input type="text" id="student-id" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="student-password">Password</label>
-                        <input type="password" id="student-password" required />
-                    </div>
-                    <div class="form-group">
-                        <label for="student-intake">Current Intake</label>
-                        <select id="student-intake" required>
-                            <option value="">Select Intake</option>
-                            <option value="january">January Intake</option>
-                            <option value="july">July Intake</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="checkbox" id="student-terms" required>
-                        <label for="student-terms">I agree to the <a href="#" class="terms-link">Terms of Service</a> and <a href="#" class="terms-link">Privacy Policy</a></label>
-                    </div>
-                    <div class="form-group">
-                        <a href="#" class="forgot-password">Forgot Password?</a>
-                    </div>
-                    <button type="submit" class="btn">Login as Student</button>
-                </form>
-                <button class="btn-back" id="back-from-student">Back</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- Main Application (Hidden until login) -->
-    <div id="app-container" class="hidden">
-        <!-- Header -->
-        <header>
-            <div class="header-container">
-                <div class="logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    ISM
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="active" data-section="dashboard">Dashboard</a></li>
-                        <li><a href="#" data-section="students">Students</a></li>
-                        <li><a href="#" data-section="lecturers">Lecturers</a></li>
-                        <li><a href="#" data-section="courses">Courses</a></li>
-                        <li><a href="#" data-section="enrollments">Enrollments</a></li>
-                        <li><a href="#" data-section="grades">Grades</a></li>
-                        <li><a href="#" data-section="enrollment-requests">Enrollment Requests</a></li>
-                        <li><a href="#" data-section="content-management">Content Management</a></li>
-                    </ul>
-                </nav>
-                <div class="user-info">
-                    <span id="welcome-message">Welcome, Admin</span>
-                    <button class="btn" id="logout-btn">Logout</button>
-                </div>
-            </div>
-        </header>
-
-        <!-- Main Content -->
-        <div class="container">
-            <!-- Dashboard Section -->
-            <section id="dashboard" class="content-section active">
-                <h2>Dashboard Overview</h2>
-                <div class="dashboard">
-                    <div class="card">
-                        <h3><i class="fas fa-users"></i> Students</h3>
-                        <div class="count" id="student-count">0</div>
-                        <div class="description">Total registered students</div>
-                    </div>
-                    <div class="card">
-                        <h3><i class="fas fa-chalkboard-teacher"></i> Lecturers</h3>
-                        <div class="count" id="lecturer-count">0</div>
-                        <div class="description">Total teaching staff</div>
-                    </div>
-                    <div class="card">
-                        <h3><i class="fas fa-book"></i> Courses</h3>
-                        <div class="count" id="course-count">0</div>
-                        <div class="description">Available course units</div>
-                    </div>
-                    <div class="card">
-                        <h3><i class="fas fa-chart-line"></i> Enrollments</h3>
-                        <div class="count" id="enrollment-count">0</div>
-                        <div class="description">Current intake enrollments</div>
-                    </div>
-                    <div class="card">
-                        <h3><i class="fas fa-clock"></i> Pending Requests</h3>
-                        <div class="count" id="pending-request-count">0</div>
-                        <div class="description">Enrollment requests pending review</div>
-                    </div>
-                </div>
-
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Recent Activities</h3>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Activity</th>
-                                    <th>User</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody id="activities-table">
-                                <!-- Activities will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Students Section -->
-            <section id="students" class="content-section">
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Students Management</h3>
-                        <button class="btn" id="add-student-btn">Add Student</button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Student ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Intake</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="students-table">
-                                <!-- Students will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Lecturers Section -->
-            <section id="lecturers" class="content-section">
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Lecturers Management</h3>
-                        <button class="btn" id="add-lecturer-btn">Add Lecturer</button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Lecturer ID</th>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Department</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="lecturers-table">
-                                <!-- Lecturers will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Courses Section -->
-            <section id="courses" class="content-section">
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Course Units Management</h3>
-                        <button class="btn" id="add-course-btn">Add Course</button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Course ID</th>
-                                    <th>Title</th>
-                                    <th>Code</th>
-                                    <th>Lecturer</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="courses-table">
-                                <!-- Courses will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Enrollments Section -->
-            <section id="enrollments" class="content-section">
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Enrollments Management</h3>
-                        <button class="btn" id="add-enrollment-btn">Add Enrollment</button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Enrollment ID</th>
-                                    <th>Student</th>
-                                    <th>Course</th>
-                                    <th>Intake</th>
-                                    <th>Year</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="enrollments-table">
-                                <!-- Enrollments will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Grades Section -->
-            <section id="grades" class="content-section">
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Grades Management</h3>
-                        <button class="btn" id="add-grade-btn">Add Grade</button>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Grade ID</th>
-                                    <th>Student</th>
-                                    <th>Course</th>
-                                    <th>Score</th>
-                                    <th>Grade</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="grades-table">
-                                <!-- Grades will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Enrollment Requests Section -->
-            <section id="enrollment-requests" class="content-section">
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Enrollment Requests</h3>
-                        <div class="filter-controls">
-                            <select id="request-status-filter">
-                                <option value="all">All Requests</option>
-                                <option value="pending">Pending</option>
-                                <option value="approved">Approved</option>
-                                <option value="rejected">Rejected</option>
+                            <label for="region">Select Region</label>
+                            <select id="region" name="region">
+                                <option value="">-- Choose a region --</option>
+                                <option value="pacific">Pacific Ocean</option>
+                                <option value="atlantic">Atlantic Ocean</option>
+                                <option value="indian">Indian Ocean</option>
+                                <option value="arctic">Arctic Ocean</option>
+                                <option value="southern">Southern Ocean</option>
                             </select>
                         </div>
-                    </div>
-                    <div class="table-container">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Request ID</th>
-                                    <th>Applicant Name</th>
-                                    <th>Email</th>
-                                    <th>Program</th>
-                                    <th>Intake</th>
-                                    <th>Applied Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="enrollment-requests-table">
-                                <!-- Enrollment requests will be populated by JavaScript -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Content Management Section -->
-            <section id="content-management" class="content-section">
-                <div class="section">
-                    <div class="section-header">
-                        <h3 class="section-title">Content Management</h3>
-                        <button class="btn" id="add-content-btn">Add Content</button>
-                    </div>
-                    
-                    <div class="content-tabs">
-                        <button class="tab-btn active" data-tab="notes">Course Notes</button>
-                        <button class="tab-btn" data-tab="assignments">Assignments</button>
-                        <button class="tab-btn" data-tab="exams">Mock Exams</button>
-                    </div>
-                    
-                    <div class="tab-content">
-                        <div id="notes-tab" class="tab-pane active">
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Title</th>
-                                            <th>Course</th>
-                                            <th>File Type</th>
-                                            <th>Upload Date</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="notes-table">
-                                        <!-- Notes will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
+                        
+                        <div class="form-group">
+                            <label for="conservation-type">Conservation Type</label>
+                            <select id="conservation-type" name="conservation-type">
+                                <option value="">-- Select focus area --</option>
+                                <option value="coral">Coral Reef Protection</option>
+                                <option value="fishing">Sustainable Fishing</option>
+                                <option value="pollution">Pollution Control</option>
+                                <option value="species">Endangered Species</option>
+                                <option value="mpa">Marine Protected Areas</option>
+                            </select>
                         </div>
                         
-                        <div id="assignments-tab" class="tab-pane">
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Title</th>
-                                            <th>Course</th>
-                                            <th>Due Date</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="assignments-table">
-                                        <!-- Assignments will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="form-group">
+                            <label for="email">Email for Updates</label>
+                            <input type="email" id="email" name="email" placeholder="Enter your email">
                         </div>
                         
-                        <div id="exams-tab" class="tab-pane">
-                            <div class="table-container">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Title</th>
-                                            <th>Course</th>
-                                            <th>Duration</th>
-                                            <th>Status</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="exams-table">
-                                        <!-- Exams will be populated by JavaScript -->
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                        <button type="submit" class="form-button">Track Conservation Efforts</button>
+                    </form>
                 </div>
-            </section>
+            </div>
         </div>
+    </section>
 
-        <!-- Footer -->
-        <footer>
-            <div class="footer-container">
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
                 <div class="footer-section">
-                    <h3>ISM</h3>
-                    <p>A comprehensive e-learning platform designed to enhance the educational experience for students and educators alike.</p>
+                    <h3>Ocean Tracers Net</h3>
+                    <p>Tracking marine health and conservation efforts worldwide through advanced technology and global collaboration.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
                 </div>
+                
                 <div class="footer-section">
                     <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">Dashboard</a></li>
-                        <li><a href="#">Students</a></li>
-                        <li><a href="#">Lecturers</a></li>
-                        <li><a href="#">Courses</a></li>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="#">Tracking Projects</a></li>
+                        <li><a href="#">Research & Data</a></li>
+                        <li><a href="#">Get Involved</a></li>
+                        <li><a href="#">Partnerships</a></li>
                     </ul>
                 </div>
+                
+                <div class="footer-section">
+                    <h3>Conservation Areas</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Coral Reefs</a></li>
+                        <li><a href="#">Marine Protected Areas</a></li>
+                        <li><a href="#">Endangered Species</a></li>
+                        <li><a href="#">Pollution Tracking</a></li>
+                        <li><a href="#">Climate Impact</a></li>
+                    </ul>
+                </div>
+                
                 <div class="footer-section">
                     <h3>Contact Us</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> info@ism2025.com</li>
-                        <li><i class="fas fa-phone"></i> +256 (0) 774-380011</li>
-                        <li><i class="fas fa-map-marker-alt"></i> UMI, Kampala Campus</li>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> 123 Ocean Drive, Marine City</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope"></i> contact@oceantracers.net</li>
+                        <li><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 6:00 PM</li>
                     </ul>
                 </div>
             </div>
-            <div class="copyright">&copy; 2025 ISM. All rights reserved.</div>
-        </footer>
-    </div>
-
-    <!-- Student Dashboard (Hidden until student login) -->
-    <div id="student-dashboard" class="hidden">
-        <header>
-            <div class="header-container">
-                <div class="logo">
-                    <i class="fas fa-graduation-cap"></i>
-                    ISM Student Portal
-                </div>
-                <nav>
-                    <ul>
-                        <li><a href="#" class="active" data-section="student-courses">My Courses</a></li>
-                        <li><a href="#" data-section="student-grades">My Grades</a></li>
-                        <li><a href="#" data-section="student-profile">My Profile</a></li>
-                        <li><a href="#" data-section="student-enrollment-status">Enrollment Status</a></li>
-                    </ul>
-                </nav>
-                <div class="user-info">
-                    <span id="student-welcome">Welcome, Salim Muko</span>
-                    <button class="btn" id="student-logout-btn">Logout</button>
-                </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Ocean Tracers Net. All rights reserved. | <a href="#" style="color: var(--light-blue);">Privacy Policy</a> | <a href="#" style="color: var(--light-blue);">Terms of Service</a></p>
             </div>
-        </header>
-
-        <div class="container">
-            <!-- Student Courses Section -->
-            <section id="student-courses" class="content-section active">
-                <h2>My Courses</h2>
-                <div class="courses-grid" id="student-courses-grid">
-                    <!-- Courses will be populated by JavaScript -->
-                </div>
-            </section>
-
-            <!-- Student Grades Section -->
-            <section id="student-grades" class="content-section">
-                <h2>My Grades</h2>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Course</th>
-                                <th>Assignment</th>
-                                <th>Score</th>
-                                <th>Grade</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody id="student-grades-table">
-                            <!-- Grades will be populated by JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <!-- Student Profile Section -->
-            <section id="student-profile" class="content-section">
-                <h2>My Profile</h2>
-                <div class="profile-container">
-                    <div class="profile-info">
-                        <div class="profile-header">
-                            <div class="profile-avatar">
-                                <i class="fas fa-user-graduate"></i>
-                            </div>
-                            <div class="profile-details">
-                                <h3 id="student-fullname">Salim Muko</h3>
-                                <p id="student-id-display">STU001</p>
-                                <p id="student-email">salim.muko@student.ism.edu</p>
-                            </div>
-                        </div>
-                        <div class="profile-data">
-                            <div class="data-item">
-                                <span class="data-label">Date of Birth:</span>
-                                <span id="student-dob">01/01/2000</span>
-                            </div>
-                            <div class="data-item">
-                                <span class="data-label">Intake:</span>
-                                <span id="student-intake-display">January Intake</span>
-                            </div>
-                            <div class="data-item">
-                                <span class="data-label">Program:</span>
-                                <span id="student-program">Information Systems Management</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Student Enrollment Status Section -->
-            <section id="student-enrollment-status" class="content-section">
-                <h2>My Enrollment Status</h2>
-                <div class="enrollment-status-container">
-                    <div class="status-card" id="enrollment-status-card">
-                        <div class="status-header">
-                            <h3>Current Enrollment Application</h3>
-                            <span class="status-badge" id="enrollment-status-badge">Pending</span>
-                        </div>
-                        <div class="status-details">
-                            <div class="status-item">
-                                <span class="status-label">Application Date:</span>
-                                <span id="application-date">-</span>
-                            </div>
-                            <div class="status-item">
-                                <span class="status-label">Program:</span>
-                                <span id="application-program">-</span>
-                            </div>
-                            <div class="status-item">
-                                <span class="status-label">Intake:</span>
-                                <span id="application-intake">-</span>
-                            </div>
-                            <div class="status-item">
-                                <span class="status-label">Last Updated:</span>
-                                <span id="application-updated">-</span>
-                            </div>
-                        </div>
-                        <div class="status-message" id="enrollment-status-message">
-                            Your application is currently under review by our admissions team.
-                        </div>
-                    </div>
-                    
-                    <div class="application-history">
-                        <h3>Application History</h3>
-                        <div class="table-container">
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>Application ID</th>
-                                        <th>Program</th>
-                                        <th>Intake</th>
-                                        <th>Applied Date</th>
-                                        <th>Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="application-history-table">
-                                    <!-- Application history will be populated by JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </section>
         </div>
+    </footer>
 
-        <footer>
-            <div class="footer-container">
-                <div class="footer-section">
-                    <h3>ISM Student Portal</h3>
-                    <p>Access your courses, assignments, and grades all in one place.</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><a href="#">My Courses</a></li>
-                        <li><a href="#">My Grades</a></li>
-                        <li><a href="#">My Profile</a></li>
-                    </ul>
-                </div>
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul>
-                        <li><i class="fas fa-envelope"></i> support@ism2025.com</li>
-                        <li><i class="fas fa-phone"></i> +256 (0) 774-380011</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="copyright">&copy; 2025 ISM. All rights reserved.</div>
-        </footer>
-    </div>
-
-    <!-- Notification System -->
-    <div id="notification-container" class="notification-container"></div>
-
-    <script src="e-database.js"></script>
-    <script src="e-learning.js"></script>
+    <script>
+        // Form submission handler
+        document.getElementById('trackerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const region = document.getElementById('region').value;
+            const conservationType = document.getElementById('conservation-type').value;
+            const email = document.getElementById('email').value;
+            
+            if (!region || !conservationType || !email) {
+                alert('Please fill in all fields to track conservation efforts.');
+                return;
+            }
+            
+            // In a real implementation, this would send data to a server
+            // For demo purposes, we'll just show a success message
+            alert(`Thank you! You will receive updates about ${conservationType} efforts in the ${region} region at ${email}.`);
+            
+            // Reset form
+            document.getElementById('trackerForm').reset();
+        });
+        
+        // Update stats with a simple animation
+        window.addEventListener('load', function() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            statNumbers.forEach(stat => {
+                const target = parseInt(stat.textContent);
+                let current = 0;
+                const increment = target / 100;
+                const timer = setInterval(() => {
+                    current += increment;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    stat.textContent = Math.floor(current).toLocaleString();
+                }, 20);
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                const href = this.getAttribute('href');
+                
+                if (href === '#') return;
+                
+                e.preventDefault();
+                const targetElement = document.querySelector(href);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
