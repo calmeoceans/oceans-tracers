@@ -1,217 +1,482 @@
-// Main JavaScript for Ocean Tracers Net Website
+// =============================================
+// OCEAN TRACERS NET - PREMIUM JAVASCRIPT
+// Networks of Tomorrow - Market Dominance
+// =============================================
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all functionality
-    initLoadingScreen();
-    initNavigation();
-    initSmoothScrolling();
-    initCounters();
-    initContactForm();
-    initWeb3Integration();
-    initAdminPanel();
-    initCurrentYear();
-});
+class OceanTracersPremium {
+    constructor() {
+        this.init();
+    }
 
-// Loading Screen
-function initLoadingScreen() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingProgress = document.querySelector('.loading-progress');
-    
-    // Simulate loading progress
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += Math.random() * 15;
-        if (progress >= 100) {
-            progress = 100;
-            clearInterval(interval);
-            
-            // Hide loading screen after a short delay
+    init() {
+        // Set current year in footer
+        this.setCurrentYear();
+        
+        // Initialize all components
+        this.initLoadingScreen();
+        this.initNavigation();
+        this.initAnimations();
+        this.initStatsCounting();
+        this.initContactForm();
+        this.initModals();
+        this.initAdminPanel();
+        this.initScrollEffects();
+        this.initParticleNetwork();
+        this.initWeb3();
+    }
+
+    // ========== LOADING SCREEN ==========
+    initLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        
+        // Simulate loading progress
+        setTimeout(() => {
+            loadingScreen.style.opacity = '0';
             setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                }, 500);
-            }, 300);
-        }
-        
-        loadingProgress.style.width = `${progress}%`;
-    }, 200);
-}
+                loadingScreen.style.display = 'none';
+                document.body.style.overflow = 'auto';
+                this.triggerInitialAnimations();
+            }, 500);
+        }, 3000);
+    }
 
-// Navigation
-function initNavigation() {
-    const header = document.querySelector('.sticky-header');
-    const navLinks = document.querySelectorAll('.nav-link');
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinksContainer = document.querySelector('.nav-links');
-    
-    // Sticky header on scroll
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 100) {
-            header.style.background = 'rgba(255, 255, 255, 0.98)';
-            header.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.1)';
-        } else {
-            header.style.background = 'rgba(255, 255, 255, 0.95)';
-            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
-        }
-    });
-    
-    // Active navigation link
-    window.addEventListener('scroll', () => {
-        let current = '';
-        const sections = document.querySelectorAll('section');
-        
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
-            
-            if (scrollY >= (sectionTop - 200)) {
-                current = section.getAttribute('id');
-            }
+    triggerInitialAnimations() {
+        // Animate hero content
+        gsap.from('.hero-badge', {
+            duration: 1,
+            y: 30,
+            opacity: 0,
+            ease: "power3.out"
         });
-        
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
-    });
-    
-    // Mobile menu toggle
-    mobileMenuBtn.addEventListener('click', () => {
-        navLinksContainer.classList.toggle('active');
-    });
-    
-    // Close mobile menu when clicking on a link
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinksContainer.classList.remove('active');
-        });
-    });
-}
 
-// Smooth Scrolling
-function initSmoothScrolling() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-            
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                window.scrollTo({
-                    top: targetElement.offsetTop - 80,
-                    behavior: 'smooth'
-                });
-            }
+        gsap.from('.hero-title span', {
+            duration: 1.5,
+            y: 100,
+            opacity: 0,
+            stagger: 0.2,
+            ease: "power4.out",
+            delay: 0.3
         });
-    });
-}
 
-// Counter Animation
-function initCounters() {
-    const counters = document.querySelectorAll('[data-count]');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.getAttribute('data-count'));
-                const duration = 2000; // 2 seconds
-                const step = target / (duration / 16); // 60fps
-                let current = 0;
-                
-                const timer = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        current = target;
-                        clearInterval(timer);
-                    }
-                    counter.textContent = Math.floor(current);
-                }, 16);
-                
-                observer.unobserve(counter);
-            }
+        gsap.from('.hero-subtitle', {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            delay: 0.8
         });
-    }, { threshold: 0.5 });
-    
-    counters.forEach(counter => {
-        observer.observe(counter);
-    });
-}
 
-// Contact Form
-function initContactForm() {
-    const contactForm = document.getElementById('contact-form');
-    const successMessage = document.getElementById('form-success');
-    
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Simple form validation
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const interest = document.getElementById('interest').value;
-            const message = document.getElementById('message').value;
-            
-            if (!name || !email || !interest || !message) {
-                alert('Please fill in all fields');
-                return;
-            }
-            
-            // Simulate form submission
-            setTimeout(() => {
-                contactForm.reset();
-                successMessage.classList.remove('hidden');
-                
-                // Hide success message after 5 seconds
-                setTimeout(() => {
-                    successMessage.classList.add('hidden');
-                }, 5000);
-            }, 1000);
+        gsap.from('.hero-stats', {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            delay: 1.1
+        });
+
+        gsap.from('.hero-buttons', {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            delay: 1.4
+        });
+
+        gsap.from('.trust-badges', {
+            duration: 1,
+            y: 50,
+            opacity: 0,
+            ease: "power3.out",
+            delay: 1.7
         });
     }
-}
 
-// Web3 Integration
-function initWeb3Integration() {
-    const connectWalletBtn = document.getElementById('connect-wallet');
-    const walletModal = document.getElementById('wallet-modal');
-    const closeModal = document.querySelector('.close-modal');
-    const metamaskBtn = document.getElementById('metamask-btn');
-    const walletconnectBtn = document.getElementById('walletconnect-btn');
-    const walletStatus = document.getElementById('wallet-status');
-    const web3Status = document.getElementById('web3-status');
-    const statusIndicator = web3Status.querySelector('.status-indicator');
-    const statusText = web3Status.querySelector('span');
-    
-    // Check if Web3 is available
-    let web3;
-    
-    // Open wallet modal
-    connectWalletBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        walletModal.style.display = 'flex';
-    });
-    
-    // Close wallet modal
-    closeModal.addEventListener('click', () => {
-        walletModal.style.display = 'none';
-    });
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === walletModal) {
-            walletModal.style.display = 'none';
+    // ========== NAVIGATION ==========
+    initNavigation() {
+        const header = document.querySelector('.sticky-header');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinksContainer = document.querySelector('.nav-links');
+
+        // Sticky header
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                const targetSection = document.querySelector(targetId);
+                
+                if (targetSection) {
+                    // Update active link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Scroll to section
+                    window.scrollTo({
+                        top: targetSection.offsetTop - 100,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Mobile menu toggle
+        if (mobileMenuBtn) {
+            mobileMenuBtn.addEventListener('click', () => {
+                navLinksContainer.classList.toggle('active');
+                mobileMenuBtn.classList.toggle('active');
+            });
         }
-    });
-    
-    // MetaMask connection
-    metamaskBtn.addEventListener('click', async () => {
+
+        // Close mobile menu on link click
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinksContainer.classList.remove('active');
+                mobileMenuBtn.classList.remove('active');
+            });
+        });
+    }
+
+    // ========== ANIMATIONS ==========
+    initAnimations() {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Animate sections on scroll
+        const sections = document.querySelectorAll('.premium-section');
+        
+        sections.forEach(section => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    end: "bottom 20%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Animate service cards
+        const serviceCards = document.querySelectorAll('.service-card.premium');
+        
+        serviceCards.forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: "power3.out"
+            });
+        });
+
+        // Animate value cards
+        const valueCards = document.querySelectorAll('.value-card');
+        
+        valueCards.forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 0.8,
+                delay: index * 0.1,
+                ease: "power3.out"
+            });
+        });
+
+        // Animate tech features
+        const techFeatures = document.querySelectorAll('.tech-feature');
+        
+        techFeatures.forEach((feature, index) => {
+            gsap.from(feature, {
+                scrollTrigger: {
+                    trigger: feature,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                },
+                y: 50,
+                opacity: 0,
+                duration: 1,
+                delay: index * 0.2,
+                ease: "power3.out"
+            });
+        });
+    }
+
+    // ========== STATS COUNTING ==========
+    initStatsCounting() {
+        const counters = document.querySelectorAll('[data-count]');
+        
+        counters.forEach(counter => {
+            const target = parseInt(counter.getAttribute('data-count'));
+            const suffix = counter.getAttribute('data-suffix') || '';
+            const duration = 2000; // 2 seconds
+            const step = target / (duration / 16); // 60fps
+            
+            let current = 0;
+            
+            const updateCounter = () => {
+                current += step;
+                if (current < target) {
+                    counter.textContent = Math.floor(current) + suffix;
+                    requestAnimationFrame(updateCounter);
+                } else {
+                    counter.textContent = target + suffix;
+                }
+            };
+            
+            ScrollTrigger.create({
+                trigger: counter,
+                start: "top 80%",
+                onEnter: () => {
+                    // Check if already animated
+                    if (!counter.classList.contains('animated')) {
+                        counter.classList.add('animated');
+                        updateCounter();
+                    }
+                },
+                once: true
+            });
+        });
+    }
+
+    // ========== CONTACT FORM ==========
+    initContactForm() {
+        const contactForm = document.getElementById('contact-form-elite');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(contactForm);
+                const formObject = Object.fromEntries(formData.entries());
+                
+                // Validate form
+                if (!this.validateForm(formObject)) {
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = contactForm.querySelector('.btn-submit-dominant');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>SUBMITTING...</span>';
+                submitBtn.disabled = true;
+                
+                try {
+                    // Simulate API call
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    // Show success message
+                    this.showFormSuccess();
+                    
+                    // Reset form
+                    contactForm.reset();
+                    
+                    // Log to console (in production, send to backend)
+                    console.log('Form submitted:', formObject);
+                    
+                } catch (error) {
+                    console.error('Form submission error:', error);
+                    this.showFormError('Submission failed. Please try again.');
+                } finally {
+                    // Reset button state
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+    }
+
+    validateForm(formData) {
+        // Basic validation
+        if (!formData.name || formData.name.length < 2) {
+            this.showFormError('Please enter a valid name');
+            return false;
+        }
+        
+        if (!formData.email || !this.validateEmail(formData.email)) {
+            this.showFormError('Please enter a valid email address');
+            return false;
+        }
+        
+        if (!formData.company || formData.company.length < 2) {
+            this.showFormError('Please enter your company name');
+            return false;
+        }
+        
+        if (!formData.investment) {
+            this.showFormError('Please select an investment band');
+            return false;
+        }
+        
+        if (!formData.interest) {
+            this.showFormError('Please select your primary interest');
+            return false;
+        }
+        
+        if (!formData.message || formData.message.length < 10) {
+            this.showFormError('Please provide a detailed message');
+            return false;
+        }
+        
+        if (!formData.nda) {
+            this.showFormError('You must agree to the NDA terms');
+            return false;
+        }
+        
+        return true;
+    }
+
+    validateEmail(email) {
+        const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return re.test(email);
+    }
+
+    showFormSuccess() {
+        // Create success message
+        const successMsg = document.createElement('div');
+        successMsg.className = 'form-success-message';
+        successMsg.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <div>
+                <h4>Thank You!</h4>
+                <p>Your elite inquiry has been submitted. Our executive team will contact you within 24 hours.</p>
+            </div>
+        `;
+        
+        // Style the message
+        successMsg.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 3000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideInRight 0.5s ease-out;
+            max-width: 400px;
+        `;
+        
+        // Add to page
+        document.body.appendChild(successMsg);
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            successMsg.style.animation = 'slideOutRight 0.5s ease-out forwards';
+            setTimeout(() => {
+                document.body.removeChild(successMsg);
+            }, 500);
+        }, 5000);
+    }
+
+    showFormError(message) {
+        // Create error message
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'form-error-message';
+        errorMsg.innerHTML = `
+            <i class="fas fa-exclamation-circle"></i>
+            <span>${message}</span>
+        `;
+        
+        // Style the message
+        errorMsg.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 3000;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: slideInRight 0.5s ease-out;
+        `;
+        
+        // Add to page
+        document.body.appendChild(errorMsg);
+        
+        // Remove after 5 seconds
+        setTimeout(() => {
+            errorMsg.style.animation = 'slideOutRight 0.5s ease-out forwards';
+            setTimeout(() => {
+                document.body.removeChild(errorMsg);
+            }, 500);
+        }, 5000);
+    }
+
+    // ========== MODALS ==========
+    initModals() {
+        // Wallet Modal
+        const walletModal = document.getElementById('wallet-modal');
+        const connectWalletBtn = document.getElementById('connect-wallet');
+        const closeModalBtn = walletModal?.querySelector('.close-modal');
+        const metamaskBtn = document.getElementById('metamask-btn');
+        const walletconnectBtn = document.getElementById('walletconnect-btn');
+
+        // Open modal
+        if (connectWalletBtn) {
+            connectWalletBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                walletModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        // Close modal
+        if (closeModalBtn) {
+            closeModalBtn.addEventListener('click', () => {
+                walletModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        // Close on click outside
+        window.addEventListener('click', (e) => {
+            if (e.target === walletModal) {
+                walletModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // Wallet connection handlers
+        if (metamaskBtn) {
+            metamaskBtn.addEventListener('click', () => this.connectMetaMask());
+        }
+
+        if (walletconnectBtn) {
+            walletconnectBtn.addEventListener('click', () => this.connectWalletConnect());
+        }
+    }
+
+    async connectMetaMask() {
         if (typeof window.ethereum !== 'undefined') {
             try {
                 // Request account access
@@ -219,183 +484,446 @@ function initWeb3Integration() {
                     method: 'eth_requestAccounts' 
                 });
                 
-                web3 = new Web3(window.ethereum);
+                const walletStatus = document.getElementById('wallet-status');
+                walletStatus.innerHTML = `
+                    <div class="connection-success">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Connected: ${accounts[0].slice(0, 6)}...${accounts[0].slice(-4)}</span>
+                    </div>
+                `;
                 
                 // Update UI
-                statusIndicator.classList.remove('disconnected');
-                statusIndicator.classList.add('connected');
-                statusText.textContent = `Connected: ${accounts[0].substring(0, 6)}...${accounts[0].substring(accounts[0].length - 4)}`;
+                const connectBtn = document.getElementById('connect-wallet');
+                connectBtn.innerHTML = '<i class="fas fa-wallet"></i><span>CONNECTED</span>';
                 
-                walletStatus.innerHTML = `<p style="color: green;">Successfully connected to MetaMask!</p>`;
-                
-                // Close modal after successful connection
+                // Close modal after 2 seconds
                 setTimeout(() => {
-                    walletModal.style.display = 'none';
+                    document.getElementById('wallet-modal').style.display = 'none';
+                    document.body.style.overflow = 'auto';
                 }, 2000);
                 
             } catch (error) {
-                console.error('Error connecting to MetaMask:', error);
-                walletStatus.innerHTML = `<p style="color: red;">Error connecting to MetaMask: ${error.message}</p>`;
+                console.error('MetaMask connection error:', error);
+                this.showWalletError('Failed to connect MetaMask');
             }
         } else {
-            walletStatus.innerHTML = `<p style="color: red;">MetaMask is not installed. <a href="https://metamask.io/" target="_blank">Install MetaMask</a></p>`;
+            this.showWalletError('Please install MetaMask to connect');
         }
-    });
-    
-    // WalletConnect connection (simplified)
-    walletconnectBtn.addEventListener('click', () => {
-        walletStatus.innerHTML = `<p style="color: orange;">WalletConnect integration coming soon. Please use MetaMask for now.</p>`;
-    });
-}
-
-// Admin Panel
-function initAdminPanel() {
-    const adminToggle = document.getElementById('admin-toggle');
-    const adminPanel = document.getElementById('admin-panel');
-    const closeAdmin = document.getElementById('close-admin');
-    const saveContentBtn = document.getElementById('save-content');
-    const resetContentBtn = document.getElementById('reset-content');
-    const updateSanctuaryImageBtn = document.getElementById('update-sanctuary-image');
-    const updateAuthorImageBtn = document.getElementById('update-author-image');
-    
-    // Toggle admin panel
-    adminToggle.addEventListener('click', () => {
-        adminPanel.classList.toggle('active');
-        loadCurrentContent();
-    });
-    
-    // Close admin panel
-    closeAdmin.addEventListener('click', () => {
-        adminPanel.classList.remove('active');
-    });
-    
-    // Load current content into admin form
-    function loadCurrentContent() {
-        const heroTitle = document.querySelector('[data-editable="hero-title"]').textContent;
-        const heroSubtitle = document.querySelector('[data-editable="hero-subtitle"]').textContent;
-        
-        document.getElementById('edit-hero-title').value = heroTitle;
-        document.getElementById('edit-hero-subtitle').value = heroSubtitle;
     }
-    
-    // Save content changes
-    saveContentBtn.addEventListener('click', () => {
-        const heroTitle = document.getElementById('edit-hero-title').value;
-        const heroSubtitle = document.getElementById('edit-hero-subtitle').value;
+
+    connectWalletConnect() {
+        // In a real implementation, integrate WalletConnect
+        this.showWalletError('WalletConnect integration coming soon');
+    }
+
+    showWalletError(message) {
+        const walletStatus = document.getElementById('wallet-status');
+        walletStatus.innerHTML = `
+            <div class="connection-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>${message}</span>
+            </div>
+        `;
         
-        // Update content on page
-        document.querySelector('[data-editable="hero-title"]').textContent = heroTitle;
-        document.querySelector('[data-editable="hero-subtitle"]').textContent = heroSubtitle;
+        // Clear error after 5 seconds
+        setTimeout(() => {
+            walletStatus.innerHTML = '';
+        }, 5000);
+    }
+
+    // ========== ADMIN PANEL ==========
+    initAdminPanel() {
+        const adminPanel = document.getElementById('admin-panel');
+        const adminToggle = document.getElementById('admin-toggle');
+        const closeAdmin = document.getElementById('close-admin');
+        const saveContentBtn = document.getElementById('save-content');
+        const previewContentBtn = document.getElementById('preview-content');
+        const resetContentBtn = document.getElementById('reset-content');
+        const tabBtns = document.querySelectorAll('.tab-btn');
+
+        // Toggle admin panel
+        if (adminToggle) {
+            adminToggle.addEventListener('click', () => {
+                adminPanel.classList.toggle('active');
+                adminToggle.classList.toggle('active');
+            });
+        }
+
+        // Close admin panel
+        if (closeAdmin) {
+            closeAdmin.addEventListener('click', () => {
+                adminPanel.classList.remove('active');
+                adminToggle.classList.remove('active');
+            });
+        }
+
+        // Tab switching
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all tabs
+                tabBtns.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked tab
+                btn.classList.add('active');
+                
+                // Hide all tab content
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                // Show corresponding tab content
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+            });
+        });
+
+        // Save content
+        if (saveContentBtn) {
+            saveContentBtn.addEventListener('click', () => this.saveContent());
+        }
+
+        // Preview content
+        if (previewContentBtn) {
+            previewContentBtn.addEventListener('click', () => this.previewContent());
+        }
+
+        // Reset content
+        if (resetContentBtn) {
+            resetContentBtn.addEventListener('click', () => this.resetContent());
+        }
+
+        // Image update handlers
+        const updateImageBtns = document.querySelectorAll('[id^="update-"]');
+        updateImageBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const inputId = e.target.id.replace('update-', 'edit-');
+                const urlInput = document.getElementById(inputId);
+                this.updateImage(urlInput.value, inputId);
+            });
+        });
+    }
+
+    saveContent() {
+        // Collect all editable content
+        const editableElements = document.querySelectorAll('[data-editable]');
+        const contentData = {};
         
-        // Save to localStorage
-        const contentData = {
-            heroTitle,
-            heroSubtitle
-        };
+        editableElements.forEach(element => {
+            const key = element.getAttribute('data-editable');
+            contentData[key] = element.innerHTML;
+        });
         
+        // Get form values
+        const heroTitle = document.getElementById('edit-hero-title')?.value;
+        const heroSubtitle = document.getElementById('edit-hero-subtitle')?.value;
+        
+        // Update content
+        if (heroTitle) {
+            const heroTitleElement = document.querySelector('[data-editable="hero-title"]');
+            if (heroTitleElement) heroTitleElement.textContent = heroTitle;
+        }
+        
+        if (heroSubtitle) {
+            const heroSubtitleElement = document.querySelector('[data-editable="hero-subtitle"]');
+            if (heroSubtitleElement) heroSubtitleElement.textContent = heroSubtitle;
+        }
+        
+        // Save to localStorage (in production, save to database)
         localStorage.setItem('oceanTracersContent', JSON.stringify(contentData));
         
-        alert('Content saved successfully!');
-    });
-    
-    // Reset content to default
-    resetContentBtn.addEventListener('click', () => {
-        if (confirm('Are you sure you want to reset all content to default?')) {
+        // Show success message
+        this.showAdminSuccess('All changes have been saved successfully!');
+    }
+
+    previewContent() {
+        // In a real implementation, this would show a preview modal
+        this.showAdminSuccess('Preview mode activated. Refresh page to see changes.');
+    }
+
+    resetContent() {
+        if (confirm('Are you sure you want to reset all content to defaults?')) {
             localStorage.removeItem('oceanTracersContent');
             location.reload();
         }
-    });
-    
-    // Update sanctuary image
-    updateSanctuaryImageBtn.addEventListener('click', () => {
-        const imageUrl = document.getElementById('edit-sanctuary-image').value;
-        if (imageUrl) {
-            const sanctuaryImage = document.querySelector('#sanctuary-image img');
-            sanctuaryImage.src = imageUrl;
-            document.getElementById('edit-sanctuary-image').value = '';
-            alert('Sanctuary image updated!');
-        }
-    });
-    
-    // Update author image
-    updateAuthorImageBtn.addEventListener('click', () => {
-        const imageUrl = document.getElementById('edit-author-image').value;
-        if (imageUrl) {
-            const authorImage = document.querySelector('#author-image-container img');
-            authorImage.src = imageUrl;
-            document.getElementById('edit-author-image').value = '';
-            alert('Author image updated!');
-        }
-    });
-    
-    // Load saved content on page load
-    const savedContent = localStorage.getItem('oceanTracersContent');
-    if (savedContent) {
-        const contentData = JSON.parse(savedContent);
-        
-        if (contentData.heroTitle) {
-            document.querySelector('[data-editable="hero-title"]').textContent = contentData.heroTitle;
+    }
+
+    updateImage(url, inputId) {
+        if (!url) {
+            this.showAdminError('Please enter a valid image URL');
+            return;
         }
         
-        if (contentData.heroSubtitle) {
-            document.querySelector('[data-editable="hero-subtitle"]').textContent = contentData.heroSubtitle;
+        // Validate URL
+        try {
+            new URL(url);
+        } catch (e) {
+            this.showAdminError('Please enter a valid URL');
+            return;
+        }
+        
+        // Update image based on input ID
+        if (inputId.includes('sanctuary')) {
+            const image = document.querySelector('.premium-image');
+            if (image) image.src = url;
+        } else if (inputId.includes('author')) {
+            const image = document.querySelector('.leader-img');
+            if (image) image.src = url;
+        } else if (inputId.includes('hero-video')) {
+            const video = document.querySelector('.hero-video source');
+            if (video) video.src = url;
+        }
+        
+        this.showAdminSuccess('Image updated successfully!');
+    }
+
+    showAdminSuccess(message) {
+        const adminActions = document.querySelector('.admin-actions');
+        const successMsg = document.createElement('div');
+        successMsg.className = 'admin-success-message';
+        successMsg.textContent = message;
+        
+        successMsg.style.cssText = `
+            background: linear-gradient(135deg, #4CAF50, #2E7D32);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease-out;
+        `;
+        
+        adminActions.appendChild(successMsg);
+        
+        setTimeout(() => {
+            successMsg.style.animation = 'fadeOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                adminActions.removeChild(successMsg);
+            }, 300);
+        }, 3000);
+    }
+
+    showAdminError(message) {
+        const adminActions = document.querySelector('.admin-actions');
+        const errorMsg = document.createElement('div');
+        errorMsg.className = 'admin-error-message';
+        errorMsg.textContent = message;
+        
+        errorMsg.style.cssText = `
+            background: linear-gradient(135deg, #f44336, #d32f2f);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            animation: fadeIn 0.3s ease-out;
+        `;
+        
+        adminActions.appendChild(errorMsg);
+        
+        setTimeout(() => {
+            errorMsg.style.animation = 'fadeOut 0.3s ease-out forwards';
+            setTimeout(() => {
+                adminActions.removeChild(errorMsg);
+            }, 300);
+        }, 3000);
+    }
+
+    // ========== SCROLL EFFECTS ==========
+    initScrollEffects() {
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        if (backToTopBtn) {
+            backToTopBtn.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        }
+        
+        // Parallax effect on hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero.premium-hero');
+            
+            if (hero) {
+                const rate = scrolled * -0.5;
+                hero.style.transform = `translate3d(0, ${rate}px, 0)`;
+            }
+        });
+    }
+
+    // ========== PARTICLE NETWORK ==========
+    initParticleNetwork() {
+        const particleNetwork = document.getElementById('particle-network');
+        
+        if (particleNetwork) {
+            // Create particles
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // Random properties
+                const size = Math.random() * 3 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                
+                // Apply styles
+                particle.style.cssText = `
+                    position: absolute;
+                    width: ${size}px;
+                    height: ${size}px;
+                    background: rgba(0, 180, 216, ${Math.random() * 0.5 + 0.1});
+                    border-radius: 50%;
+                    left: ${posX}%;
+                    top: ${posY}%;
+                    animation: floatParticle ${duration}s ease-in-out ${delay}s infinite;
+                `;
+                
+                particleNetwork.appendChild(particle);
+            }
+            
+            // Add CSS animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes floatParticle {
+                    0%, 100% { transform: translate(0, 0) scale(1); }
+                    25% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) scale(1.2); }
+                    50% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) scale(0.8); }
+                    75% { transform: translate(${Math.random() * 20 - 10}px, ${Math.random() * 20 - 10}px) scale(1.1); }
+                }
+            `;
+            
+            document.head.appendChild(style);
+        }
+    }
+
+    // ========== WEB3 INTEGRATION ==========
+    initWeb3() {
+        // Check if Web3 is available
+        if (typeof window.ethereum !== 'undefined') {
+            console.log('Web3 detected');
+            
+            // Update UI to show Web3 available
+            const connectBtn = document.getElementById('connect-wallet');
+            if (connectBtn) {
+                connectBtn.classList.add('web3-available');
+            }
+            
+            // Listen for account changes
+            window.ethereum.on('accountsChanged', (accounts) => {
+                if (accounts.length === 0) {
+                    // User disconnected
+                    this.updateWeb3Status('disconnected');
+                } else {
+                    // User switched accounts
+                    this.updateWeb3Status('connected', accounts[0]);
+                }
+            });
+            
+            // Listen for chain changes
+            window.ethereum.on('chainChanged', () => {
+                window.location.reload();
+            });
+        }
+    }
+
+    updateWeb3Status(status, account = null) {
+        const connectBtn = document.getElementById('connect-wallet');
+        
+        if (status === 'connected' && account) {
+            connectBtn.innerHTML = `
+                <i class="fas fa-wallet"></i>
+                <span>${account.slice(0, 6)}...${account.slice(-4)}</span>
+            `;
+        } else {
+            connectBtn.innerHTML = `
+                <i class="fas fa-lock"></i>
+                <span>SECURE CONNECT</span>
+            `;
+        }
+    }
+
+    // ========== UTILITIES ==========
+    setCurrentYear() {
+        const yearElement = document.getElementById('year');
+        if (yearElement) {
+            yearElement.textContent = new Date().getFullYear();
+        }
+    }
+
+    // Load saved content from localStorage
+    loadSavedContent() {
+        const savedContent = localStorage.getItem('oceanTracersContent');
+        if (savedContent) {
+            const contentData = JSON.parse(savedContent);
+            
+            Object.entries(contentData).forEach(([key, value]) => {
+                const element = document.querySelector(`[data-editable="${key}"]`);
+                if (element) {
+                    element.innerHTML = value;
+                }
+            });
         }
     }
 }
 
-// Set current year in footer
-function initCurrentYear() {
-    document.getElementById('year').textContent = new Date().getFullYear();
-}
-
-// Additional utility functions
-function debounce(func, wait, immediate) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            timeout = null;
-            if (!immediate) func(...args);
-        };
-        const callNow = immediate && !timeout;
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-        if (callNow) func(...args);
-    };
-}
-
-// Add scroll animations
-const scrollElements = document.querySelectorAll('.service-card, .stat-item, .tech-item');
-
-const elementInView = (el, dividend = 1) => {
-    const elementTop = el.getBoundingClientRect().top;
-    return (
-        elementTop <=
-        (window.innerHeight || document.documentElement.clientHeight) / dividend
-    );
-};
-
-const displayScrollElement = (element) => {
-    element.classList.add('scrolled');
-};
-
-const hideScrollElement = (element) => {
-    element.classList.remove('scrolled');
-};
-
-const handleScrollAnimation = () => {
-    scrollElements.forEach((el) => {
-        if (elementInView(el, 1.25)) {
-            displayScrollElement(el);
-        } else {
-            hideScrollElement(el);
+// Initialize when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    const oceanTracers = new OceanTracersPremium();
+    
+    // Add extra animations
+    const extraAnimations = `
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
-    });
-};
-
-// Initialize scroll animations
-window.addEventListener('scroll', () => {
-    handleScrollAnimation();
+        
+        @keyframes slideOutRight {
+            from { transform: translateX(0); opacity: 1; }
+            to { transform: translateX(100%); opacity: 0; }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
+        .connection-success, .connection-error {
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .connection-success {
+            background: rgba(76, 175, 80, 0.1);
+            border: 1px solid #4CAF50;
+            color: #4CAF50;
+        }
+        
+        .connection-error {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid #f44336;
+            color: #f44336;
+        }
+    `;
+    
+    const style = document.createElement('style');
+    style.textContent = extraAnimations;
+    document.head.appendChild(style);
 });
-
-// Initial check on page load
-handleScrollAnimation();
