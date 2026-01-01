@@ -1,674 +1,448 @@
-// =============================================
-// OCEAN TRACERS NET - DATABASE MANAGEMENT
-// Premium Content & Data Storage
-// =============================================
+// database.js - Mock database and API interactions for Ocean Tracers Net
 
 class OceanTracersDatabase {
     constructor() {
-        this.dbName = 'OceanTracersDB';
-        this.dbVersion = 1;
-        this.db = null;
-        this.init();
+        this.contentData = this.getDefaultContent();
+        this.userData = this.getDefaultUserData();
+        this.servicesData = this.getServicesData();
+        this.initializeLocalStorage();
     }
-
-    async init() {
-        // Initialize IndexedDB
-        await this.initDatabase();
-        
-        // Load initial data
-        await this.loadInitialData();
-    }
-
-    initDatabase() {
-        return new Promise((resolve, reject) => {
-            const request = indexedDB.open(this.dbName, this.dbVersion);
-
-            request.onerror = (event) => {
-                console.error('Database error:', event.target.error);
-                reject(event.target.error);
-            };
-
-            request.onsuccess = (event) => {
-                this.db = event.target.result;
-                console.log('Database initialized');
-                resolve();
-            };
-
-            request.onupgradeneeded = (event) => {
-                const db = event.target.result;
-                
-                // Create object stores
-                if (!db.objectStoreNames.contains('content')) {
-                    const contentStore = db.createObjectStore('content', { keyPath: 'id' });
-                    contentStore.createIndex('type', 'type', { unique: false });
-                }
-                
-                if (!db.objectStoreNames.contains('images')) {
-                    const imagesStore = db.createObjectStore('images', { keyPath: 'id' });
-                    imagesStore.createIndex('category', 'category', { unique: false });
-                }
-                
-                if (!db.objectStoreNames.contains('partners')) {
-                    const partnersStore = db.createObjectStore('partners', { keyPath: 'id' });
-                    partnersStore.createIndex('status', 'status', { unique: false });
-                }
-                
-                if (!db.objectStoreNames.contains('submissions')) {
-                    const submissionsStore = db.createObjectStore('submissions', { 
-                        keyPath: 'id',
-                        autoIncrement: true 
-                    });
-                    submissionsStore.createIndex('date', 'date', { unique: false });
-                    submissionsStore.createIndex('status', 'status', { unique: false });
-                }
-            };
-        });
-    }
-
-    async loadInitialData() {
-        // Load default content if database is empty
-        const contentCount = await this.countRecords('content');
-        
-        if (contentCount === 0) {
-            await this.initializeDefaultContent();
+    
+    // Initialize localStorage with default data if empty
+    initializeLocalStorage() {
+        if (!localStorage.getItem('oceanTracersInitialized')) {
+            localStorage.setItem('oceanTracersContent', JSON.stringify(this.contentData));
+            localStorage.setItem('oceanTracersUsers', JSON.stringify(this.userData));
+            localStorage.setItem('oceanTracersServices', JSON.stringify(this.servicesData));
+            localStorage.setItem('oceanTracersInitialized', 'true');
         }
     }
-
-    // ========== CONTENT MANAGEMENT ==========
-    async saveContent(key, content, type = 'text') {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['content'], 'readwrite');
-            const store = transaction.objectStore('content');
-            
-            const contentItem = {
-                id: key,
-                content: content,
-                type: type,
-                updatedAt: new Date().toISOString(),
-                version: 1
-            };
-            
-            const request = store.put(contentItem);
-            
-            request.onsuccess = () => {
-                console.log(`Content saved: ${key}`);
-                
-                // Also save to localStorage for immediate access
-                localStorage.setItem(`oceanTracers_${key}`, content);
-                
-                // Update the DOM
-                this.updateDOMContent(key, content);
-                
-                resolve(contentItem);
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error saving content:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async getContent(key) {
-        // First check localStorage for faster access
-        const cachedContent = localStorage.getItem(`oceanTracers_${key}`);
-        if (cachedContent) {
-            return cachedContent;
-        }
-        
-        // Fall back to IndexedDB
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['content'], 'readonly');
-            const store = transaction.objectStore('content');
-            
-            const request = store.get(key);
-            
-            request.onsuccess = () => {
-                const result = request.result;
-                if (result) {
-                    // Cache in localStorage
-                    localStorage.setItem(`oceanTracers_${key}`, result.content);
-                    resolve(result.content);
-                } else {
-                    resolve(null);
-                }
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error getting content:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async getAllContent() {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['content'], 'readonly');
-            const store = transaction.objectStore('content');
-            const index = store.index('type');
-            
-            const request = index.getAll();
-            
-            request.onsuccess = () => {
-                const contentMap = {};
-                request.result.forEach(item => {
-                    contentMap[item.id] = item.content;
-                });
-                resolve(contentMap);
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error getting all content:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    // ========== IMAGE MANAGEMENT ==========
-    async saveImage(id, imageData, category = 'general') {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['images'], 'readwrite');
-            const store = transaction.objectStore('images');
-            
-            const imageItem = {
-                id: id,
-                data: imageData,
-                category: category,
-                uploadedAt: new Date().toISOString(),
-                size: imageData.length,
-                format: this.getImageFormat(imageData)
-            };
-            
-            const request = store.put(imageItem);
-            
-            request.onsuccess = () => {
-                console.log(`Image saved: ${id}`);
-                
-                // Cache as data URL
-                if (imageData.startsWith('data:')) {
-                    localStorage.setItem(`oceanTracers_image_${id}`, imageData);
-                }
-                
-                resolve(imageItem);
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error saving image:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async getImage(id) {
-        // Check localStorage cache first
-        const cachedImage = localStorage.getItem(`oceanTracers_image_${id}`);
-        if (cachedImage) {
-            return cachedImage;
-        }
-        
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['images'], 'readonly');
-            const store = transaction.objectStore('images');
-            
-            const request = store.get(id);
-            
-            request.onsuccess = () => {
-                const result = request.result;
-                if (result) {
-                    resolve(result.data);
-                } else {
-                    resolve(null);
-                }
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error getting image:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    getImageFormat(imageData) {
-        if (imageData.startsWith('data:image/')) {
-            const match = imageData.match(/data:image\/(\w+);/);
-            return match ? match[1] : 'unknown';
-        }
-        return 'url'; // External URL
-    }
-
-    // ========== FORM SUBMISSIONS ==========
-    async saveSubmission(formData) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['submissions'], 'readwrite');
-            const store = transaction.objectStore('submissions');
-            
-            const submission = {
-                id: Date.now(), // Use timestamp as ID
-                ...formData,
-                date: new Date().toISOString(),
-                status: 'pending',
-                read: false
-            };
-            
-            const request = store.add(submission);
-            
-            request.onsuccess = () => {
-                console.log('Form submission saved:', submission.id);
-                
-                // Send email notification (simulated)
-                this.sendEmailNotification(submission);
-                
-                resolve(submission);
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error saving submission:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async getSubmissions(status = 'all', limit = 50) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['submissions'], 'readonly');
-            const store = transaction.objectStore('submissions');
-            const index = store.index('date');
-            
-            let request;
-            if (status === 'all') {
-                request = index.getAll();
-            } else {
-                const statusIndex = store.index('status');
-                request = statusIndex.getAll(status);
+    
+    // Default content data
+    getDefaultContent() {
+        return {
+            hero: {
+                title: "Smart Sanctuary",
+                subtitle: "Where cutting-edge care meets the ocean's ancient rhythm.",
+                slogan: "Networks of Tomorrow - Silent tech dances with the tides to protect paradise."
+            },
+            about: {
+                text1: "\"Where Luxury Meets the Ocean's Whisper\" Step into resorts where crystal waters stay forever vibrant—protected by an invisible harmony of innovation and nature. Your escape not only pampers you but preserves paradise.",
+                text2: "\"The First Resort That Loves the Ocean Back\" Swim, unwind, and explore knowing every detail—from the coral below to the cocktail in your hand—is designed to cherish, not exploit, the sea's fragile magic.",
+                text3: "\"We Built Resorts That Protect, Not Just Impress\" Because paradise isn't a postcard—it's a living, breathing world. Our sanctuaries use unseen care to keep waters wild, so generations after you will sink their toes into the same golden sands.",
+                text4: "\"Take Only Photos, Leave Only Bubbles\" Even the most luxurious escapes should vanish without a trace—except in your heart. That's the promise of a stay where technology and tide move as one.",
+                whoWeAre1: "We are a group of companies driven by innovative trends in technology to develop solutions with a budget-friendly approach. Our goal is to be the most promising outsourcing company in Uganda.",
+                whoWeAre2: "Ocean Trace Net {U} Ltd is nurtured by a group of passionate individuals all of who are tech-experts and experienced for excellence.",
+                whoWeAre3: "We thrive to serve brands and businesses with all that they require to progress with respect to information and communication technology. We plan and execute your venture into a huge success."
+            },
+            values: {
+                integrity: "Honors all commitments to our customers, employees and business with unwavering high standards of honesty, trust and professionalism.",
+                quality: "Put the interest of our customers first and dedicated to providing an individualized business experience that assures customer satisfaction.",
+                teamwork: "Work as one cohesive team from the smallest unit to the Board of directors while developing and retaining leaders who continually raise the bar.",
+                growth: "Dedicated to continuous innovation and pursuit of new ideas and opportunities to accelerate profitable growth."
+            },
+            ceo: {
+                belief: "I strongly believe that organizations who invest wisely in technology increase their operational maturity much faster than their competitors.",
+                bio: "SSEGUYA SALIM MUKO. CEO | FOUNDER | DEVELOPER. OCEAN TRACERS NET Co LTD."
+            },
+            company: {
+                address: "101 Ocean Drive, Kampala City, K'LA 170410",
+                phone: "+256 (774) 380-011",
+                email: "oceantracersnet101@gmail.com"
+            },
+            images: {
+                sanctuary: "./img/tech3.jpg",
+                author: "./img/tech4.jpg"
             }
-            
-            request.onsuccess = () => {
-                let results = request.result;
-                
-                // Sort by date (newest first)
-                results.sort((a, b) => new Date(b.date) - new Date(a.date));
-                
-                // Apply limit
-                if (limit) {
-                    results = results.slice(0, limit);
-                }
-                
-                resolve(results);
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error getting submissions:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async updateSubmissionStatus(id, status) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['submissions'], 'readwrite');
-            const store = transaction.objectStore('submissions');
-            
-            const getRequest = store.get(id);
-            
-            getRequest.onsuccess = () => {
-                const submission = getRequest.result;
-                if (submission) {
-                    submission.status = status;
-                    submission.updatedAt = new Date().toISOString();
-                    
-                    const updateRequest = store.put(submission);
-                    
-                    updateRequest.onsuccess = () => {
-                        console.log(`Submission ${id} updated to status: ${status}`);
-                        resolve(submission);
-                    };
-                    
-                    updateRequest.onerror = (event) => {
-                        console.error('Error updating submission:', event.target.error);
-                        reject(event.target.error);
-                    };
-                } else {
-                    reject(new Error('Submission not found'));
-                }
-            };
-            
-            getRequest.onerror = (event) => {
-                console.error('Error getting submission:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    // ========== PARTNER MANAGEMENT ==========
-    async savePartner(partnerData) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['partners'], 'readwrite');
-            const store = transaction.objectStore('partners');
-            
-            const partner = {
-                id: partnerData.id || `partner_${Date.now()}`,
-                ...partnerData,
-                joinedAt: new Date().toISOString(),
-                status: 'active'
-            };
-            
-            const request = store.put(partner);
-            
-            request.onsuccess = () => {
-                console.log('Partner saved:', partner.id);
-                resolve(partner);
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error saving partner:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async getPartners(status = 'active') {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['partners'], 'readonly');
-            const store = transaction.objectStore('partners');
-            const index = store.index('status');
-            
-            const request = index.getAll(status);
-            
-            request.onsuccess = () => {
-                resolve(request.result);
-            };
-            
-            request.onerror = (event) => {
-                console.error('Error getting partners:', event.target.error);
-                reject(event.target.error);
-            };
-        });
-    }
-
-    // ========== STATISTICS ==========
-    async getStatistics() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const stats = {
-                    totalSubmissions: await this.countRecords('submissions'),
-                    pendingSubmissions: await this.countRecordsByIndex('submissions', 'status', 'pending'),
-                    activePartners: await this.countRecordsByIndex('partners', 'status', 'active'),
-                    contentItems: await this.countRecords('content'),
-                    images: await this.countRecords('images'),
-                    lastUpdated: new Date().toISOString()
-                };
-                
-                resolve(stats);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    }
-
-    async countRecords(storeName) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([storeName], 'readonly');
-            const store = transaction.objectStore(storeName);
-            
-            const request = store.count();
-            
-            request.onsuccess = () => {
-                resolve(request.result);
-            };
-            
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async countRecordsByIndex(storeName, indexName, value) {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction([storeName], 'readonly');
-            const store = transaction.objectStore(storeName);
-            const index = store.index(indexName);
-            
-            const keyRange = IDBKeyRange.only(value);
-            const request = index.count(keyRange);
-            
-            request.onsuccess = () => {
-                resolve(request.result);
-            };
-            
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-
-    // ========== UTILITIES ==========
-    updateDOMContent(key, content) {
-        // Find elements with data-editable attribute matching the key
-        const elements = document.querySelectorAll(`[data-editable="${key}"]`);
-        elements.forEach(element => {
-            element.innerHTML = content;
-        });
-        
-        // Also update input fields if they exist
-        const input = document.getElementById(`edit-${key}`);
-        if (input) {
-            input.value = content;
-        }
-        
-        // Trigger a custom event for other components to react
-        const event = new CustomEvent('contentUpdated', {
-            detail: { key, content }
-        });
-        document.dispatchEvent(event);
-    }
-
-    async initializeDefaultContent() {
-        const defaultContent = {
-            'hero-title': 'REDEFINING<br><span class="title-line highlight">MARINE PRESERVATION</span><br>WITH INTELLIGENT SANCTUARIES',
-            'hero-subtitle': 'Where cutting-edge artificial intelligence harmonizes with ancient oceanic rhythms. We don\'t just observe the ocean—we protect it with precision.',
-            'mission-text': 'To dominate marine conservation through intelligent technology that doesn\'t just observe, but actively protects, predicts, and preserves. We\'re creating a new standard where luxury resorts become guardians of marine ecosystems.',
-            'company-address': '101 Ocean Drive, Innovation District<br>Kampala City, Uganda 170410',
-            'company-phone': '+256 (774) 380-011',
-            'company-email': 'partnerships@oceantracers.net'
         };
-
-        for (const [key, content] of Object.entries(defaultContent)) {
-            await this.saveContent(key, content);
-        }
     }
-
-    sendEmailNotification(submission) {
-        // Simulate email sending
-        console.log('Email notification would be sent for submission:', submission.id);
-        
-        // In a real implementation, this would call your email API
-        // Example: await fetch('/api/send-email', { method: 'POST', body: JSON.stringify(submission) });
-        
-        // For demo purposes, log to console
-        const emailContent = `
-            New Elite Partnership Inquiry
-            
-            Name: ${submission.name}
-            Company: ${submission.company}
-            Email: ${submission.email}
-            Investment Band: ${submission.investment}
-            Primary Interest: ${submission.interest}
-            
-            Message:
-            ${submission.message}
-            
-            Submitted: ${new Date(submission.date).toLocaleString()}
-        `;
-        
-        console.log(emailContent);
+    
+    // Default user data
+    getDefaultUserData() {
+        return {
+            admin: {
+                username: "admin",
+                password: "ocean2024", // In production, this should be hashed
+                email: "admin@oceantracers.net",
+                permissions: ["edit_content", "manage_users", "view_analytics"]
+            },
+            subscribers: []
+        };
     }
-
-    // ========== BACKUP & RESTORE ==========
-    async backupDatabase() {
-        return new Promise(async (resolve, reject) => {
-            try {
-                const backup = {
-                    content: await this.getAllContent(),
-                    images: await this.getAllImages(),
-                    partners: await this.getPartners('all'),
-                    submissions: await this.getSubmissions('all'),
-                    metadata: {
-                        version: this.dbVersion,
-                        backedUpAt: new Date().toISOString(),
-                        recordCounts: await this.getStatistics()
-                    }
-                };
-                
-                resolve(backup);
-            } catch (error) {
-                reject(error);
+    
+    // Services data
+    getServicesData() {
+        return [
+            {
+                id: 1,
+                name: "IT Consulting",
+                description: "Strategic technology guidance to transform your business operations and digital capabilities.",
+                icon: "fas fa-laptop-code",
+                link: "#"
+            },
+            {
+                id: 2,
+                name: "Project Outsourcing",
+                description: "Access our skilled talent pool for cost-effective project delivery with exceptional quality.",
+                icon: "fas fa-handshake",
+                link: "#"
+            },
+            {
+                id: 3,
+                name: "Travel & Safaris",
+                description: "Unforgettable Ugandan adventures showcasing wildlife, culture, and natural beauty.",
+                icon: "fas fa-plane",
+                link: "#"
+            },
+            {
+                id: 4,
+                name: "E-commerce Solutions",
+                description: "Complete digital storefront development with integrated marketing strategies.",
+                icon: "fas fa-shopping-cart",
+                link: "#"
+            },
+            {
+                id: 5,
+                name: "Marine Conservation",
+                description: "AI-powered solutions to protect and monitor marine ecosystems and biodiversity.",
+                icon: "fas fa-water",
+                link: "#"
+            },
+            {
+                id: 6,
+                name: "Network Solutions",
+                description: "Robust connectivity and infrastructure for modern business requirements.",
+                icon: "fas fa-network-wired",
+                link: "#"
             }
-        });
+        ];
     }
-
-    async getAllImages() {
-        return new Promise((resolve, reject) => {
-            const transaction = this.db.transaction(['images'], 'readonly');
-            const store = transaction.objectStore('images');
-            
-            const request = store.getAll();
-            
-            request.onsuccess = () => {
-                resolve(request.result);
-            };
-            
-            request.onerror = (event) => {
-                reject(event.target.error);
-            };
-        });
-    }
-
-    async exportToJSON() {
-        const backup = await this.backupDatabase();
-        const jsonString = JSON.stringify(backup, null, 2);
-        
-        // Create download link
-        const blob = new Blob([jsonString], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `ocean-tracers-backup-${new Date().toISOString().split('T')[0]}.json`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        
-        return backup;
-    }
-
-    async importFromJSON(jsonData) {
-        if (!confirm('This will replace all existing data. Are you sure?')) {
-            return;
-        }
-        
+    
+    // Content Management Methods
+    async getContent(key = null) {
         try {
-            const data = typeof jsonData === 'string' ? JSON.parse(jsonData) : jsonData;
-            
-            // Clear existing data
-            await this.clearDatabase();
-            
-            // Import content
-            if (data.content) {
-                for (const [key, content] of Object.entries(data.content)) {
-                    await this.saveContent(key, content);
-                }
+            const content = JSON.parse(localStorage.getItem('oceanTracersContent')) || this.contentData;
+            if (key) {
+                return this.getNestedValue(content, key);
             }
-            
-            // Import images
-            if (data.images && Array.isArray(data.images)) {
-                for (const image of data.images) {
-                    await this.saveImage(image.id, image.data, image.category);
-                }
-            }
-            
-            console.log('Database imported successfully');
-            alert('Database imported successfully!');
-            
-            // Refresh page to show new data
-            location.reload();
-            
+            return content;
         } catch (error) {
-            console.error('Error importing database:', error);
-            alert('Error importing database. Please check the file format.');
+            console.error('Error getting content:', error);
+            return null;
         }
     }
-
-    async clearDatabase() {
-        const storeNames = ['content', 'images', 'partners', 'submissions'];
-        
-        for (const storeName of storeNames) {
-            await new Promise((resolve, reject) => {
-                const transaction = this.db.transaction([storeName], 'readwrite');
-                const store = transaction.objectStore(storeName);
-                
-                const request = store.clear();
-                
-                request.onsuccess = () => {
-                    console.log(`Cleared store: ${storeName}`);
-                    resolve();
+    
+    async updateContent(key, value) {
+        try {
+            const content = JSON.parse(localStorage.getItem('oceanTracersContent')) || this.contentData;
+            this.setNestedValue(content, key, value);
+            localStorage.setItem('oceanTracersContent', JSON.stringify(content));
+            return { success: true, message: 'Content updated successfully' };
+        } catch (error) {
+            console.error('Error updating content:', error);
+            return { success: false, message: 'Failed to update content' };
+        }
+    }
+    
+    async resetContent() {
+        try {
+            localStorage.setItem('oceanTracersContent', JSON.stringify(this.contentData));
+            return { success: true, message: 'Content reset to default' };
+        } catch (error) {
+            console.error('Error resetting content:', error);
+            return { success: false, message: 'Failed to reset content' };
+        }
+    }
+    
+    // User Management Methods
+    async authenticate(username, password) {
+        try {
+            const users = JSON.parse(localStorage.getItem('oceanTracersUsers')) || this.userData;
+            
+            if (users.admin.username === username && users.admin.password === password) {
+                const token = this.generateToken(username);
+                localStorage.setItem('adminToken', token);
+                return { 
+                    success: true, 
+                    token, 
+                    user: { 
+                        username: users.admin.username, 
+                        email: users.admin.email,
+                        permissions: users.admin.permissions 
+                    } 
                 };
-                
-                request.onerror = (event) => {
-                    reject(event.target.error);
-                };
+            }
+            
+            return { success: false, message: 'Invalid credentials' };
+        } catch (error) {
+            console.error('Authentication error:', error);
+            return { success: false, message: 'Authentication failed' };
+        }
+    }
+    
+    async validateToken(token) {
+        try {
+            const storedToken = localStorage.getItem('adminToken');
+            return { 
+                success: storedToken === token, 
+                isValid: storedToken === token 
+            };
+        } catch (error) {
+            console.error('Token validation error:', error);
+            return { success: false, isValid: false };
+        }
+    }
+    
+    async logout() {
+        localStorage.removeItem('adminToken');
+        return { success: true, message: 'Logged out successfully' };
+    }
+    
+    // Contact Form Submission
+    async submitContactForm(formData) {
+        try {
+            // In a real application, you would send this data to a server
+            // For now, we'll store it in localStorage
+            
+            const submissions = JSON.parse(localStorage.getItem('contactSubmissions')) || [];
+            const submission = {
+                id: Date.now(),
+                timestamp: new Date().toISOString(),
+                ...formData
+            };
+            
+            submissions.push(submission);
+            localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
+            
+            // Simulate sending email notification
+            this.sendEmailNotification(submission);
+            
+            return { 
+                success: true, 
+                message: 'Thank you for your message! We will get back to you soon.',
+                submissionId: submission.id
+            };
+        } catch (error) {
+            console.error('Error submitting contact form:', error);
+            return { success: false, message: 'Failed to submit form. Please try again.' };
+        }
+    }
+    
+    // Newsletter Subscription
+    async subscribeToNewsletter(email) {
+        try {
+            const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
+            
+            // Check if email already exists
+            if (subscribers.some(sub => sub.email === email)) {
+                return { success: false, message: 'This email is already subscribed.' };
+            }
+            
+            const subscriber = {
+                email,
+                subscribedAt: new Date().toISOString(),
+                active: true
+            };
+            
+            subscribers.push(subscriber);
+            localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
+            
+            // Simulate welcome email
+            this.sendWelcomeEmail(email);
+            
+            return { 
+                success: true, 
+                message: 'Thank you for subscribing to our newsletter!'
+            };
+        } catch (error) {
+            console.error('Error subscribing to newsletter:', error);
+            return { success: false, message: 'Subscription failed. Please try again.' };
+        }
+    }
+    
+    // Analytics Methods
+    async getAnalytics() {
+        try {
+            const contactSubmissions = JSON.parse(localStorage.getItem('contactSubmissions')) || [];
+            const newsletterSubscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
+            
+            return {
+                totalSubmissions: contactSubmissions.length,
+                totalSubscribers: newsletterSubscribers.length,
+                recentSubmissions: contactSubmissions.slice(-10),
+                growthRate: this.calculateGrowthRate(newsletterSubscribers)
+            };
+        } catch (error) {
+            console.error('Error getting analytics:', error);
+            return null;
+        }
+    }
+    
+    // Web3 Integration Methods
+    async getWeb3Donations() {
+        try {
+            const donations = JSON.parse(localStorage.getItem('web3Donations')) || [];
+            return {
+                totalDonations: donations.reduce((sum, donation) => sum + donation.amount, 0),
+                totalDonors: new Set(donations.map(d => d.address)).size,
+                recentDonations: donations.slice(-5)
+            };
+        } catch (error) {
+            console.error('Error getting donations:', error);
+            return null;
+        }
+    }
+    
+    async recordDonation(donationData) {
+        try {
+            const donations = JSON.parse(localStorage.getItem('web3Donations')) || [];
+            donations.push({
+                ...donationData,
+                timestamp: new Date().toISOString(),
+                verified: true
             });
+            
+            localStorage.setItem('web3Donations', JSON.stringify(donations));
+            
+            return { 
+                success: true, 
+                message: 'Donation recorded successfully',
+                transactionId: donationData.transactionHash
+            };
+        } catch (error) {
+            console.error('Error recording donation:', error);
+            return { success: false, message: 'Failed to record donation' };
+        }
+    }
+    
+    // Utility Methods
+    getNestedValue(obj, path) {
+        return path.split('.').reduce((current, key) => {
+            return current && current[key] !== undefined ? current[key] : null;
+        }, obj);
+    }
+    
+    setNestedValue(obj, path, value) {
+        const keys = path.split('.');
+        let current = obj;
+        
+        for (let i = 0; i < keys.length - 1; i++) {
+            if (!current[keys[i]] || typeof current[keys[i]] !== 'object') {
+                current[keys[i]] = {};
+            }
+            current = current[keys[i]];
         }
         
-        // Clear localStorage cache
-        Object.keys(localStorage).forEach(key => {
-            if (key.startsWith('oceanTracers_')) {
-                localStorage.removeItem(key);
-            }
-        });
+        current[keys[keys.length - 1]] = value;
+    }
+    
+    generateToken(username) {
+        return btoa(`${username}:${Date.now()}:${Math.random().toString(36).substr(2)}`);
+    }
+    
+    calculateGrowthRate(subscribers) {
+        if (subscribers.length < 2) return 0;
+        
+        const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        const recentSubscribers = subscribers.filter(sub => 
+            new Date(sub.subscribedAt) > oneWeekAgo
+        );
+        
+        const previousSubscribers = subscribers.length - recentSubscribers.length;
+        
+        if (previousSubscribers === 0) return 100;
+        
+        return ((recentSubscribers.length / previousSubscribers) * 100).toFixed(2);
+    }
+    
+    // Mock email sending methods
+    sendEmailNotification(submission) {
+        console.log('Email notification would be sent for submission:', submission);
+        // In production, integrate with an email service like SendGrid, Mailgun, etc.
+    }
+    
+    sendWelcomeEmail(email) {
+        console.log('Welcome email would be sent to:', email);
+        // In production, integrate with an email service
     }
 }
 
-// Create global instance
-let oceanTracersDB;
+// Initialize database
+const oceanTracersDB = new OceanTracersDatabase();
 
-// Initialize database when DOM is loaded
+// Export for use in main script
+window.OceanTracersDB = oceanTracersDB;
+
+// Auto-initialize content on page load if admin is logged in
 document.addEventListener('DOMContentLoaded', async () => {
-    try {
-        oceanTracersDB = new OceanTracersDatabase();
-        
-        // Make database available globally for debugging
-        window.oceanTracersDB = oceanTracersDB;
-        
-        console.log('Ocean Tracers Database initialized');
-        
-        // Load saved content into DOM
-        const savedContent = await oceanTracersDB.getAllContent();
-        Object.entries(savedContent).forEach(([key, content]) => {
-            oceanTracersDB.updateDOMContent(key, content);
-        });
-        
-    } catch (error) {
-        console.error('Failed to initialize database:', error);
-        
-        // Fallback to localStorage only
-        console.log('Falling back to localStorage only mode');
-        
-        // Load from localStorage
-        Object.keys(localStorage).forEach(key => {
-            if (key.startsWith('oceanTracers_')) {
-                const contentKey = key.replace('oceanTracers_', '');
-                const content = localStorage.getItem(key);
-                
-                const elements = document.querySelectorAll(`[data-editable="${contentKey}"]`);
-                elements.forEach(element => {
-                    element.innerHTML = content;
-                });
-            }
-        });
+    const token = localStorage.getItem('adminToken');
+    
+    if (token) {
+        const validation = await oceanTracersDB.validateToken(token);
+        if (validation.isValid) {
+            // Admin is logged in, enable admin features
+            console.log('Admin session active');
+        }
+    }
+    
+    // Load saved content from database
+    const savedContent = await oceanTracersDB.getContent();
+    if (savedContent) {
+        applyContentToPage(savedContent);
     }
 });
 
-// Export for use in other modules
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = OceanTracersDatabase;
+// Helper function to apply content to page
+function applyContentToPage(content) {
+    // Apply hero content
+    const heroTitle = document.querySelector('[data-editable="hero-title"]');
+    const heroSubtitle = document.querySelector('[data-editable="hero-subtitle"]');
+    const heroSlogan = document.querySelector('[data-editable="hero-slogan"]');
+    
+    if (heroTitle) heroTitle.textContent = content.hero.title;
+    if (heroSubtitle) heroSubtitle.textContent = content.hero.subtitle;
+    if (heroSlogan) heroSlogan.textContent = content.hero.slogan;
+    
+    // Apply about content
+    const aboutElements = document.querySelectorAll('[data-editable^="about-text-"], [data-editable^="who-we-are-"]');
+    aboutElements.forEach(el => {
+        const key = el.getAttribute('data-editable');
+        const value = oceanTracersDB.getNestedValue(content, key.replace(/-/g, '.'));
+        if (value) el.textContent = value;
+    });
+    
+    // Apply values content
+    const valueElements = document.querySelectorAll('[data-editable$="-text"]');
+    valueElements.forEach(el => {
+        const key = el.getAttribute('data-editable');
+        const value = oceanTracersDB.getNestedValue(content.values, key.replace('-text', ''));
+        if (value) el.textContent = value;
+    });
+    
+    // Apply CEO content
+    const ceoBelief = document.querySelector('[data-editable="ceo-belief-1"]');
+    const ceoBio = document.querySelector('[data-editable="ceo-bio"]');
+    
+    if (ceoBelief) ceoBelief.textContent = content.ceo.belief;
+    if (ceoBio) ceoBio.textContent = content.ceo.bio;
+    
+    // Apply company info
+    const companyElements = document.querySelectorAll('[data-editable^="company-"]');
+    companyElements.forEach(el => {
+        const key = el.getAttribute('data-editable');
+        const value = oceanTracersDB.getNestedValue(content.company, key.replace('company-', ''));
+        if (value) el.textContent = value;
+    });
+    
+    // Apply images
+    const sanctuaryImg = document.getElementById('sanctuary-image');
+    const authorImg = document.getElementById('author-image');
+    
+    if (sanctuaryImg && content.images.sanctuary) {
+        sanctuaryImg.src = content.images.sanctuary;
+    }
+    
+    if (authorImg && content.images.author) {
+        authorImg.src = content.images.author;
+    }
 }
