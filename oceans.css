@@ -275,6 +275,13 @@ h4 { font-size: 1.4rem; }
     color: var(--deep-blue);
 }
 
+img {
+    position: relative;
+    width: 50%;
+    height: 50%;
+    border-radius: 1rem;
+}
+
 @media (max-width: 768px) {
     .nav-links {
         display: none;
