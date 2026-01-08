@@ -1,448 +1,459 @@
-// database.js - Mock database and API interactions for Ocean Tracers Net
-
+// DATABASE.JS - Data Management & Local Storage
 class OceanTracersDatabase {
     constructor() {
-        this.contentData = this.getDefaultContent();
-        this.userData = this.getDefaultUserData();
-        this.servicesData = this.getServicesData();
-        this.initializeLocalStorage();
+        this.dbName = 'OceanTracersDB';
+        this.version = 1;
+        this.db = null;
+        this.init();
     }
-    
-    // Initialize localStorage with default data if empty
-    initializeLocalStorage() {
-        if (!localStorage.getItem('oceanTracersInitialized')) {
-            localStorage.setItem('oceanTracersContent', JSON.stringify(this.contentData));
-            localStorage.setItem('oceanTracersUsers', JSON.stringify(this.userData));
-            localStorage.setItem('oceanTracersServices', JSON.stringify(this.servicesData));
-            localStorage.setItem('oceanTracersInitialized', 'true');
+
+    async init() {
+        // Initialize IndexedDB
+        if ('indexedDB' in window) {
+            await this.initIndexedDB();
+        } else {
+            console.warn('IndexedDB not supported, using localStorage');
+            this.initLocalStorage();
         }
     }
-    
-    // Default content data
-    getDefaultContent() {
-        return {
-            hero: {
-                title: "Smart Sanctuary",
-                subtitle: "Where cutting-edge care meets the ocean's ancient rhythm.",
-                slogan: "Networks of Tomorrow - Silent tech dances with the tides to protect paradise."
-            },
-            about: {
-                text1: "\"Where Luxury Meets the Ocean's Whisper\" Step into resorts where crystal waters stay forever vibrant—protected by an invisible harmony of innovation and nature. Your escape not only pampers you but preserves paradise.",
-                text2: "\"The First Resort That Loves the Ocean Back\" Swim, unwind, and explore knowing every detail—from the coral below to the cocktail in your hand—is designed to cherish, not exploit, the sea's fragile magic.",
-                text3: "\"We Built Resorts That Protect, Not Just Impress\" Because paradise isn't a postcard—it's a living, breathing world. Our sanctuaries use unseen care to keep waters wild, so generations after you will sink their toes into the same golden sands.",
-                text4: "\"Take Only Photos, Leave Only Bubbles\" Even the most luxurious escapes should vanish without a trace—except in your heart. That's the promise of a stay where technology and tide move as one.",
-                whoWeAre1: "We are a group of companies driven by innovative trends in technology to develop solutions with a budget-friendly approach. Our goal is to be the most promising outsourcing company in Uganda.",
-                whoWeAre2: "Ocean Trace Net {U} Ltd is nurtured by a group of passionate individuals all of who are tech-experts and experienced for excellence.",
-                whoWeAre3: "We thrive to serve brands and businesses with all that they require to progress with respect to information and communication technology. We plan and execute your venture into a huge success."
-            },
-            values: {
-                integrity: "Honors all commitments to our customers, employees and business with unwavering high standards of honesty, trust and professionalism.",
-                quality: "Put the interest of our customers first and dedicated to providing an individualized business experience that assures customer satisfaction.",
-                teamwork: "Work as one cohesive team from the smallest unit to the Board of directors while developing and retaining leaders who continually raise the bar.",
-                growth: "Dedicated to continuous innovation and pursuit of new ideas and opportunities to accelerate profitable growth."
-            },
-            ceo: {
-                belief: "I strongly believe that organizations who invest wisely in technology increase their operational maturity much faster than their competitors.",
-                bio: "SSEGUYA SALIM MUKO. CEO | FOUNDER | DEVELOPER. OCEAN TRACERS NET Co LTD."
-            },
-            company: {
-                address: "101 Ocean Drive, Kampala City, K'LA 170410",
-                phone: "+256 (774) 380-011",
-                email: "oceantracersnet101@gmail.com"
-            },
-            images: {
-                sanctuary: "./img/tech3.jpg",
-                author: "./img/tech4.jpg"
+
+    initIndexedDB() {
+        return new Promise((resolve, reject) => {
+            const request = indexedDB.open(this.dbName, this.version);
+            
+            request.onerror = (event) => {
+                console.error('IndexedDB error:', event.target.error);
+                reject(event.target.error);
+            };
+            
+            request.onsuccess = (event) => {
+                this.db = event.target.result;
+                console.log('IndexedDB initialized successfully');
+                resolve();
+            };
+            
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                
+                // Create object stores
+                if (!db.objectStoreNames.contains('users')) {
+                    const userStore = db.createObjectStore('users', { keyPath: 'id', autoIncrement: true });
+                    userStore.createIndex('email', 'email', { unique: true });
+                }
+                
+                if (!db.objectStoreNames.contains('messages')) {
+                    const messageStore = db.createObjectStore('messages', { keyPath: 'id', autoIncrement: true });
+                    messageStore.createIndex('email', 'email');
+                    messageStore.createIndex('date', 'date');
+                }
+                
+                if (!db.objectStoreNames.contains('settings')) {
+                    db.createObjectStore('settings', { keyPath: 'key' });
+                }
+            };
+        });
+    }
+
+    initLocalStorage() {
+        // Initialize localStorage structure
+        if (!localStorage.getItem('OceanTracers')) {
+            localStorage.setItem('OceanTracers', JSON.stringify({
+                users: [],
+                messages: [],
+                settings: {},
+                lastUpdated: new Date().toISOString()
+            }));
+        }
+    }
+
+    // User Management
+    async saveUser(userData) {
+        if (this.db) {
+            return this.saveToIndexedDB('users', userData);
+        } else {
+            return this.saveToLocalStorage('users', userData);
+        }
+    }
+
+    async getUser(email) {
+        if (this.db) {
+            return this.getFromIndexedDB('users', 'email', email);
+        } else {
+            return this.getFromLocalStorage('users', 'email', email);
+        }
+    }
+
+    // Message Management
+    async saveMessage(messageData) {
+        const message = {
+            ...messageData,
+            date: new Date().toISOString(),
+            status: 'unread',
+            id: Date.now()
+        };
+        
+        if (this.db) {
+            return this.saveToIndexedDB('messages', message);
+        } else {
+            return this.saveToLocalStorage('messages', message);
+        }
+    }
+
+    async getMessages(options = {}) {
+        if (this.db) {
+            return this.getAllFromIndexedDB('messages', options);
+        } else {
+            return this.getAllFromLocalStorage('messages', options);
+        }
+    }
+
+    // Settings Management
+    async saveSetting(key, value) {
+        const setting = { key, value, updated: new Date().toISOString() };
+        
+        if (this.db) {
+            return this.saveToIndexedDB('settings', setting);
+        } else {
+            return this.saveToLocalStorage('settings', setting, 'key', key);
+        }
+    }
+
+    async getSetting(key) {
+        if (this.db) {
+            return this.getFromIndexedDB('settings', 'key', key);
+        } else {
+            return this.getFromLocalStorage('settings', 'key', key);
+        }
+    }
+
+    // IndexedDB Methods
+    saveToIndexedDB(storeName, data) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([storeName], 'readwrite');
+            const store = transaction.objectStore(storeName);
+            const request = store.put(data);
+            
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    getFromIndexedDB(storeName, indexName, value) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([storeName], 'readonly');
+            const store = transaction.objectStore(storeName);
+            const index = store.index(indexName);
+            const request = index.get(value);
+            
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    getAllFromIndexedDB(storeName, options = {}) {
+        return new Promise((resolve, reject) => {
+            const transaction = this.db.transaction([storeName], 'readonly');
+            const store = transaction.objectStore(storeName);
+            let request;
+            
+            if (options.index) {
+                const index = store.index(options.index);
+                request = index.getAll(options.query);
+            } else {
+                request = store.getAll();
             }
+            
+            request.onsuccess = () => {
+                let results = request.result;
+                
+                // Apply filters
+                if (options.filter) {
+                    results = results.filter(options.filter);
+                }
+                
+                // Apply sorting
+                if (options.sort) {
+                    results.sort(options.sort);
+                }
+                
+                // Apply limit
+                if (options.limit) {
+                    results = results.slice(0, options.limit);
+                }
+                
+                resolve(results);
+            };
+            
+            request.onerror = () => reject(request.error);
+        });
+    }
+
+    // LocalStorage Methods
+    saveToLocalStorage(collection, data, keyField = 'id', keyValue = null) {
+        try {
+            const storage = JSON.parse(localStorage.getItem('OceanTracers')) || {};
+            if (!storage[collection]) storage[collection] = [];
+            
+            if (keyValue !== null) {
+                // Update existing if key matches
+                const index = storage[collection].findIndex(item => item[keyField] === keyValue);
+                if (index !== -1) {
+                    storage[collection][index] = { ...storage[collection][index], ...data };
+                } else {
+                    storage[collection].push(data);
+                }
+            } else {
+                storage[collection].push(data);
+            }
+            
+            storage.lastUpdated = new Date().toISOString();
+            localStorage.setItem('OceanTracers', JSON.stringify(storage));
+            return true;
+        } catch (error) {
+            console.error('LocalStorage save error:', error);
+            return false;
+        }
+    }
+
+    getFromLocalStorage(collection, keyField, keyValue) {
+        try {
+            const storage = JSON.parse(localStorage.getItem('OceanTracers')) || {};
+            if (!storage[collection]) return null;
+            
+            return storage[collection].find(item => item[keyField] === keyValue) || null;
+        } catch (error) {
+            console.error('LocalStorage get error:', error);
+            return null;
+        }
+    }
+
+    getAllFromLocalStorage(collection, options = {}) {
+        try {
+            const storage = JSON.parse(localStorage.getItem('OceanTracers')) || {};
+            let results = storage[collection] || [];
+            
+            // Apply filters
+            if (options.filter) {
+                results = results.filter(options.filter);
+            }
+            
+            // Apply sorting
+            if (options.sort) {
+                results.sort(options.sort);
+            }
+            
+            // Apply limit
+            if (options.limit) {
+                results = results.slice(0, options.limit);
+            }
+            
+            return results;
+        } catch (error) {
+            console.error('LocalStorage getAll error:', error);
+            return [];
+        }
+    }
+
+    // Data Export/Import
+    async exportData() {
+        const exportData = {
+            users: await this.getAllFromIndexedDB('users'),
+            messages: await this.getAllFromIndexedDB('messages'),
+            settings: await this.getAllFromIndexedDB('settings'),
+            exportDate: new Date().toISOString(),
+            version: this.version
+        };
+        
+        // Create download link
+        const dataStr = JSON.stringify(exportData, null, 2);
+        const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+        
+        const exportFileDefaultName = `OceanTracers_Backup_${new Date().toISOString().split('T')[0]}.json`;
+        
+        const linkElement = document.createElement('a');
+        linkElement.setAttribute('href', dataUri);
+        linkElement.setAttribute('download', exportFileDefaultName);
+        linkElement.click();
+        
+        return exportData;
+    }
+
+    async importData(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            
+            reader.onload = async (event) => {
+                try {
+                    const importData = JSON.parse(event.target.result);
+                    
+                    // Validate import data
+                    if (!importData.version || importData.version !== this.version) {
+                        throw new Error('Invalid data version');
+                    }
+                    
+                    // Import each collection
+                    if (importData.users) {
+                        for (const user of importData.users) {
+                            await this.saveUser(user);
+                        }
+                    }
+                    
+                    if (importData.messages) {
+                        for (const message of importData.messages) {
+                            await this.saveMessage(message);
+                        }
+                    }
+                    
+                    if (importData.settings) {
+                        for (const setting of importData.settings) {
+                            await this.saveSetting(setting.key, setting.value);
+                        }
+                    }
+                    
+                    resolve(true);
+                } catch (error) {
+                    reject(error);
+                }
+            };
+            
+            reader.onerror = () => reject(reader.error);
+            reader.readAsText(file);
+        });
+    }
+
+    // Analytics & Statistics
+    async getStatistics() {
+        const messages = await this.getMessages();
+        const users = await this.getAllFromIndexedDB('users');
+        
+        const today = new Date().toISOString().split('T')[0];
+        const lastWeek = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+        
+        const todayMessages = messages.filter(msg => 
+            msg.date.startsWith(today)
+        ).length;
+        
+        const lastWeekMessages = messages.filter(msg => 
+            msg.date >= lastWeek
+        ).length;
+        
+        return {
+            totalMessages: messages.length,
+            totalUsers: users.length,
+            todayMessages,
+            lastWeekMessages,
+            unreadMessages: messages.filter(msg => msg.status === 'unread').length,
+            byMonth: this.groupByMonth(messages)
         };
     }
-    
-    // Default user data
-    getDefaultUserData() {
-        return {
-            admin: {
-                username: "admin",
-                password: "ocean2024", // In production, this should be hashed
-                email: "admin@oceantracers.net",
-                permissions: ["edit_content", "manage_users", "view_analytics"]
-            },
-            subscribers: []
-        };
+
+    groupByMonth(messages) {
+        const months = {};
+        messages.forEach(msg => {
+            const month = msg.date.substring(0, 7); // YYYY-MM
+            if (!months[month]) months[month] = 0;
+            months[month]++;
+        });
+        return months;
     }
-    
-    // Services data
-    getServicesData() {
-        return [
-            {
-                id: 1,
-                name: "IT Consulting",
-                description: "Strategic technology guidance to transform your business operations and digital capabilities.",
-                icon: "fas fa-laptop-code",
-                link: "#"
-            },
-            {
-                id: 2,
-                name: "Project Outsourcing",
-                description: "Access our skilled talent pool for cost-effective project delivery with exceptional quality.",
-                icon: "fas fa-handshake",
-                link: "#"
-            },
-            {
-                id: 3,
-                name: "Travel & Safaris",
-                description: "Unforgettable Ugandan adventures showcasing wildlife, culture, and natural beauty.",
-                icon: "fas fa-plane",
-                link: "#"
-            },
-            {
-                id: 4,
-                name: "E-commerce Solutions",
-                description: "Complete digital storefront development with integrated marketing strategies.",
-                icon: "fas fa-shopping-cart",
-                link: "#"
-            },
-            {
-                id: 5,
-                name: "Marine Conservation",
-                description: "AI-powered solutions to protect and monitor marine ecosystems and biodiversity.",
-                icon: "fas fa-water",
-                link: "#"
-            },
-            {
-                id: 6,
-                name: "Network Solutions",
-                description: "Robust connectivity and infrastructure for modern business requirements.",
-                icon: "fas fa-network-wired",
-                link: "#"
-            }
-        ];
-    }
-    
-    // Content Management Methods
-    async getContent(key = null) {
-        try {
-            const content = JSON.parse(localStorage.getItem('oceanTracersContent')) || this.contentData;
-            if (key) {
-                return this.getNestedValue(content, key);
-            }
-            return content;
-        } catch (error) {
-            console.error('Error getting content:', error);
-            return null;
-        }
-    }
-    
-    async updateContent(key, value) {
-        try {
-            const content = JSON.parse(localStorage.getItem('oceanTracersContent')) || this.contentData;
-            this.setNestedValue(content, key, value);
-            localStorage.setItem('oceanTracersContent', JSON.stringify(content));
-            return { success: true, message: 'Content updated successfully' };
-        } catch (error) {
-            console.error('Error updating content:', error);
-            return { success: false, message: 'Failed to update content' };
-        }
-    }
-    
-    async resetContent() {
-        try {
-            localStorage.setItem('oceanTracersContent', JSON.stringify(this.contentData));
-            return { success: true, message: 'Content reset to default' };
-        } catch (error) {
-            console.error('Error resetting content:', error);
-            return { success: false, message: 'Failed to reset content' };
-        }
-    }
-    
-    // User Management Methods
-    async authenticate(username, password) {
-        try {
-            const users = JSON.parse(localStorage.getItem('oceanTracersUsers')) || this.userData;
+
+    // Backup & Maintenance
+    async cleanupOldData(days = 365) {
+        const cutoffDate = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+        
+        if (this.db) {
+            // IndexedDB cleanup
+            const transaction = this.db.transaction(['messages'], 'readwrite');
+            const store = transaction.objectStore('messages');
+            const index = store.index('date');
+            const range = IDBKeyRange.upperBound(cutoffDate);
             
-            if (users.admin.username === username && users.admin.password === password) {
-                const token = this.generateToken(username);
-                localStorage.setItem('adminToken', token);
-                return { 
-                    success: true, 
-                    token, 
-                    user: { 
-                        username: users.admin.username, 
-                        email: users.admin.email,
-                        permissions: users.admin.permissions 
-                    } 
-                };
-            }
-            
-            return { success: false, message: 'Invalid credentials' };
-        } catch (error) {
-            console.error('Authentication error:', error);
-            return { success: false, message: 'Authentication failed' };
-        }
-    }
-    
-    async validateToken(token) {
-        try {
-            const storedToken = localStorage.getItem('adminToken');
-            return { 
-                success: storedToken === token, 
-                isValid: storedToken === token 
-            };
-        } catch (error) {
-            console.error('Token validation error:', error);
-            return { success: false, isValid: false };
-        }
-    }
-    
-    async logout() {
-        localStorage.removeItem('adminToken');
-        return { success: true, message: 'Logged out successfully' };
-    }
-    
-    // Contact Form Submission
-    async submitContactForm(formData) {
-        try {
-            // In a real application, you would send this data to a server
-            // For now, we'll store it in localStorage
-            
-            const submissions = JSON.parse(localStorage.getItem('contactSubmissions')) || [];
-            const submission = {
-                id: Date.now(),
-                timestamp: new Date().toISOString(),
-                ...formData
-            };
-            
-            submissions.push(submission);
-            localStorage.setItem('contactSubmissions', JSON.stringify(submissions));
-            
-            // Simulate sending email notification
-            this.sendEmailNotification(submission);
-            
-            return { 
-                success: true, 
-                message: 'Thank you for your message! We will get back to you soon.',
-                submissionId: submission.id
-            };
-        } catch (error) {
-            console.error('Error submitting contact form:', error);
-            return { success: false, message: 'Failed to submit form. Please try again.' };
-        }
-    }
-    
-    // Newsletter Subscription
-    async subscribeToNewsletter(email) {
-        try {
-            const subscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
-            
-            // Check if email already exists
-            if (subscribers.some(sub => sub.email === email)) {
-                return { success: false, message: 'This email is already subscribed.' };
-            }
-            
-            const subscriber = {
-                email,
-                subscribedAt: new Date().toISOString(),
-                active: true
-            };
-            
-            subscribers.push(subscriber);
-            localStorage.setItem('newsletterSubscribers', JSON.stringify(subscribers));
-            
-            // Simulate welcome email
-            this.sendWelcomeEmail(email);
-            
-            return { 
-                success: true, 
-                message: 'Thank you for subscribing to our newsletter!'
-            };
-        } catch (error) {
-            console.error('Error subscribing to newsletter:', error);
-            return { success: false, message: 'Subscription failed. Please try again.' };
-        }
-    }
-    
-    // Analytics Methods
-    async getAnalytics() {
-        try {
-            const contactSubmissions = JSON.parse(localStorage.getItem('contactSubmissions')) || [];
-            const newsletterSubscribers = JSON.parse(localStorage.getItem('newsletterSubscribers')) || [];
-            
-            return {
-                totalSubmissions: contactSubmissions.length,
-                totalSubscribers: newsletterSubscribers.length,
-                recentSubmissions: contactSubmissions.slice(-10),
-                growthRate: this.calculateGrowthRate(newsletterSubscribers)
-            };
-        } catch (error) {
-            console.error('Error getting analytics:', error);
-            return null;
-        }
-    }
-    
-    // Web3 Integration Methods
-    async getWeb3Donations() {
-        try {
-            const donations = JSON.parse(localStorage.getItem('web3Donations')) || [];
-            return {
-                totalDonations: donations.reduce((sum, donation) => sum + donation.amount, 0),
-                totalDonors: new Set(donations.map(d => d.address)).size,
-                recentDonations: donations.slice(-5)
-            };
-        } catch (error) {
-            console.error('Error getting donations:', error);
-            return null;
-        }
-    }
-    
-    async recordDonation(donationData) {
-        try {
-            const donations = JSON.parse(localStorage.getItem('web3Donations')) || [];
-            donations.push({
-                ...donationData,
-                timestamp: new Date().toISOString(),
-                verified: true
+            const messages = await new Promise((resolve, reject) => {
+                const request = index.getAll(range);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
             });
             
-            localStorage.setItem('web3Donations', JSON.stringify(donations));
-            
-            return { 
-                success: true, 
-                message: 'Donation recorded successfully',
-                transactionId: donationData.transactionHash
-            };
-        } catch (error) {
-            console.error('Error recording donation:', error);
-            return { success: false, message: 'Failed to record donation' };
-        }
-    }
-    
-    // Utility Methods
-    getNestedValue(obj, path) {
-        return path.split('.').reduce((current, key) => {
-            return current && current[key] !== undefined ? current[key] : null;
-        }, obj);
-    }
-    
-    setNestedValue(obj, path, value) {
-        const keys = path.split('.');
-        let current = obj;
-        
-        for (let i = 0; i < keys.length - 1; i++) {
-            if (!current[keys[i]] || typeof current[keys[i]] !== 'object') {
-                current[keys[i]] = {};
+            for (const message of messages) {
+                store.delete(message.id);
             }
-            current = current[keys[i]];
+        } else {
+            // LocalStorage cleanup
+            const storage = JSON.parse(localStorage.getItem('OceanTracers')) || {};
+            if (storage.messages) {
+                storage.messages = storage.messages.filter(msg => msg.date >= cutoffDate);
+                storage.lastUpdated = new Date().toISOString();
+                localStorage.setItem('OceanTracers', JSON.stringify(storage));
+            }
         }
-        
-        current[keys[keys.length - 1]] = value;
     }
-    
-    generateToken(username) {
-        return btoa(`${username}:${Date.now()}:${Math.random().toString(36).substr(2)}`);
+
+    // GDPR Compliance Methods
+    async deleteUserData(email) {
+        // Delete user
+        if (this.db) {
+            const transaction = this.db.transaction(['users', 'messages'], 'readwrite');
+            const userStore = transaction.objectStore('users');
+            const messageStore = transaction.objectStore('messages');
+            
+            // Delete from users
+            const userIndex = userStore.index('email');
+            const userRequest = userIndex.getKey(email);
+            
+            userRequest.onsuccess = () => {
+                if (userRequest.result) {
+                    userStore.delete(userRequest.result);
+                }
+            };
+            
+            // Delete related messages
+            const messageIndex = messageStore.index('email');
+            const messageRequest = messageIndex.getAllKeys(email);
+            
+            messageRequest.onsuccess = () => {
+                messageRequest.result.forEach(key => {
+                    messageStore.delete(key);
+                });
+            };
+            
+            return new Promise((resolve) => {
+                transaction.oncomplete = () => resolve(true);
+                transaction.onerror = () => resolve(false);
+            });
+        } else {
+            // LocalStorage implementation
+            const storage = JSON.parse(localStorage.getItem('OceanTracers')) || {};
+            
+            if (storage.users) {
+                storage.users = storage.users.filter(user => user.email !== email);
+            }
+            
+            if (storage.messages) {
+                storage.messages = storage.messages.filter(msg => msg.email !== email);
+            }
+            
+            localStorage.setItem('OceanTracers', JSON.stringify(storage));
+            return true;
+        }
     }
-    
-    calculateGrowthRate(subscribers) {
-        if (subscribers.length < 2) return 0;
+
+    async exportUserData(email) {
+        const user = await this.getUser(email);
+        const messages = await this.getMessages({
+            filter: msg => msg.email === email
+        });
         
-        const oneWeekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-        const recentSubscribers = subscribers.filter(sub => 
-            new Date(sub.subscribedAt) > oneWeekAgo
-        );
-        
-        const previousSubscribers = subscribers.length - recentSubscribers.length;
-        
-        if (previousSubscribers === 0) return 100;
-        
-        return ((recentSubscribers.length / previousSubscribers) * 100).toFixed(2);
-    }
-    
-    // Mock email sending methods
-    sendEmailNotification(submission) {
-        console.log('Email notification would be sent for submission:', submission);
-        // In production, integrate with an email service like SendGrid, Mailgun, etc.
-    }
-    
-    sendWelcomeEmail(email) {
-        console.log('Welcome email would be sent to:', email);
-        // In production, integrate with an email service
+        return {
+            user,
+            messages,
+            exportDate: new Date().toISOString(),
+            requestId: `GDPR-${Date.now()}`
+        };
     }
 }
 
 // Initialize database
-const oceanTracersDB = new OceanTracersDatabase();
+const oceanDB = new OceanTracersDatabase();
 
-// Export for use in main script
-window.OceanTracersDB = oceanTracersDB;
-
-// Auto-initialize content on page load if admin is logged in
-document.addEventListener('DOMContentLoaded', async () => {
-    const token = localStorage.getItem('adminToken');
-    
-    if (token) {
-        const validation = await oceanTracersDB.validateToken(token);
-        if (validation.isValid) {
-            // Admin is logged in, enable admin features
-            console.log('Admin session active');
-        }
-    }
-    
-    // Load saved content from database
-    const savedContent = await oceanTracersDB.getContent();
-    if (savedContent) {
-        applyContentToPage(savedContent);
-    }
-});
-
-// Helper function to apply content to page
-function applyContentToPage(content) {
-    // Apply hero content
-    const heroTitle = document.querySelector('[data-editable="hero-title"]');
-    const heroSubtitle = document.querySelector('[data-editable="hero-subtitle"]');
-    const heroSlogan = document.querySelector('[data-editable="hero-slogan"]');
-    
-    if (heroTitle) heroTitle.textContent = content.hero.title;
-    if (heroSubtitle) heroSubtitle.textContent = content.hero.subtitle;
-    if (heroSlogan) heroSlogan.textContent = content.hero.slogan;
-    
-    // Apply about content
-    const aboutElements = document.querySelectorAll('[data-editable^="about-text-"], [data-editable^="who-we-are-"]');
-    aboutElements.forEach(el => {
-        const key = el.getAttribute('data-editable');
-        const value = oceanTracersDB.getNestedValue(content, key.replace(/-/g, '.'));
-        if (value) el.textContent = value;
-    });
-    
-    // Apply values content
-    const valueElements = document.querySelectorAll('[data-editable$="-text"]');
-    valueElements.forEach(el => {
-        const key = el.getAttribute('data-editable');
-        const value = oceanTracersDB.getNestedValue(content.values, key.replace('-text', ''));
-        if (value) el.textContent = value;
-    });
-    
-    // Apply CEO content
-    const ceoBelief = document.querySelector('[data-editable="ceo-belief-1"]');
-    const ceoBio = document.querySelector('[data-editable="ceo-bio"]');
-    
-    if (ceoBelief) ceoBelief.textContent = content.ceo.belief;
-    if (ceoBio) ceoBio.textContent = content.ceo.bio;
-    
-    // Apply company info
-    const companyElements = document.querySelectorAll('[data-editable^="company-"]');
-    companyElements.forEach(el => {
-        const key = el.getAttribute('data-editable');
-        const value = oceanTracersDB.getNestedValue(content.company, key.replace('company-', ''));
-        if (value) el.textContent = value;
-    });
-    
-    // Apply images
-    const sanctuaryImg = document.getElementById('sanctuary-image');
-    const authorImg = document.getElementById('author-image');
-    
-    if (sanctuaryImg && content.images.sanctuary) {
-        sanctuaryImg.src = content.images.sanctuary;
-    }
-    
-    if (authorImg && content.images.author) {
-        authorImg.src = content.images.author;
-    }
-}
+// Export for use in other modules
+window.OceanTracersDB = oceanDB;

@@ -1,492 +1,633 @@
-// Main JavaScript for Ocean Tracers Net
+// OCEANS.JS - Main JavaScript File
+class OceanTracersApp {
+    constructor() {
+        this.init();
+    }
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize all components
-    initializeLoadingScreen();
-    initializeNavigation();
-    initializeCounters();
-    initializeContactForm();
-    initializeWeb3();
-    initializeAdminPanel();
-    initializeModal();
-    initializeScrollAnimations();
-    setCurrentYear();
-});
-
-// Loading Screen
-function initializeLoadingScreen() {
-    const loadingScreen = document.getElementById('loading-screen');
-    const loadingProgress = document.querySelector('.loading-progress');
-    
-    // Simulate loading progress
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += Math.random() * 15;
-        loadingProgress.style.width = `${Math.min(progress, 100)}%`;
+    init() {
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        if (progress >= 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-                loadingScreen.style.opacity = '0';
-                setTimeout(() => {
-                    loadingScreen.style.display = 'none';
-                    document.body.classList.add('loaded');
-                }, 500);
-            }, 500);
-        }
-    }, 200);
-}
+        // Initialize components
+        this.initLoadingScreen();
+        this.initNavigation();
+        this.initScrollAnimations();
+        this.initContactForm();
+        this.initCookieConsent();
+        this.initCounters();
+        this.initMobileMenu();
+        this.initLegalCompliance();
+    }
 
-// Navigation
-function initializeNavigation() {
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navLinks = document.querySelector('.nav-links');
-    const navItems = document.querySelectorAll('.nav-link');
-    
-    // Mobile menu toggle
-    mobileMenuBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        mobileMenuBtn.querySelector('i').classList.toggle('fa-bars');
-        mobileMenuBtn.querySelector('i').classList.toggle('fa-times');
-    });
-    
-    // Smooth scrolling for navigation links
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = item.getAttribute('href');
-            if (targetId.startsWith('#')) {
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    // Close mobile menu if open
-                    navLinks.classList.remove('active');
-                    mobileMenuBtn.querySelector('i').classList.add('fa-bars');
-                    mobileMenuBtn.querySelector('i').classList.remove('fa-times');
-                    
-                    // Scroll to target
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // Update active nav item
-                    navItems.forEach(nav => nav.classList.remove('active'));
-                    item.classList.add('active');
-                }
+    initLoadingScreen() {
+        const loadingScreen = document.getElementById('loading-screen');
+        const loadingProgress = document.querySelector('.loading-progress');
+        
+        // Simulate loading progress
+        let progress = 0;
+        const interval = setInterval(() => {
+            progress += Math.random() * 10;
+            loadingProgress.style.width = `${progress}%`;
+            
+            if (progress >= 100) {
+                clearInterval(interval);
+                setTimeout(() => {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                        this.animateHeroContent();
+                    }, 500);
+                }, 500);
             }
-        });
-    });
-    
-    // Update active nav on scroll
-    window.addEventListener('scroll', () => {
-        let current = '';
+        }, 100);
+    }
+
+    initNavigation() {
+        const header = document.querySelector('.sticky-header');
+        const navLinks = document.querySelectorAll('.nav-link');
         const sections = document.querySelectorAll('section[id]');
         
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop - 100;
-            const sectionHeight = section.clientHeight;
-            if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
-                current = section.getAttribute('id');
+        // Sticky header on scroll
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
             }
+            
+            // Update active navigation link
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
         });
         
-        navItems.forEach(item => {
-            item.classList.remove('active');
-            if (item.getAttribute('href') === `#${current}`) {
-                item.classList.add('active');
-            }
-        });
-    });
-}
-
-// Animated Counters
-function initializeCounters() {
-    const counters = document.querySelectorAll('[data-count]');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const counter = entry.target;
-                const target = parseInt(counter.getAttribute('data-count'));
-                const duration = 2000;
-                const step = target / (duration / 16);
-                let current = 0;
-                
-                const timer = setInterval(() => {
-                    current += step;
-                    if (current >= target) {
-                        counter.textContent = target.toLocaleString();
-                        clearInterval(timer);
-                    } else {
-                        counter.textContent = Math.floor(current).toLocaleString();
+        // Smooth scroll for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href');
+                if (targetId.startsWith('#')) {
+                    const targetSection = document.querySelector(targetId);
+                    if (targetSection) {
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
                     }
-                }, 16);
-                
-                observer.unobserve(counter);
+                }
+            });
+        });
+    }
+
+    initMobileMenu() {
+        const menuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuBtn.querySelector('i').classList.toggle('fa-bars');
+            menuBtn.querySelector('i').classList.toggle('fa-times');
+        });
+        
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-links') && !e.target.closest('.mobile-menu-btn')) {
+                navLinks.classList.remove('active');
+                menuBtn.querySelector('i').classList.add('fa-bars');
+                menuBtn.querySelector('i').classList.remove('fa-times');
             }
         });
-    }, { threshold: 0.5 });
-    
-    counters.forEach(counter => observer.observe(counter));
-}
+    }
 
-// Contact Form
-function initializeContactForm() {
-    const contactForm = document.getElementById('contact-form');
-    const successMessage = document.getElementById('form-success');
-    const newsletterForm = document.querySelector('.newsletter-form');
-    
-    if (contactForm) {
+    animateHeroContent() {
+        const heroContent = document.querySelector('.hero-content');
+        if (heroContent) {
+            heroContent.classList.add('fade-in');
+        }
+    }
+
+    initScrollAnimations() {
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                    
+                    // Animate counters if it's the impact section
+                    if (entry.target.id === 'impact') {
+                        this.animateCounters();
+                    }
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    }
+
+    initCounters() {
+        this.counterElements = document.querySelectorAll('[data-count]');
+    }
+
+    animateCounters() {
+        this.counterElements.forEach(element => {
+            const target = parseInt(element.getAttribute('data-count'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+            
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                element.textContent = Math.floor(current);
+            }, 16);
+        });
+    }
+
+    initContactForm() {
+        const contactForm = document.getElementById('contact-form');
+        if (!contactForm) return;
+        
         contactForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // Get form data
+            // Basic validation
             const formData = new FormData(contactForm);
             const data = Object.fromEntries(formData);
             
-            // Here you would typically send the data to your server
-            // For now, we'll simulate a successful submission
-            
-            // Show success message
-            successMessage.classList.remove('hidden');
-            successMessage.classList.add('fade-in');
-            
-            // Reset form
-            contactForm.reset();
-            
-            // Hide success message after 5 seconds
-            setTimeout(() => {
-                successMessage.classList.remove('fade-in');
-                setTimeout(() => {
-                    successMessage.classList.add('hidden');
-                }, 300);
-            }, 5000);
-        });
-    }
-    
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const email = newsletterForm.querySelector('input[type="email"]').value;
-            
-            // Here you would typically send the email to your newsletter service
-            alert('Thank you for subscribing to our newsletter!');
-            newsletterForm.reset();
-        });
-    }
-}
-
-// Web3 Integration
-function initializeWeb3() {
-    const connectWalletBtn = document.getElementById('connect-wallet');
-    const metamaskBtn = document.getElementById('metamask-btn');
-    const walletConnectBtn = document.getElementById('walletconnect-btn');
-    const walletModal = document.getElementById('wallet-modal');
-    const closeModal = document.querySelector('.close-modal');
-    const web3Status = document.getElementById('web3-status');
-    
-    let web3;
-    
-    // Check if Web3 is available
-    if (typeof window.ethereum !== 'undefined') {
-        web3 = new Web3(window.ethereum);
-        updateWeb3Status('detected');
-    } else {
-        updateWeb3Status('not-detected');
-    }
-    
-    // Modal handlers
-    if (connectWalletBtn) {
-        connectWalletBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            walletModal.style.display = 'flex';
-        });
-    }
-    
-    if (closeModal) {
-        closeModal.addEventListener('click', () => {
-            walletModal.style.display = 'none';
-        });
-    }
-    
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-        if (e.target === walletModal) {
-            walletModal.style.display = 'none';
-        }
-    });
-    
-    // Wallet connection handlers
-    if (metamaskBtn) {
-        metamaskBtn.addEventListener('click', async () => {
-            if (typeof window.ethereum !== 'undefined') {
-                try {
-                    // Request account access
-                    const accounts = await window.ethereum.request({ 
-                        method: 'eth_requestAccounts' 
-                    });
-                    
-                    // Update UI
-                    updateWeb3Status('connected', accounts[0]);
-                    walletModal.style.display = 'none';
-                    
-                    // Store connection in localStorage
-                    localStorage.setItem('web3Connected', 'true');
-                    localStorage.setItem('web3Account', accounts[0]);
-                    
-                } catch (error) {
-                    console.error('Error connecting to MetaMask:', error);
-                    updateWeb3Status('error', error.message);
-                }
-            } else {
-                updateWeb3Status('not-detected');
-            }
-        });
-    }
-    
-    if (walletConnectBtn) {
-        walletConnectBtn.addEventListener('click', () => {
-            // Implement WalletConnect integration here
-            alert('WalletConnect integration would be implemented here');
-        });
-    }
-    
-    // Update Web3 status display
-    function updateWeb3Status(status, account = null) {
-        if (!web3Status) return;
-        
-        let html = '';
-        
-        switch(status) {
-            case 'connected':
-                html = `
-                    <div class="status-indicator connected"></div>
-                    <span>Connected: ${account.substring(0, 6)}...${account.substring(account.length - 4)}</span>
-                `;
-                break;
-            case 'detected':
-                html = `
-                    <div class="status-indicator disconnected"></div>
-                    <span>Web3 Detected - Connect Wallet</span>
-                `;
-                break;
-            case 'not-detected':
-                html = `
-                    <div class="status-indicator disconnected"></div>
-                    <span>Web3 Not Detected</span>
-                `;
-                break;
-            case 'error':
-                html = `
-                    <div class="status-indicator disconnected"></div>
-                    <span>Connection Error</span>
-                `;
-                break;
-        }
-        
-        web3Status.innerHTML = html;
-    }
-    
-    // Check for existing connection on page load
-    if (localStorage.getItem('web3Connected') === 'true') {
-        const storedAccount = localStorage.getItem('web3Account');
-        updateWeb3Status('connected', storedAccount);
-    }
-}
-
-// Admin Panel
-function initializeAdminPanel() {
-    const adminToggle = document.getElementById('admin-toggle');
-    const adminPanel = document.getElementById('admin-panel');
-    const closeAdmin = document.getElementById('close-admin');
-    const saveContentBtn = document.getElementById('save-content');
-    const resetContentBtn = document.getElementById('reset-content');
-    const updateSanctuaryImageBtn = document.getElementById('update-sanctuary-image');
-    const updateAuthorImageBtn = document.getElementById('update-author-image');
-    
-    // Toggle admin panel
-    if (adminToggle) {
-        adminToggle.addEventListener('click', () => {
-            adminPanel.classList.toggle('active');
-            loadCurrentContent();
-        });
-    }
-    
-    if (closeAdmin) {
-        closeAdmin.addEventListener('click', () => {
-            adminPanel.classList.remove('active');
-        });
-    }
-    
-    // Load current content into admin panel
-    function loadCurrentContent() {
-        // Load editable text content
-        document.querySelectorAll('[data-editable]').forEach(element => {
-            const target = element.getAttribute('data-editable');
-            const input = document.querySelector(`[data-target="${target}"]`);
-            if (input) {
-                if (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA') {
-                    input.value = element.textContent;
-                }
-            }
-        });
-        
-        // Load current image URLs
-        const sanctuaryImg = document.getElementById('sanctuary-image');
-        const authorImg = document.getElementById('author-image');
-        
-        if (sanctuaryImg) {
-            document.getElementById('edit-sanctuary-image').value = sanctuaryImg.src;
-        }
-        
-        if (authorImg) {
-            document.getElementById('edit-author-image').value = authorImg.src;
-        }
-    }
-    
-    // Save content
-    if (saveContentBtn) {
-        saveContentBtn.addEventListener('click', () => {
-            // Save text content
-            document.querySelectorAll('[data-editable]').forEach(element => {
-                const target = element.getAttribute('data-editable');
-                const input = document.querySelector(`[data-target="${target}"]`);
-                if (input && (input.tagName === 'INPUT' || input.tagName === 'TEXTAREA')) {
-                    element.textContent = input.value;
-                    
-                    // Save to localStorage
-                    localStorage.setItem(`content_${target}`, input.value);
-                }
-            });
-            
-            // Save images
-            const sanctuaryImageUrl = document.getElementById('edit-sanctuary-image').value;
-            const authorImageUrl = document.getElementById('edit-author-image').value;
-            
-            const sanctuaryImg = document.getElementById('sanctuary-image');
-            const authorImg = document.getElementById('author-image');
-            
-            if (sanctuaryImg && sanctuaryImageUrl) {
-                sanctuaryImg.src = sanctuaryImageUrl;
-                localStorage.setItem('image_sanctuary', sanctuaryImageUrl);
+            // Validate required fields
+            if (!data.name || !data.email || !data.message) {
+                this.showNotification('Please fill in all required fields', 'error');
+                return;
             }
             
-            if (authorImg && authorImageUrl) {
-                authorImg.src = authorImageUrl;
-                localStorage.setItem('image_author', authorImageUrl);
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(data.email)) {
+                this.showNotification('Please enter a valid email address', 'error');
+                return;
             }
             
-            // Show success message
-            alert('Content saved successfully!');
-        });
-    }
-    
-    // Reset content
-    if (resetContentBtn) {
-        resetContentBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset all content to default?')) {
-                // Clear localStorage
-                localStorage.clear();
+            // Show loading state
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            submitBtn.disabled = true;
+            
+            try {
+                // Simulate API call - Replace with actual endpoint
+                await new Promise(resolve => setTimeout(resolve, 1500));
                 
-                // Reload page to show default content
-                location.reload();
+                // Show success message
+                this.showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+                
+                // Reset form
+                contactForm.reset();
+                
+            } catch (error) {
+                this.showNotification('Failed to send message. Please try again.', 'error');
+                console.error('Contact form error:', error);
+            } finally {
+                // Reset button state
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
         });
     }
-    
-    // Update images
-    if (updateSanctuaryImageBtn) {
-        updateSanctuaryImageBtn.addEventListener('click', () => {
-            const url = document.getElementById('edit-sanctuary-image').value;
-            const img = document.getElementById('sanctuary-image');
-            if (img && url) {
-                img.src = url;
-                localStorage.setItem('image_sanctuary', url);
-            }
-        });
-    }
-    
-    if (updateAuthorImageBtn) {
-        updateAuthorImageBtn.addEventListener('click', () => {
-            const url = document.getElementById('edit-author-image').value;
-            const img = document.getElementById('author-image');
-            if (img && url) {
-                img.src = url;
-                localStorage.setItem('image_author', url);
-            }
-        });
-    }
-    
-    // Load saved content on page load
-    window.addEventListener('load', () => {
-        // Load saved text content
-        document.querySelectorAll('[data-editable]').forEach(element => {
-            const key = element.getAttribute('data-editable');
-            const saved = localStorage.getItem(`content_${key}`);
-            if (saved) {
-                element.textContent = saved;
-            }
-        });
-        
-        // Load saved images
-        const savedSanctuaryImg = localStorage.getItem('image_sanctuary');
-        const savedAuthorImg = localStorage.getItem('image_author');
-        
-        if (savedSanctuaryImg) {
-            const img = document.getElementById('sanctuary-image');
-            if (img) img.src = savedSanctuaryImg;
-        }
-        
-        if (savedAuthorImg) {
-            const img = document.getElementById('author-image');
-            if (img) img.src = savedAuthorImg;
-        }
-    });
-}
 
-// Modal System
-function initializeModal() {
-    const modals = document.querySelectorAll('.modal');
-    
-    // Close modals with Escape key
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            modals.forEach(modal => {
-                modal.style.display = 'none';
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i>
+            <span>${message}</span>
+            <button class="notification-close">&times;</button>
+        `;
+        
+        // Add styles if not already added
+        if (!document.querySelector('#notification-styles')) {
+            const styles = document.createElement('style');
+            styles.id = 'notification-styles';
+            styles.textContent = `
+                .notification {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 1rem 1.5rem;
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    z-index: 9999;
+                    animation: slideIn 0.3s ease;
+                    max-width: 400px;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+                }
+                .notification-success {
+                    background: linear-gradient(135deg, #4ECDC4, #006994);
+                    color: white;
+                }
+                .notification-error {
+                    background: linear-gradient(135deg, #FF6B6B, #FF9E6B);
+                    color: white;
+                }
+                .notification-close {
+                    background: none;
+                    border: none;
+                    color: inherit;
+                    font-size: 1.5rem;
+                    cursor: pointer;
+                    margin-left: auto;
+                }
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+            `;
+            document.head.appendChild(styles);
+        }
+        
+        // Add to page
+        document.body.appendChild(notification);
+        
+        // Close button functionality
+        notification.querySelector('.notification-close').addEventListener('click', () => {
+            notification.style.animation = 'slideOut 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        });
+        
+        // Auto-remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }
+        }, 5000);
+    }
+
+    initCookieConsent() {
+        const cookieBanner = document.createElement('div');
+        cookieBanner.id = 'cookie-banner';
+        cookieBanner.className = 'cookie-banner';
+        cookieBanner.innerHTML = `
+            <div class="cookie-content">
+                <p>
+                    We use cookies to enhance your experience. By continuing, you agree to our 
+                    <a href="#privacy-policy" onclick="event.preventDefault(); showPrivacyModal()">Privacy Policy</a> and 
+                    <a href="#terms" onclick="event.preventDefault(); showTermsModal()">Terms of Service</a>.
+                </p>
+                <div class="cookie-buttons">
+                    <button id="accept-cookies" class="btn btn-primary">Accept All</button>
+                    <button id="customize-cookies" class="btn btn-secondary">Customize</button>
+                    <button id="reject-cookies" class="btn btn-secondary">Reject</button>
+                </div>
+            </div>
+        `;
+        
+        // Check if consent already given
+        if (!localStorage.getItem('cookie-consent')) {
+            setTimeout(() => {
+                document.body.appendChild(cookieBanner);
+                setTimeout(() => cookieBanner.classList.add('show'), 100);
+                
+                // Handle cookie choices
+                document.getElementById('accept-cookies').addEventListener('click', () => {
+                    localStorage.setItem('cookie-consent', 'all');
+                    cookieBanner.classList.remove('show');
+                    setTimeout(() => cookieBanner.remove(), 300);
+                });
+                
+                document.getElementById('reject-cookies').addEventListener('click', () => {
+                    localStorage.setItem('cookie-consent', 'none');
+                    cookieBanner.classList.remove('show');
+                    setTimeout(() => cookieBanner.remove(), 300);
+                });
+                
+                document.getElementById('customize-cookies').addEventListener('click', () => {
+                    this.showCookieSettings();
+                });
+            }, 2000);
+        }
+    }
+
+    showCookieSettings() {
+        // Create cookie settings modal
+        const modal = document.createElement('div');
+        modal.className = 'cookie-modal';
+        modal.innerHTML = `
+            <div class="modal-content">
+                <h3>Cookie Preferences</h3>
+                <p>Choose which cookies you want to accept:</p>
+                
+                <div class="cookie-option">
+                    <input type="checkbox" id="essential-cookies" checked disabled>
+                    <label for="essential-cookies">
+                        <strong>Essential Cookies</strong>
+                        <span>Required for basic site functionality</span>
+                    </label>
+                </div>
+                
+                <div class="cookie-option">
+                    <input type="checkbox" id="analytics-cookies">
+                    <label for="analytics-cookies">
+                        <strong>Analytics Cookies</strong>
+                        <span>Help us improve our website</span>
+                    </label>
+                </div>
+                
+                <div class="cookie-option">
+                    <input type="checkbox" id="marketing-cookies">
+                    <label for="marketing-cookies">
+                        <strong>Marketing Cookies</strong>
+                        <span>For personalized content</span>
+                    </label>
+                </div>
+                
+                <div class="modal-buttons">
+                    <button id="save-preferences" class="btn btn-primary">Save Preferences</button>
+                    <button id="cancel-preferences" class="btn btn-secondary">Cancel</button>
+                </div>
+            </div>
+        `;
+        
+        // Add styles
+        const styles = document.createElement('style');
+        styles.textContent = `
+            .cookie-modal {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1002;
+            }
+            .cookie-modal .modal-content {
+                background: white;
+                padding: 2rem;
+                border-radius: 12px;
+                max-width: 500px;
+                width: 90%;
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            .cookie-option {
+                display: flex;
+                align-items: flex-start;
+                gap: 1rem;
+                margin: 1rem 0;
+                padding: 1rem;
+                background: #f8f9fa;
+                border-radius: 8px;
+            }
+            .cookie-option label {
+                flex: 1;
+                cursor: pointer;
+            }
+            .cookie-option label span {
+                display: block;
+                font-size: 0.9rem;
+                color: #666;
+                margin-top: 0.25rem;
+            }
+            .modal-buttons {
+                display: flex;
+                gap: 1rem;
+                margin-top: 2rem;
+                justify-content: flex-end;
+            }
+        `;
+        document.head.appendChild(styles);
+        
+        document.body.appendChild(modal);
+        
+        // Handle modal actions
+        document.getElementById('save-preferences').addEventListener('click', () => {
+            const analytics = document.getElementById('analytics-cookies').checked;
+            const marketing = document.getElementById('marketing-cookies').checked;
+            
+            localStorage.setItem('cookie-consent', JSON.stringify({
+                analytics,
+                marketing,
+                essential: true
+            }));
+            
+            modal.remove();
+            styles.remove();
+            
+            const cookieBanner = document.getElementById('cookie-banner');
+            if (cookieBanner) {
+                cookieBanner.classList.remove('show');
+                setTimeout(() => cookieBanner.remove(), 300);
+            }
+            
+            this.showNotification('Cookie preferences saved', 'success');
+        });
+        
+        document.getElementById('cancel-preferences').addEventListener('click', () => {
+            modal.remove();
+            styles.remove();
+        });
+        
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.remove();
+                styles.remove();
+            }
+        });
+    }
+
+    initLegalCompliance() {
+        // Add privacy policy modal
+        const privacyModal = document.createElement('div');
+        privacyModal.id = 'privacy-modal';
+        privacyModal.className = 'legal-modal';
+        privacyModal.innerHTML = `
+            <div class="modal-content">
+                <h2>Privacy Policy</h2>
+                <div class="modal-body">
+                    <h3>Data Protection Commitment</h3>
+                    <p>At Ocean Tracers Net, we are committed to protecting your privacy and personal data in compliance with:</p>
+                    <ul>
+                        <li>Uganda Data Protection Act, 2019</li>
+                        <li>GDPR for European users</li>
+                        <li>California Consumer Privacy Act (CCPA)</li>
+                    </ul>
+                    
+                    <h3>Information We Collect</h3>
+                    <p>We collect only necessary information for providing our services:</p>
+                    <ul>
+                        <li>Contact information when you reach out to us</li>
+                        <li>Usage data for improving our website</li>
+                        <li>Marine conservation data (non-personal)</li>
+                    </ul>
+                    
+                    <h3>Your Rights</h3>
+                    <p>You have the right to:</p>
+                    <ul>
+                        <li>Access your personal data</li>
+                        <li>Request correction of inaccurate data</li>
+                        <li>Request deletion of your data</li>
+                        <li>Opt-out of marketing communications</li>
+                    </ul>
+                    
+                    <h3>Contact Our Data Protection Officer</h3>
+                    <p>Email: dpo@oceantracers.net</p>
+                    <p>Phone: +256 774 380 011</p>
+                </div>
+                <button class="close-modal btn btn-primary">Close</button>
+            </div>
+        `;
+        
+        // Add legal modal styles
+        const legalStyles = document.createElement('style');
+        legalStyles.textContent = `
+            .legal-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.8);
+                z-index: 1003;
+                justify-content: center;
+                align-items: center;
+                padding: 2rem;
+            }
+            .legal-modal.active {
+                display: flex;
+            }
+            .legal-modal .modal-content {
+                background: white;
+                border-radius: 12px;
+                max-width: 800px;
+                width: 100%;
+                max-height: 80vh;
+                overflow-y: auto;
+                padding: 2rem;
+            }
+            .legal-modal h2 {
+                color: var(--deep-blue);
+                margin-bottom: 1.5rem;
+                padding-bottom: 1rem;
+                border-bottom: 2px solid var(--ocean-blue);
+            }
+            .legal-modal h3 {
+                color: var(--ocean-blue);
+                margin: 1.5rem 0 0.5rem;
+            }
+            .legal-modal ul {
+                padding-left: 1.5rem;
+                margin: 1rem 0;
+            }
+            .legal-modal li {
+                margin-bottom: 0.5rem;
+            }
+            .close-modal {
+                margin-top: 2rem;
+            }
+        `;
+        
+        document.head.appendChild(legalStyles);
+        document.body.appendChild(privacyModal);
+        
+        // Add legal link handlers
+        document.querySelectorAll('a[href="#privacy-policy"]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                privacyModal.classList.add('active');
             });
-        }
-    });
-}
-
-// Scroll Animations
-function initializeScrollAnimations() {
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('fade-in');
+        });
+        
+        // Close modal
+        privacyModal.querySelector('.close-modal').addEventListener('click', () => {
+            privacyModal.classList.remove('active');
+        });
+        
+        // Close on outside click
+        privacyModal.addEventListener('click', (e) => {
+            if (e.target === privacyModal) {
+                privacyModal.classList.remove('active');
             }
         });
-    }, observerOptions);
-    
-    // Observe elements for animation
-    const animatedElements = document.querySelectorAll('.service-card, .stat-item, .tech-item, .testimonial-card');
-    animatedElements.forEach(el => observer.observe(el));
-}
+    }
 
-// Set current year in footer
-function setCurrentYear() {
-    const yearElement = document.getElementById('year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
+    // Performance optimization
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
     }
 }
 
-// Initialize animations on load
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');
+// Initialize app when DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+    window.oceanTracersApp = new OceanTracersApp();
 });
+
+// Global functions for legal modals
+window.showPrivacyModal = function() {
+    const modal = document.getElementById('privacy-modal');
+    if (modal) modal.classList.add('active');
+};
+
+window.showTermsModal = function() {
+    // Similar implementation for terms modal
+    alert('Terms of Service modal would open here. Implementation similar to privacy modal.');
+};
+
+// Service Worker for PWA capabilities
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(error => {
+            console.log('Service Worker registration failed:', error);
+        });
+    });
+}
