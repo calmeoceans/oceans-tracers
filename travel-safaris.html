@@ -3,289 +3,505 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ocean Tracers Net - Travel & Safaris</title>
-     <link rel="stylesheet" href="oceans.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Ocean Tracers Net - Travel & Safaris for marine-wildlife enthusiasts and conservationists">
+    <meta name="keywords" content="marine safaris, ocean adventures, wildlife tours, conservation travel, eco-tourism">
+    <meta name="author" content="Ocean Tracers Net Co.">
+    <title>Travel & Safaris | Ocean Tracers Net - Networks of Tomorrow</title>
+    
+    <!-- Ocean Theme Colors -->
     <style>
+        :root {
+            --primary-blue: #006994;
+            --accent-teal: #4ECDC4;
+            --accent-coral: #FF6B6B;
+            --dark-blue: #003B5C;
+            --light-bg: #F5F9FC;
+            --text-dark: #2C3E50;
+            --text-light: #FFFFFF;
+            --card-shadow: 0 4px 6px rgba(0, 105, 148, 0.1);
+        }
+    </style>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌊</text></svg>">
+    
+    <style>
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary-blue: #1a5f7a;
-            --secondary-blue: #57c5b6;
-            --accent-teal: #159895;
-            --light-blue: #a2ff86;
-            --dark-blue: #002b5b;
-            --text-light: #f5f5f5;
-            --text-dark: #333;
         }
 
         body {
-            background-color: #f0f8ff;
-            color: var(--text-dark);
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
+            color: var(--text-dark);
+            background-color: var(--light-bg);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-logo h2 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 20px;
+            font-size: 2.5rem;
+        }
+
+        .slogan {
+            font-style: italic;
+            color: var(--accent-teal);
+            margin-top: 5px;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 30px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--accent-teal);
+            animation: loading 2s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
 
         /* Header Styles */
-        header {
-            background: linear-gradient(to right, var(--dark-blue), var(--primary-blue));
-            color: var(--text-light);
-            padding: 1rem 2rem;
-            position: sticky;
+        .sticky-header {
+            position: fixed;
             top: 0;
-            z-index: 100;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 105, 148, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
         }
 
-        .header-container {
+        .sticky-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1400px;
-            margin: 0 auto;
+            padding: 15px 20px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            cursor: pointer;
         }
 
-        .logo i {
-            font-size: 1.8rem;
-            color: var(--light-blue);
+        .logo-mark {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
         }
 
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
+        .wave-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            animation: wave 2s ease-in-out infinite;
         }
 
-        .logo span {
-            color: var(--light-blue);
+        .wave-dot:nth-child(1) { top: 5px; left: 5px; animation-delay: 0s; }
+        .wave-dot:nth-child(2) { top: 5px; left: 16px; animation-delay: 0.2s; }
+        .wave-dot:nth-child(3) { top: 5px; left: 27px; animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
-        nav ul {
+        .logo-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .logo-text .slogan {
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+        }
+
+        .nav-links {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 30px;
         }
 
-        nav a {
-            color: var(--text-light);
+        .nav-link {
             text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: color 0.3s;
-            padding: 0.5rem 0;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 5px 0;
             position: relative;
+            transition: color 0.3s ease;
         }
 
-        nav a:hover {
-            color: var(--light-blue);
-        }
-
-        nav a.active {
-            color: var(--light-blue);
-        }
-
-        nav a.active::after {
+        .nav-link::after {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 3px;
-            background-color: var(--light-blue);
-            bottom: -5px;
+            bottom: 0;
             left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-teal);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-blue);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            cursor: pointer;
         }
 
         /* Hero Section */
         .hero {
-            background: linear-gradient(rgba(0, 43, 91, 0.8), rgba(26, 95, 122, 0.9)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80');
+            position: relative;
+            min-height: 80vh;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-top: 70px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80') no-repeat center center;
             background-size: cover;
-            background-position: center;
-            color: var(--text-light);
+            opacity: 0.2;
+        }
+
+        .wave-animation {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="white"/></svg>') repeat-x;
+            opacity: 0.1;
+            animation: waveMove 20s linear infinite;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
             text-align: center;
-            padding: 8rem 2rem;
-            margin-bottom: 3rem;
-        }
-
-        .hero-content h2 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-
-        .hero-content p {
-            font-size: 1.4rem;
             max-width: 800px;
-            margin: 0 auto 2rem;
-            color: rgba(255, 255, 255, 0.9);
+            margin: 0 auto;
+            padding: 40px 20px;
         }
 
-        .cta-button {
-            display: inline-block;
-            background-color: var(--light-blue);
-            color: var(--dark-blue);
-            padding: 1rem 2.5rem;
-            border-radius: 50px;
-            text-decoration: none;
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
             font-weight: 700;
-            font-size: 1.2rem;
-            transition: all 0.3s;
+            margin-bottom: 10px;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--accent-teal);
+            margin-bottom: 30px;
+        }
+
+        .hero-story {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
             border: none;
             cursor: pointer;
         }
 
-        .cta-button:hover {
-            background-color: #8ceb70;
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        .btn-primary {
+            background: var(--accent-coral);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
         }
 
         /* Section Styles */
-        .section-title {
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .section-header {
             text-align: center;
-            margin-bottom: 3rem;
-            color: var(--dark-blue);
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: var(--accent-teal);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 2.5rem;
-            position: relative;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
         }
 
-        .section-title::after {
-            content: '';
-            position: absolute;
-            width: 100px;
-            height: 4px;
-            background-color: var(--secondary-blue);
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .container {
-            max-width: 1400px;
+        .section-story {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            max-width: 600px;
             margin: 0 auto;
-            padding: 0 2rem;
+            opacity: 0.8;
         }
 
-        /* Featured Safaris */
+        /* Safari Grid */
         .safari-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-bottom: 5rem;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
         }
 
         .safari-card {
-            background-color: white;
-            border-radius: 10px;
+            background: white;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
         }
 
         .safari-card:hover {
             transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 20px 40px rgba(0, 105, 148, 0.15);
+            border-color: var(--accent-teal);
         }
 
         .safari-image {
             height: 250px;
             width: 100%;
             object-fit: cover;
+            display: block;
         }
 
         .safari-content {
-            padding: 1.5rem;
+            padding: 25px;
         }
 
         .safari-content h3 {
-            color: var(--dark-blue);
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+            font-size: 1.4rem;
         }
 
         .safari-location {
-            color: var(--primary-blue);
+            color: var(--accent-teal);
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 15px;
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+
+        .safari-location i {
+            color: var(--accent-teal);
         }
 
         .safari-description {
-            margin-bottom: 1.5rem;
-            color: #555;
+            color: var(--text-dark);
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
 
         .safari-details {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 1.5rem;
+            margin-bottom: 20px;
             color: var(--primary-blue);
             font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .safari-details span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .safari-price {
-            font-size: 1.5rem;
-            color: var(--accent-teal);
+            font-size: 1.8rem;
+            color: var(--accent-coral);
             font-weight: 700;
+            margin-bottom: 20px;
         }
 
         /* Conservation Section */
         .conservation {
-            background-color: var(--dark-blue);
-            color: var(--text-light);
-            padding: 5rem 2rem;
-            margin: 5rem 0;
+            background: linear-gradient(135deg, var(--dark-blue) 0%, var(--primary-blue) 100%);
+            color: white;
+            padding: 100px 0;
+            margin: 80px 0;
         }
 
         .conservation-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
         }
 
         .conservation-content h2 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 2.5rem;
-            margin-bottom: 2rem;
+            margin-bottom: 30px;
         }
 
         .conservation-content p {
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin-bottom: 2rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
             opacity: 0.9;
         }
 
         /* Booking Section */
         .booking-section {
-            padding: 5rem 0;
-            background-color: #e8f4ff;
+            background-color: #f8fafc;
         }
 
         .booking-container {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: var(--card-shadow);
+            margin-top: 30px;
             max-width: 800px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 3rem;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .booking-form {
             display: flex;
             flex-direction: column;
-            gap: 1.5rem;
+            gap: 20px;
         }
 
         .form-group {
@@ -294,373 +510,668 @@
         }
 
         .form-group label {
-            margin-bottom: 0.5rem;
+            margin-bottom: 8px;
             font-weight: 600;
-            color: var(--dark-blue);
+            color: var(--primary-blue);
         }
 
-        .form-group input, .form-group select {
-            padding: 0.8rem 1rem;
-            border: 2px solid #ddd;
-            border-radius: 5px;
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             font-size: 1rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s ease;
         }
 
-        .form-group input:focus, .form-group select:focus {
-            border-color: var(--secondary-blue);
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
             outline: none;
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
         }
 
         .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1.5rem;
+            gap: 20px;
         }
 
-        /* Footer */
-        footer {
-            background-color: var(--dark-blue);
-            color: var(--text-light);
-            padding: 4rem 2rem 2rem;
+        textarea {
+            min-height: 120px;
+            resize: vertical;
         }
 
-        .footer-container {
-            max-width: 1400px;
-            margin: 0 auto;
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 105, 148, 0.3);
+        }
+
+        /* Newsletter Styles */
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .newsletter-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
+        }
+
+        .newsletter-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--dark-blue);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
+        .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
+            gap: 40px;
+            margin-bottom: 40px;
         }
 
-        .footer-column h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: var(--light-blue);
+        .footer-brand h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
 
-        .footer-column ul {
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .footer-story {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-links h4,
+        .footer-connect h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--accent-teal);
+        }
+
+        .footer-links ul {
             list-style: none;
         }
 
-        .footer-column ul li {
-            margin-bottom: 0.8rem;
+        .footer-links li {
+            margin-bottom: 10px;
         }
 
-        .footer-column ul li a {
-            color: rgba(255, 255, 255, 0.8);
+        .footer-links a {
+            color: white;
             text-decoration: none;
-            transition: color 0.3s;
+            opacity: 0.8;
+            transition: all 0.3s ease;
         }
 
-        .footer-column ul li a:hover {
-            color: var(--light-blue);
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent-teal);
         }
 
-        .social-icons {
+        .social-links {
             display: flex;
-            gap: 1rem;
-            margin-top: 1.5rem;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .social-icons a {
+        .social-links a {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             width: 40px;
             height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 50%;
             color: white;
-            text-decoration: none;
-            transition: background-color 0.3s;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
         }
 
-        .social-icons a:hover {
-            background-color: var(--secondary-blue);
+        .social-links a:hover {
+            background: var(--accent-teal);
+            transform: translateY(-3px);
         }
 
-        .copyright {
-            text-align: center;
-            margin-top: 4rem;
-            padding-top: 2rem;
+        .contact-info p {
+            margin-bottom: 10px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            color: var(--accent-teal);
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
 
-        /* Responsive Styles */
+        .copyright p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-tagline {
+            color: var(--accent-teal);
+            font-style: italic;
+        }
+
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .legal-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .legal-links a:hover {
+            opacity: 1;
+            color: var(--accent-teal);
+        }
+
+        /* Responsive Design */
         @media (max-width: 992px) {
-            .hero-content h2 {
+            .hero-title {
                 font-size: 2.8rem;
             }
             
-            .form-row {
-                grid-template-columns: 1fr;
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .conservation-content h2 {
+                font-size: 2.2rem;
             }
         }
 
         @media (max-width: 768px) {
-            .header-container {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
                 flex-direction: column;
-                gap: 1rem;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             }
             
-            nav ul {
-                gap: 1rem;
+            .nav-links.active {
+                display: flex;
             }
             
-            .hero {
-                padding: 6rem 1rem;
+            .mobile-menu-btn {
+                display: block;
             }
             
-            .hero-content h2 {
+            .hero-title {
                 font-size: 2.2rem;
             }
             
-            .section-title {
-                font-size: 2rem;
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
             }
             
-            .booking-container {
-                padding: 2rem;
-            }
-        }
-
-        @media (max-width: 576px) {
-            nav ul {
-                flex-wrap: wrap;
-                justify-content: center;
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
             }
             
             .safari-grid {
                 grid-template-columns: 1fr;
             }
             
-            .hero-content h2 {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .booking-container {
+                padding: 25px;
+            }
+            
+            .newsletter-form {
+                flex-direction: column;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
                 font-size: 1.8rem;
             }
             
-            .hero-content p {
-                font-size: 1.1rem;
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .conservation-content h2 {
+                font-size: 1.8rem;
+            }
+            
+            .booking-container {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <i class="fas fa-water"></i>
-                <h1>Ocean Tracers Net <span>Networks of Tomorrow</span></h1>
-                
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <svg width="100" height="100" viewBox="0 0 100 100" class="logo-svg">
+                    <path d="M50,10 Q70,30 50,50 Q30,70 50,90" class="wave-path" fill="none" stroke="white" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="5" fill="var(--accent-teal)"/>
+                    <path d="M30,30 L70,70 M70,30 L30,70" stroke="white" stroke-width="1.5"/>
+                </svg>
+                <h2>Ocean Tracers Net</h2>
+                <p class="slogan">Where Waves Whisper Wisdom</p>
+            </div>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-mark">
+                    <div class="wave-dot"></div>
+                    <div class="wave-dot"></div>
+                    <div class="wave-dot"></div>
+                </div>
+                <div class="logo-text">
+                    <h1>Ocean Tracers Net</h1>
+                    <p class="slogan">Where Waves Whisper Wisdom</p>
+                </div>
             </div>
             <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#" class="active">Travel & Safaris</a></li>
-                    <li><a href="#">Research</a></li>
-                    <li><a href="#">Conservation</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="travel-safaris.html" class="nav-link active">Travel & Safaris</a></li>
+                    <li><a href="it-consulting.html" class="nav-link">IT Consulting</a></li>
+                    <li><a href="ecommerce.html" class="nav-link">E-commerce</a></li>
+                    <li><a href="outsourcing.html" class="nav-link">Outsourcing</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
                 </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
             </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-content">
-            <h2>Ocean Adventures & Marine-Wildlife Safaris</h2>
-            <p>Explore the world's most spectacular marine environments with expert guides. From explorations to expeditions, experience the networks of tomorrow like never before.</p>
-            <a href="#booking" class="cta-button">Book Your Adventure</a>
+        <div class="hero-background"></div>
+        <div class="wave-animation">
+            <div class="wave" style="animation-delay: 0s"></div>
+            <div class="wave" style="animation-delay: 0.5s"></div>
+            <div class="wave" style="animation-delay: 1s"></div>
         </div>
-    </section>
-
-    <!-- Featured Safaris -->
-    <section class="container">
-        <h2 class="section-title">Featured Ocean Safaris</h2>
-        <div class="safari-grid">
-            <!-- Safari 1 -->
-            <div class="safari-card">
-                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Great Barrier Reef Expedition" class="safari-image">
-                <div class="safari-content">
-                    <h3>White-water rafting</h3>
-                    <div class="safari-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Jinja " The Adventure Capital"</span>
-                    </div>
-                    <p class="safari-description">A 3-day immersive experience exploring the Source of the Nile. Includes kayaking, scuba diving, bungee jumping and marine biology workshops.</p>
-                    <div class="safari-details">
-                        <span><i class="far fa-calendar"></i> 3 Days</span>
-                        <span><i class="fas fa-users"></i> Small Groups</span>
-                    </div>
-                    <div class="safari-price">$1,599</div>
-                    <a href="#booking" class="cta-button" style="padding: 0.8rem 1.5rem; font-size: 1rem;">Book Now</a>
-                </div>
-            </div>
-
-            <!-- Safari 2 -->
-            <div class="safari-card">
-                <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Galapagos Islands Discovery" class="safari-image">
-                <div class="safari-content">
-                    <h3>Chimpanzee Trekking</h3>
-                    <div class="safari-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Kibale Forest National Park "The Primate Capital of the World"</span>
-                    </div>
-                    <p class="safari-description">Exploring the unique top destination for Chimpanzee trekking with a high concentration of Chimpanzees and 12 other primate species, Guided nature walks are also available</p>
-                    <div class="safari-details">
-                        <span><i class="far fa-calendar"></i> 5 Days</span>
-                        <span><i class="fas fa-users"></i> Expert Guides</span>
-                    </div>
-                    <div class="safari-price">$2,350</div>
-                    <a href="#booking" class="cta-button" style="padding: 0.8rem 1.5rem; font-size: 1rem;">Book Now</a>
-                </div>
-            </div>
-
-            <!-- Safari 3 -->
-            <div class="safari-card">
-                <img src="https://images.unsplash.com/photo-1550340499-a6c60fc8287c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Arctic Whale Watching" class="safari-image">
-                <div class="safari-content">
-                    <h3>Canoeing</h3>
-                    <div class="safari-location">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <span>Lake Bunyonyi "One of Africa's deepest and most beautiful lakes"</span>
-                    </div>
-                    <p class="safari-description">Expedition to witness the most beautiful lakes dotted with 29 islands. Includes nature walks and bird watching in a tranquil setting.</p>
-                    <div class="safari-details">
-                        <span><i class="far fa-calendar"></i> 5 Days</span>
-                        <span><i class="fas fa-users"></i> Beautiful Spots</span>
-                    </div>
-                    <div class="safari-price">$2,190</div>
-                    <a href="#booking" class="cta-button" style="padding: 0.8rem 1.5rem; font-size: 1rem;">Book Now</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Conservation Section -->
-    <section class="conservation">
-        <div class="conservation-content">
-            <h2>Travel with Purpose</h2>
-            <p>At Ocean Tracers Net Co, we believe in responsible tourism. A portion of every safari booking goes directly to conservation projects, including resorts restoration, plastic pollution cleanup, and wildlife protection.</p>
-            <p>Our expert guides are not just tour leaders—they're marine biologists, conservationists, and educators who will help you understand the delicate ecosystems you're exploring.</p>
-            <a href="#" class="cta-button">Learn About Our Safaris</a>
-        </div>
-    </section>
-
-    <!-- Booking Section -->
-    <section class="booking-section" id="booking">
         <div class="container">
-            <h2 class="section-title">Book Your Ocean Safari</h2>
-            <div class="booking-container">
-                <form class="booking-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="fullName">Full Name</label>
-                            <input type="text" id="fullName" name="fullName" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="safari">Select Safari</label>
-                            <select id="safari" name="safari" required>
-                                <option value="">Choose an option</option>
-                                <option value="great-barrier-reef">Jinja "The Adventure Capital"</option>
-                                <option value="galapagos">Kibale National Park "Primate Capital of the World"</option>
-                                <option value="arctic">Lake Bunyonyi " One of Africa's deepest"</option>
-                                <option value="maldives">Murchison Falls National Park</option>
-                                <option value="mediterranean">Bwindi Impenetrable Forest</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="participants">Number of Participants</label>
-                            <select id="participants" name="participants" required>
-                                <option value="1">1 Person</option>
-                                <option value="2">2 People</option>
-                                <option value="3">3 People</option>
-                                <option value="4">4 People</option>
-                                <option value="5+">5+ People</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="startDate">Preferred Start Date</label>
-                            <input type="date" id="startDate" name="startDate" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="endDate">Preferred End Date</label>
-                            <input type="date" id="endDate" name="endDate" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Special Requests or Questions</label>
-                        <textarea id="message" name="message" rows="4" style="padding: 0.8rem 1rem; border: 2px solid #ddd; border-radius: 5px; font-size: 1rem;"></textarea>
-                    </div>
-                    
-                    <button type="submit" class="cta-button" style="align-self: flex-start;">Submit Booking Request</button>
-                </form>
+            <div class="hero-content">
+                <h1 class="hero-title">Ocean Adventures & Marine-Wildlife Safaris</h1>
+                <p class="hero-tagline">Explore the World's Most Spectacular Marine Environments</p>
+                <p class="hero-story">
+                    Every wave tells a story. Every safari holds an adventure. 
+                    Explore the world's most spectacular marine environments with expert guides. 
+                    From explorations to expeditions, experience the networks of tomorrow like never before.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#booking" class="btn btn-primary pulse-animation">Book Your Adventure</a>
+                    <a href="#safaris" class="btn btn-secondary">View Safaris</a>
+                </div>
             </div>
         </div>
     </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Featured Safaris -->
+        <section id="safaris" class="section-padding">
+            <div class="section-header">
+                <h2><span class="section-badge">Featured Ocean Safaris</span></h2>
+                <p class="section-story">
+                    Discover unforgettable adventures with our curated selection of marine-wildlife safaris
+                </p>
+            </div>
+            
+            <div class="safari-grid">
+                <!-- Safari 1 -->
+                <div class="safari-card">
+                    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" 
+                         alt="White-water rafting" class="safari-image">
+                    <div class="safari-content">
+                        <h3>White-water Rafting</h3>
+                        <div class="safari-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Jinja "The Adventure Capital"</span>
+                        </div>
+                        <p class="safari-description">
+                            A 3-day immersive experience exploring the Source of the Nile. Includes kayaking, 
+                            scuba diving, bungee jumping and marine biology workshops.
+                        </p>
+                        <div class="safari-details">
+                            <span><i class="far fa-calendar"></i> 3 Days</span>
+                            <span><i class="fas fa-users"></i> Small Groups</span>
+                        </div>
+                        <div class="safari-price">$1,599</div>
+                        <a href="#booking" class="cta-button" style="width: 100%; text-align: center; padding: 12px;">Book Now</a>
+                    </div>
+                </div>
+
+                <!-- Safari 2 -->
+                <div class="safari-card">
+                    <img src="https://images.unsplash.com/photo-1551632436-cbf8dd35adfa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" 
+                         alt="Chimpanzee Trekking" class="safari-image">
+                    <div class="safari-content">
+                        <h3>Chimpanzee Trekking</h3>
+                        <div class="safari-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Kibale Forest National Park</span>
+                        </div>
+                        <p class="safari-description">
+                            Exploring the unique top destination for Chimpanzee trekking with a high 
+                            concentration of Chimpanzees and 12 other primate species. Guided nature walks are also available.
+                        </p>
+                        <div class="safari-details">
+                            <span><i class="far fa-calendar"></i> 5 Days</span>
+                            <span><i class="fas fa-users"></i> Expert Guides</span>
+                        </div>
+                        <div class="safari-price">$2,350</div>
+                        <a href="#booking" class="cta-button" style="width: 100%; text-align: center; padding: 12px;">Book Now</a>
+                    </div>
+                </div>
+
+                <!-- Safari 3 -->
+                <div class="safari-card">
+                    <img src="https://images.unsplash.com/photo-1550340499-a6c60fc8287c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" 
+                         alt="Canoeing" class="safari-image">
+                    <div class="safari-content">
+                        <h3>Canoeing</h3>
+                        <div class="safari-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Lake Bunyonyi "Africa's Deepest Lake"</span>
+                        </div>
+                        <p class="safari-description">
+                            Expedition to witness the most beautiful lakes dotted with 29 islands. 
+                            Includes nature walks and bird watching in a tranquil setting.
+                        </p>
+                        <div class="safari-details">
+                            <span><i class="far fa-calendar"></i> 5 Days</span>
+                            <span><i class="fas fa-users"></i> Beautiful Spots</span>
+                        </div>
+                        <div class="safari-price">$2,190</div>
+                        <a href="#booking" class="cta-button" style="width: 100%; text-align: center; padding: 12px;">Book Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conservation Section -->
+        <section class="conservation">
+            <div class="conservation-content">
+                <h2>Travel with Purpose</h2>
+                <p>
+                    At Ocean Tracers Net Co, we believe in responsible tourism. A portion of every safari booking 
+                    goes directly to conservation projects, including reefs restoration, plastic pollution cleanup, 
+                    and wildlife protection.
+                </p>
+                <p>
+                    Our expert guides are not just tour leaders—they're marine biologists, conservationists, 
+                    and educators who will help you understand the delicate ecosystems you're exploring.
+                </p>
+                <a href="#safaris" class="btn btn-secondary" style="margin-top: 30px;">Explore Our Safaris</a>
+            </div>
+        </section>
+
+        <!-- Booking Section -->
+        <section id="booking" class="section-padding booking-section">
+            <div class="container">
+                <div class="section-header">
+                    <h2><span class="section-badge">Book Your Ocean Safari</span></h2>
+                    <p class="section-story">
+                        Start your adventure today with our easy booking system
+                    </p>
+                </div>
+                
+                <div class="booking-container">
+                    <form class="booking-form" id="bookingForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="fullName">Full Name *</label>
+                                <input type="text" id="fullName" name="fullName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email Address *</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="safari">Select Safari *</label>
+                                <select id="safari" name="safari" required>
+                                    <option value="">Choose an option</option>
+                                    <option value="jinja">Jinja "The Adventure Capital"</option>
+                                    <option value="kibale">Kibale National Park "Primate Capital"</option>
+                                    <option value="bunyonyi">Lake Bunyonyi "Africa's Deepest"</option>
+                                    <option value="murchison">Murchison Falls National Park</option>
+                                    <option value="bwindi">Bwindi Impenetrable Forest</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="participants">Number of Participants *</label>
+                                <select id="participants" name="participants" required>
+                                    <option value="1">1 Person</option>
+                                    <option value="2">2 People</option>
+                                    <option value="3">3 People</option>
+                                    <option value="4">4 People</option>
+                                    <option value="5+">5+ People</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="startDate">Preferred Start Date *</label>
+                                <input type="date" id="startDate" name="startDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">Preferred End Date *</label>
+                                <input type="date" id="endDate" name="endDate" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Special Requests or Questions</label>
+                            <textarea id="message" name="message" rows="4"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="cta-button" style="width: 100%; padding: 15px;">Submit Booking Request</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <!-- Footer -->
-    <footer>
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>Ocean Tracers Net </h3>
-                <p>Connecting people with the ocean through sustainable travel and marine conservation.</p>
-                <div class="social-icons">
-                    <a href="https://x.com/@cal_me_oceans"><i class="fab fa-twitter"></i></a>
-                        <a href="https://www.linkedin.com/in/salim-muko-otn101"><i class="fab fa-linkedin"></i></a> 
-                        <a href="https://www.instagram.com/cal.me.oceans"><i class="fab fa-instagram"></i></a>
-                    <a href="https://www.youtube.com/channel/UC0cozkwDd8T8D1JG6ewAAng"><i class="fab fa-youtube"></i></a>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <div class="wave-dot"></div>
+                            <div class="wave-dot"></div>
+                            <div class="wave-dot"></div>
+                        </div>
+                        <div>
+                            <h3>Ocean Tracers Net</h3>
+                            <p class="slogan">Where Waves Whisper Wisdom</p>
+                        </div>
+                    </div>
+                    <p class="footer-story">
+                        Connecting people with the ocean through sustainable travel and marine conservation.
+                    </p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="travel-safaris.html">Travel & Safaris</a></li>
+                        <li><a href="it-consulting.html">IT Consulting</a></li>
+                        <li><a href="ecommerce.html">E-commerce</a></li>
+                        <li><a href="outsourcing.html">Outsourcing</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-connect">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://x.com/@cal_me_oceans" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/salim-muko-otn101" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/cal.me.oceans" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/channel/UC0cozkwDd8T8D1JG6ewAAng" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> oceantracersnet101@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> +256 774 380 011</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Kampala, Uganda</p>
+                    </div>
+                </div>
+                
+                <div class="footer-links">
+                    <h4>Newsletter</h4>
+                    <p style="margin-bottom: 15px; opacity: 0.8;">
+                        Subscribe to receive updates on new safaris and conservation news.
+                    </p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Your email address" class="newsletter-input" required>
+                        <button type="submit" class="cta-button" style="padding: 12px 20px;">Subscribe</button>
+                    </form>
                 </div>
             </div>
-            <div class="footer-column">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="#">Travel & Safaris</a></li>
-                    <li><a href="#">Research Projects</a></li>
-                    <li><a href="#">Conservation Efforts</a></li>
-                    <li><a href="#">About Us</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Contact Info</h3>
-                <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> 101 Ocean Drive, Kampala City, K'LA 170410</li>
-                    <li><i class="fas fa-phone"></i> +256 (774) 380 011</li>
-                    <li><i class="fas fa-envelope"></i>oceantracersnet101@gmail.com</li>
-                    <li><i class="fas fa-clock"></i> Mon-Fri: 9AM-6PM</li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Newsletter</h3>
-                <p>Subscribe to receive updates on new safaris and conservation news.</p>
-                <div style="margin-top: 1rem;">
-                    <input type="email" placeholder="Your email address" style="padding: 0.8rem; width: 100%; border-radius: 5px; border: none;">
-                    <button class="cta-button" style="margin-top: 0.5rem; padding: 0.8rem 1.5rem;">Subscribe</button>
+            
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; <span id="current-year"></span> Ocean Tracers Net Co. All rights reserved.</p>
+                    <p class="footer-tagline">Part of the Networks of Tomorrow</p>
+                </div>
+                
+                <div class="legal-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                    <a href="#compliance">Compliance</a>
                 </div>
             </div>
-        </div>
-        <div class="copyright">
-            <p>&copy; 2025 Ocean Tracers Net Co. All rights reserved. | marine-wildlife enthusiasts and conservationists.</p>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script>
-        // Set minimum date for booking form to today
+        // Loading Screen
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        // Form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const formData = new FormData(this);
+            const name = formData.get('fullName');
+            const safari = formData.get('safari');
+            
+            alert(`Thank you ${name}! Your booking request has been received. Our team will contact you within 24 hours to confirm your reservation.`);
+            this.reset();
+            
+            // Reset date minimums
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('startDate').min = today;
+            document.getElementById('endDate').min = today;
+        });
+
+        // Date validation
         const today = new Date().toISOString().split('T')[0];
         document.getElementById('startDate').min = today;
         document.getElementById('endDate').min = today;
@@ -669,43 +1180,45 @@
         document.getElementById('startDate').addEventListener('change', function() {
             document.getElementById('endDate').min = this.value;
         });
-        
-        // Form submission handler
-        document.querySelector('.booking-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('fullName').value;
-            const safari = document.getElementById('safari').options[document.getElementById('safari').selectedIndex].text;
-            
-            // Show confirmation message
-            alert(`Thank you ${name}! Your booking request for the ${safari} has been received. Our team will contact you within 24 hours to confirm your reservation.`);
-            
-            // Reset form
-            this.reset();
-            
-            // Reset date minimums
-            document.getElementById('startDate').min = today;
-            document.getElementById('endDate').min = today;
-        });
-        
+
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                if(this.getAttribute('href') !== '#') {
-                    e.preventDefault();
-                    const targetId = this.getAttribute('href');
-                    if(targetId === '#') return;
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
                     
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-                    }
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
                 }
             });
+        });
+
+        // Sticky header on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.sticky-header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 5px 20px rgba(0, 105, 148, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 105, 148, 0.1)';
+            }
+        });
+
+        // Newsletter form submission
+        document.querySelector('.newsletter-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = this.querySelector('input[type="email"]').value;
+            alert(`Thank you for subscribing with ${email}! You'll receive our next newsletter soon.`);
+            this.reset();
         });
     </script>
 </body>

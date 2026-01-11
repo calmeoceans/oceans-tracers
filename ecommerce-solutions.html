@@ -3,520 +3,926 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Solutions | Ocean Tracers Net</title>
-    <link rel="stylesheet" href="oceans.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="description" content="Ocean Tracers Net - E-commerce Solutions for marine, shipping, and logistics businesses">
+    <meta name="keywords" content="e-commerce solutions, marine industry, shipping platforms, logistics software, maritime e-commerce">
+    <meta name="author" content="Ocean Tracers Net Co.">
+    <title>E-commerce Solutions | Ocean Tracers Net - Networks of Tomorrow</title>
+    
+    <!-- Ocean Theme Colors -->
     <style>
-        /* Base Styles */
         :root {
-            --primary: #1a73e8;
-            --primary-dark: #0d47a1;
-            --secondary: #00bcd4;
-            --dark: #1a237e;
-            --light: #f5f7fa;
-            --text-dark: #333;
-            --text-light: #666;
-            --white: #ffffff;
-            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            --radius: 8px;
-            --transition: all 0.3s ease;
+            --primary-blue: #006994;
+            --accent-teal: #4ECDC4;
+            --accent-coral: #FF6B6B;
+            --dark-blue: #003B5C;
+            --light-bg: #F5F9FC;
+            --text-dark: #2C3E50;
+            --text-light: #FFFFFF;
+            --card-shadow: 0 4px 6px rgba(0, 105, 148, 0.1);
         }
-        
+    </style>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌊</text></svg>">
+    
+    <style>
+        /* Reset and Base Styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', sans-serif;
             line-height: 1.6;
             color: var(--text-dark);
-            background-color: var(--light);
+            background-color: var(--light-bg);
         }
-        
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
+
         .container {
-            width: 100%;
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
-        section {
-            padding: 80px 0;
-        }
-        
-        .section-title {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-        
-        .section-title h2 {
-            font-size: 2.5rem;
-            color: var(--dark);
-            margin-bottom: 15px;
-            position: relative;
-            display: inline-block;
-        }
-        
-        .section-title h2::after {
-            content: '';
-            position: absolute;
-            width: 70px;
-            height: 4px;
-            background: linear-gradient(to right, var(--primary), var(--secondary));
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-        
-        .section-title p {
-            color: var(--text-light);
-            max-width: 700px;
-            margin: 0 auto;
-            font-size: 1.1rem;
-        }
-        
-        .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            background-color: var(--primary);
-            color: var(--white);
-            border-radius: var(--radius);
-            font-weight: 600;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .btn:hover {
-            background-color: var(--primary-dark);
-            transform: translateY(-3px);
-            box-shadow: var(--shadow);
-        }
-        
-        .btn-secondary {
-            background-color: var(--secondary);
-        }
-        
-        .btn-secondary:hover {
-            background-color: #0097a7;
-        }
-        
-        /* Header Styles */
-        header {
-            background-color: var(--white);
-            box-shadow: var(--shadow);
-            position: sticky;
+
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
             top: 0;
-            z-index: 1000;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
         }
-        
-        .header-container {
+
+        .loading-content {
+            text-align: center;
+            color: white;
+        }
+
+        .loading-logo h2 {
+            font-family: 'Montserrat', sans-serif;
+            margin-top: 20px;
+            font-size: 2.5rem;
+        }
+
+        .slogan {
+            font-style: italic;
+            color: var(--accent-teal);
+            margin-top: 5px;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            margin-top: 30px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: var(--accent-teal);
+            animation: loading 2s ease-in-out infinite;
+        }
+
+        @keyframes loading {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Header Styles */
+        .sticky-header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 20px rgba(0, 105, 148, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .sticky-header .container {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 0;
+            padding: 15px 20px;
         }
-        
+
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            cursor: pointer;
         }
-        
-        .logo i {
-            font-size: 2rem;
-            color: var(--primary);
+
+        .logo-mark {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
         }
-        
-        .logo h1 {
-            font-size: 1.8rem;
-            color: var(--dark);
+
+        .wave-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--primary-blue);
+            border-radius: 50%;
+            animation: wave 2s ease-in-out infinite;
         }
-        
-        .logo span {
-            color: var(--primary);
+
+        .wave-dot:nth-child(1) { top: 5px; left: 5px; animation-delay: 0s; }
+        .wave-dot:nth-child(2) { top: 5px; left: 16px; animation-delay: 0.2s; }
+        .wave-dot:nth-child(3) { top: 5px; left: 27px; animation-delay: 0.4s; }
+
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
-        
+
+        .logo-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-blue);
+        }
+
+        .logo-text .slogan {
+            font-size: 0.8rem;
+            color: var(--accent-teal);
+        }
+
         .nav-links {
             display: flex;
             list-style: none;
             gap: 30px;
         }
-        
-        .nav-links a {
-            font-weight: 600;
-            transition: var(--transition);
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 5px 0;
             position: relative;
+            transition: color 0.3s ease;
         }
-        
-        .nav-links a:hover {
-            color: var(--primary);
-        }
-        
-        .nav-links a.active {
-            color: var(--primary);
-        }
-        
-        .nav-links a.active::after {
+
+        .nav-link::after {
             content: '';
             position: absolute;
-            width: 100%;
-            height: 3px;
-            background-color: var(--primary);
-            bottom: -5px;
+            bottom: 0;
             left: 0;
-            border-radius: 2px;
+            width: 0;
+            height: 2px;
+            background: var(--accent-teal);
+            transition: width 0.3s ease;
         }
-        
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            color: var(--primary-blue);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            color: var(--primary-blue);
+            cursor: pointer;
+        }
+
         /* Hero Section */
         .hero {
-            background: linear-gradient(135deg, rgba(26, 35, 126, 0.9) 0%, rgba(0, 188, 212, 0.9) 100%), url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
+            position: relative;
+            min-height: 80vh;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            margin-top: 70px;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80') no-repeat center center;
             background-size: cover;
-            background-position: center;
-            color: var(--white);
-            padding: 120px 0;
+            opacity: 0.2;
+        }
+
+        .wave-animation {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+        }
+
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="white"/></svg>') repeat-x;
+            opacity: 0.1;
+            animation: waveMove 20s linear infinite;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
             text-align: center;
-        }
-        
-        .hero-content h2 {
-            font-size: 3.2rem;
-            margin-bottom: 20px;
-        }
-        
-        .hero-content p {
-            font-size: 1.3rem;
             max-width: 800px;
-            margin: 0 auto 30px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .hero-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .hero-tagline {
+            font-size: 1.5rem;
+            color: var(--accent-teal);
+            margin-bottom: 30px;
+        }
+
+        .hero-story {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 40px;
             opacity: 0.9;
         }
-        
-        /* Features Section */
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: var(--accent-coral);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-blue);
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 107, 107, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+        }
+
+        /* Section Styles */
+        .section-padding {
+            padding: 80px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: var(--accent-teal);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            color: var(--primary-blue);
+            margin-bottom: 15px;
+        }
+
+        .section-story {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.8;
+        }
+
+        /* Features Grid */
         .features-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 30px;
             margin-top: 40px;
         }
-        
+
         .feature-card {
-            background-color: var(--white);
-            border-radius: var(--radius);
-            padding: 40px 30px;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
             text-align: center;
-            box-shadow: var(--shadow);
-            transition: var(--transition);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
         }
-        
+
         .feature-card:hover {
             transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 105, 148, 0.15);
+            border-color: var(--accent-teal);
         }
-        
+
         .feature-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-teal) 100%);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto 25px;
+            margin: 0 auto 20px;
         }
-        
+
         .feature-icon i {
-            font-size: 2rem;
-            color: var(--white);
+            font-size: 1.8rem;
+            color: white;
         }
-        
+
         .feature-card h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+            color: var(--primary-blue);
             margin-bottom: 15px;
-            color: var(--dark);
         }
-        
+
+        .feature-card p {
+            color: var(--text-dark);
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
         /* Services Section */
         .services {
-            background-color: #f0f4f8;
+            background-color: #f8fafc;
         }
-        
+
         .services-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 30px;
+            margin-top: 40px;
         }
-        
+
         .service-card {
-            background-color: var(--white);
-            border-radius: var(--radius);
+            background: white;
+            border-radius: 15px;
             overflow: hidden;
-            box-shadow: var(--shadow);
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
         }
-        
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 105, 148, 0.15);
+        }
+
         .service-img {
             height: 200px;
             background-size: cover;
             background-position: center;
         }
-        
+
         .service-content {
-            padding: 30px;
+            padding: 25px;
         }
-        
+
         .service-content h3 {
-            font-size: 1.5rem;
+            color: var(--primary-blue);
             margin-bottom: 15px;
-            color: var(--dark);
+            font-size: 1.3rem;
         }
-        
+
+        .service-content p {
+            color: var(--text-dark);
+            opacity: 0.8;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
         /* Testimonials */
         .testimonials-slider {
             max-width: 800px;
             margin: 50px auto 0;
             position: relative;
-            overflow: hidden;
         }
-        
+
         .testimonial {
-            background-color: var(--white);
-            border-radius: var(--radius);
+            background: white;
+            border-radius: 15px;
             padding: 40px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--card-shadow);
             text-align: center;
             display: none;
         }
-        
+
         .testimonial.active {
             display: block;
             animation: fadeIn 0.8s ease;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
+
         .client-img {
             width: 80px;
             height: 80px;
             border-radius: 50%;
             object-fit: cover;
             margin-bottom: 20px;
-            border: 4px solid var(--light);
+            border: 4px solid var(--light-bg);
         }
-        
+
         .testimonial p {
             font-style: italic;
             margin-bottom: 20px;
             font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
         }
-        
+
         .client-name {
             font-weight: 600;
-            color: var(--primary);
+            color: var(--primary-blue);
             margin-bottom: 5px;
         }
-        
+
+        .client-company {
+            color: var(--accent-teal);
+            font-size: 0.9rem;
+        }
+
+        /* Testimonial Navigation */
+        .testimonial-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        .testimonial-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .testimonial-dot.active {
+            background: var(--accent-teal);
+            transform: scale(1.2);
+        }
+
         /* CTA Section */
         .cta {
-            background: linear-gradient(135deg, var(--primary), var(--dark));
-            color: var(--white);
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-blue) 100%);
+            color: white;
             text-align: center;
             padding: 100px 0;
         }
-        
+
         .cta h2 {
+            font-family: 'Montserrat', sans-serif;
             font-size: 2.5rem;
             margin-bottom: 20px;
         }
-        
+
         .cta p {
             max-width: 700px;
             margin: 0 auto 40px;
             font-size: 1.2rem;
             opacity: 0.9;
+            line-height: 1.6;
         }
-        
-        /* Footer */
-        footer {
-            background-color: var(--dark);
-            color: var(--white);
-            padding: 70px 0 30px;
+
+        .cta-button {
+            background: var(--accent-coral);
+            color: white;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
-        
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.3);
+            background: #ff5252;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-blue);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-teal);
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        /* Footer Styles */
+        .footer {
+            background: var(--dark-blue);
+            color: white;
+            padding: 60px 0 20px;
+        }
+
         .footer-content {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 40px;
             margin-bottom: 40px;
         }
-        
-        .footer-column h3 {
-            font-size: 1.3rem;
-            margin-bottom: 25px;
-            position: relative;
-            padding-bottom: 10px;
+
+        .footer-brand h3 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
         }
-        
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            width: 40px;
-            height: 3px;
-            background-color: var(--secondary);
-            bottom: 0;
-            left: 0;
-        }
-        
-        .footer-links {
-            list-style: none;
-        }
-        
-        .footer-links li {
-            margin-bottom: 12px;
-        }
-        
-        .footer-links a {
-            opacity: 0.8;
-            transition: var(--transition);
-        }
-        
-        .footer-links a:hover {
-            opacity: 1;
-            color: var(--secondary);
-            padding-left: 5px;
-        }
-        
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        
-        .social-icons a {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
+
+        .footer-logo {
             display: flex;
             align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .footer-story {
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-links h4,
+        .footer-connect h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--accent-teal);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            color: var(--accent-teal);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
             justify-content: center;
-            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
         }
-        
-        .social-icons a:hover {
-            background-color: var(--secondary);
-            transform: translateY(-5px);
+
+        .social-links a:hover {
+            background: var(--accent-teal);
+            transform: translateY(-3px);
         }
-        
-        .copyright {
-            text-align: center;
-            padding-top: 30px;
+
+        .contact-info p {
+            margin-bottom: 10px;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info i {
+            color: var(--accent-teal);
+        }
+
+        .footer-bottom {
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
-            opacity: 0.7;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
         }
-        
-        /* Responsive Styles */
+
+        .copyright p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .footer-tagline {
+            color: var(--accent-teal);
+            font-style: italic;
+        }
+
+        .legal-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .legal-links a {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .legal-links a:hover {
+            opacity: 1;
+            color: var(--accent-teal);
+        }
+
+        /* Responsive Design */
         @media (max-width: 992px) {
-            .hero-content h2 {
+            .hero-title {
                 font-size: 2.8rem;
             }
             
-            .section-title h2 {
+            .hero-tagline {
+                font-size: 1.3rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .cta h2 {
                 font-size: 2.2rem;
             }
         }
-        
+
         @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 20px;
-            }
-            
             .nav-links {
-                gap: 20px;
-                flex-wrap: wrap;
-                justify-content: center;
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
             }
             
-            .hero-content h2 {
-                font-size: 2.3rem;
+            .nav-links.active {
+                display: flex;
             }
             
-            .hero-content p {
-                font-size: 1.1rem;
+            .mobile-menu-btn {
+                display: block;
             }
             
-            section {
-                padding: 60px 0;
+            .hero-title {
+                font-size: 2.2rem;
             }
             
-            .testimonial {
-                padding: 30px 20px;
-            }
-        }
-        
-        @media (max-width: 576px) {
-            .hero-content h2 {
-                font-size: 2rem;
-            }
-            
-            .section-title h2 {
-                font-size: 1.8rem;
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
             }
             
             .btn {
-                padding: 12px 25px;
+                width: 100%;
+                max-width: 300px;
+                text-align: center;
             }
             
-            .features-grid,
-            .services-grid {
-                grid-template-columns: 1fr;
+            .testimonial {
+                padding: 30px;
+            }
+            
+            .footer-bottom {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .cta h2 {
+                font-size: 1.8rem;
+            }
+            
+            .testimonial {
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container header-container">
-            <div class="logo">
-                <i class="fas fa-ship"></i>
-                <h1>Ocean Tracers Net</h1>
-                <span>Networks of Tomorrow</span>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <svg width="100" height="100" viewBox="0 0 100 100" class="logo-svg">
+                    <path d="M50,10 Q70,30 50,50 Q30,70 50,90" class="wave-path" fill="none" stroke="white" stroke-width="2"/>
+                    <circle cx="50" cy="50" r="5" fill="var(--accent-teal)"/>
+                    <path d="M30,30 L70,70 M70,30 L30,70" stroke="white" stroke-width="1.5"/>
+                </svg>
+                <h2>Ocean Tracers Net</h2>
+                <p class="slogan">Where Waves Whisper Wisdom</p>
             </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="#" class="active">E-commerce Solutions</a></li>
-                <li><a href="#services">Services</a></li>
-                <li><a href="#testimonials">Testimonials</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="sticky-header">
+        <div class="container">
+            <div class="logo" onclick="window.location.href='index.html'">
+                <div class="logo-mark">
+                    <div class="wave-dot"></div>
+                    <div class="wave-dot"></div>
+                    <div class="wave-dot"></div>
+                </div>
+                <div class="logo-text">
+                    <h1>Ocean Tracers Net</h1>
+                    <p class="slogan">Where Waves Whisper Wisdom</p>
+                </div>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="index.html" class="nav-link">Home</a></li>
+                    <li><a href="it-consulting.html" class="nav-link">IT Consulting</a></li>
+                    <li><a href="ecommerce.html" class="nav-link active">E-commerce</a></li>
+                    <li><a href="outsourcing.html" class="nav-link">Outsourcing</a></li>
+                    <li><a href="index.html#services" class="nav-link">Services</a></li>
+                    <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
         </div>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container hero-content">
-            <h2>Transform Your Online Business with Our E-commerce Solutions</h2>
-            <p>We provide cutting-edge e-commerce platforms tailored for marine, shipping, and logistics businesses to streamline operations, enhance customer experience, and drive growth.</p>
-            <a href="#contact" class="btn">Get Started Today</a>
+        <div class="hero-background"></div>
+        <div class="wave-animation">
+            <div class="wave" style="animation-delay: 0s"></div>
+            <div class="wave" style="animation-delay: 0.5s"></div>
+            <div class="wave" style="animation-delay: 1s"></div>
+        </div>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="hero-title">E-commerce Solutions</h1>
+                <p class="hero-tagline">Transform Your Online Business</p>
+                <p class="hero-story">
+                    Every transaction tells a story. Every customer journey holds potential. 
+                    We provide cutting-edge e-commerce platforms tailored for marine, shipping, 
+                    and logistics businesses to streamline operations, enhance customer experience, 
+                    and drive growth.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#contact" class="btn btn-primary pulse-animation">Get Started Today</a>
+                    <a href="#features" class="btn btn-secondary">Our Features</a>
+                </div>
+            </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features">
-        <div class="container">
-            <div class="section-title">
-                <h2>Why Choose Our E-commerce Solutions</h2>
-                <p>Our specialized e-commerce platforms are designed to meet the unique needs of maritime and logistics businesses.</p>
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Features Section -->
+        <section id="features" class="section-padding">
+            <div class="section-header">
+                <h2><span class="section-badge">Why Choose Our E-commerce Solutions</span></h2>
+                <p class="section-story">
+                    Our specialized e-commerce platforms are designed to meet the unique needs of maritime and logistics businesses.
+                </p>
             </div>
             
             <div class="features-grid">
@@ -552,205 +958,259 @@
                     <p>Comprehensive reporting tools to track sales, inventory, shipping, and customer behavior.</p>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Services Section -->
-    <section id="services" class="services">
-        <div class="container">
-            <div class="section-title">
-                <h2>Our E-commerce Services</h2>
-                <p>We offer a complete suite of e-commerce solutions for businesses in the maritime industry.</p>
-            </div>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-                    <div class="service-content">
-                        <h3>Custom E-commerce Platforms</h3>
-                        <p>Tailored online stores designed specifically for marine equipment suppliers, shipping companies, and logistics providers.</p>
-                        <a href="#contact" class="btn btn-secondary" style="margin-top: 15px;">Learn More</a>
+        <!-- Services Section -->
+        <section id="services" class="section-padding services">
+            <div class="container">
+                <div class="section-header">
+                    <h2><span class="section-badge">Our E-commerce Services</span></h2>
+                    <p class="section-story">
+                        We offer a complete suite of e-commerce solutions for businesses in the maritime industry.
+                    </p>
+                </div>
+                
+                <div class="services-grid">
+                    <div class="service-card">
+                        <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="service-content">
+                            <h3>Custom E-commerce Platforms</h3>
+                            <p>Tailored online stores designed specifically for marine equipment suppliers, shipping companies, and logistics providers.</p>
+                            <a href="#contact" class="btn btn-secondary" style="margin-top: 15px;">Learn More</a>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="service-content">
+                            <h3>Inventory & Logistics Integration</h3>
+                            <p>Seamless integration with inventory management systems and logistics tracking for real-time updates.</p>
+                            <a href="#contact" class="btn btn-secondary" style="margin-top: 15px;">Learn More</a>
+                        </div>
+                    </div>
+                    
+                    <div class="service-card">
+                        <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
+                        <div class="service-content">
+                            <h3>Payment & Financing Solutions</h3>
+                            <p>Specialized payment gateways for high-value transactions and flexible financing options for clients.</p>
+                            <a href="#contact" class="btn btn-secondary" style="margin-top: 15px;">Learn More</a>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="section-padding">
+            <div class="container">
+                <div class="section-header">
+                    <h2><span class="section-badge">What Our Clients Say</span></h2>
+                    <p class="section-story">
+                        Hear from maritime businesses that have transformed their online presence with our e-commerce solutions.
+                    </p>
+                </div>
                 
-                <div class="service-card">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-4.0.3&auto=format&fit=crop&w-800&q=80');"></div>
-                    <div class="service-content">
-                        <h3>Inventory & Logistics Integration</h3>
-                        <p>Seamless integration with inventory management systems and logistics tracking for real-time updates.</p>
-                        <a href="#contact" class="btn btn-secondary" style="margin-top: 15px;">Learn More</a>
+                <div class="testimonials-slider">
+                    <div class="testimonial active">
+                        <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Client" class="client-img">
+                        <p>"Ocean Tracers Net transformed our marine equipment business. Our online sales have increased by 300% since implementing their e-commerce platform."</p>
+                        <div class="client-name">Michael Rodriguez</div>
+                        <div class="client-company">Atlantic Marine Supplies</div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client" class="client-img">
+                        <p>"The logistics integration feature has streamlined our operations significantly. Our customers can now track shipments in real-time, which has improved satisfaction dramatically."</p>
+                        <div class="client-name">Sarah Chen</div>
+                        <div class="client-company">Pacific Shipping Co.</div>
+                    </div>
+                    
+                    <div class="testimonial">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client" class="client-img">
+                        <p>"As a global maritime parts supplier, we needed a platform that could handle multiple currencies and languages. Ocean Tracers Net delivered exactly what we needed."</p>
+                        <div class="client-name">James Wilson</div>
+                        <div class="client-company">Global Marine Parts</div>
+                    </div>
+                    
+                    <div class="testimonial-nav">
+                        <div class="testimonial-dot active" data-index="0"></div>
+                        <div class="testimonial-dot" data-index="1"></div>
+                        <div class="testimonial-dot" data-index="2"></div>
                     </div>
                 </div>
-                
-                <div class="service-card">
-                    <div class="service-img" style="background-image: url('https://images.unsplash.com/photo-1556742044-3c52d6e88c62?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');"></div>
-                    <div class="service-content">
-                        <h3>Payment & Financing Solutions</h3>
-                        <p>Specialized payment gateways for high-value transactions and flexible financing options for clients.</p>
-                        <a href="oceantracersnet101@gmail.com" class="btn btn-secondary" style="margin-top: 15px;">Learn More</a>
-                    </div>
-                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- Testimonials Section -->
-    <section id="testimonials">
-        <div class="container">
-            <div class="section-title">
-                <h2>What Our Clients Say</h2>
-                <p>Hear from maritime businesses that have transformed their online presence with our e-commerce solutions.</p>
+        <!-- CTA Section -->
+        <section id="contact" class="cta">
+            <div class="container">
+                <h2>Ready to Transform Your Maritime Business?</h2>
+                <p>Contact us today for a free consultation and discover how our e-commerce solutions can help your business navigate the digital seas successfully.</p>
+                <a href="mailto:oceantracersnet101@gmail.com" class="cta-button">Contact Our Team</a>
             </div>
-            
-            <div class="testimonials-slider">
-                <div class="testimonial active">
-                    <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="Client" class="client-img">
-                    <p>"Ocean Tracers Net transformed our marine equipment business. Our online sales have increased by 300% since implementing their e-commerce platform."</p>
-                    <div class="client-name">Michael Rodriguez</div>
-                    <div class="client-company">Atlantic Marine Supplies</div>
-                </div>
-                
-                <div class="testimonial">
-                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Client" class="client-img">
-                    <p>"The logistics integration feature has streamlined our operations significantly. Our customers can now track shipments in real-time, which has improved satisfaction dramatically."</p>
-                    <div class="client-name">Sarah Chen</div>
-                    <div class="client-company">Pacific Shipping Co.</div>
-                </div>
-                
-                <div class="testimonial">
-                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Client" class="client-img">
-                    <p>"As a global maritime parts supplier, we needed a platform that could handle multiple currencies and languages. Ocean Tracers Net delivered exactly what we needed."</p>
-                    <div class="client-name">James Wilson</div>
-                    <div class="client-company">Global Marine Parts</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section id="contact" class="cta">
-        <div class="container">
-            <h2>Ready to Transform Your Maritime Business?</h2>
-            <p>Contact us today for a free consultation and discover how our e-commerce solutions can help your business navigate the digital seas successfully.</p>
-            <a href="oceantracersnet101@gmail.com" class="btn">Contact Our Team</a>
-        </div>
-    </section>
+        </section>
+    </div>
 
     <!-- Footer -->
-    <footer>
+    <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-column">
-                    <h3>Ocean Tracers Net</h3>
-                    <p>Specialized e-commerce solutions for the maritime and logistics industries. Helping businesses navigate the digital transformation.</p>
-                    <div class="social-icons">
-                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#"><i class="fab fa-twitter"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-instagram"></i></a>
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-mark">
+                            <div class="wave-dot"></div>
+                            <div class="wave-dot"></div>
+                            <div class="wave-dot"></div>
+                        </div>
+                        <div>
+                            <h3>Ocean Tracers Net</h3>
+                            <p class="slogan">Where Waves Whisper Wisdom</p>
+                        </div>
                     </div>
+                    <p class="footer-story">
+                        Specialized e-commerce solutions for the maritime and logistics industries. 
+                        Helping businesses navigate the digital transformation.
+                    </p>
                 </div>
                 
-                <div class="footer-column">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
                         <li><a href="index.html">Home</a></li>
-                        <li><a href="#features">Features</a></li>
-                        <li><a href="#services">Services</a></li>
-                        <li><a href="#testimonials">Testimonials</a></li>
-                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="ecommerce.html">E-commerce Solutions</a></li>
+                        <li><a href="it-consulting.html">IT Consulting</a></li>
+                        <li><a href="outsourcing.html">Outsourcing</a></li>
+                        <li><a href="index.html#services">Services</a></li>
                     </ul>
                 </div>
                 
-                <div class="footer-column">
-                    <h3>Our Services</h3>
-                    <ul class="footer-links">
-                        <li><a href="#">Custom E-commerce Platforms</a></li>
-                        <li><a href="#">Inventory Integration</a></li>
-                        <li><a href="#">Payment Solutions</a></li>
-                        <li><a href="#">Marine Industry Solutions</a></li>
-                        <li><a href="#">Logistics Tracking</a></li>
+                <div class="footer-links">
+                    <h4>Our Services</h4>
+                    <ul>
+                        <li><a href="#features">Custom E-commerce Platforms</a></li>
+                        <li><a href="#features">Inventory Integration</a></li>
+                        <li><a href="#features">Payment Solutions</a></li>
+                        <li><a href="#features">Marine Industry Solutions</a></li>
+                        <li><a href="#features">Logistics Tracking</a></li>
                     </ul>
                 </div>
                 
-                <div class="footer-column">
-                    <h3>Contact Us</h3>
-                    <ul class="footer-links">
-                        <li><i class="fas fa-map-marker-alt"></i> 101 Ocean Drive, Kampala City, K"LA 170410</li>
-                        <li><i class="fas fa-phone"></i> +256 (774) 380-011</li>
-                        <li><i class="fas fa-envelope"></i>oceantracersnet101@gmail.com</li>
-                        <li><i class="fas fa-clock"></i> Mon-Fri: 9:00 AM - 6:00 PM</li>
-                    </ul>
+                <div class="footer-connect">
+                    <h4>Connect</h4>
+                    <div class="social-links">
+                        <a href="https://x.com/@cal_me_oceans" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="https://www.linkedin.com/in/salim-muko-otn101" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="https://www.instagram.com/cal.me.oceans" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/channel/UC0cozkwDd8T8D1JG6ewAAng" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <div class="contact-info">
+                        <p><i class="fas fa-envelope"></i> oceantracersnet101@gmail.com</p>
+                        <p><i class="fas fa-phone"></i> +256 774 380 011</p>
+                        <p><i class="fas fa-map-marker-alt"></i> Kampala, Uganda</p>
+                    </div>
                 </div>
             </div>
             
-            <div class="copyright">
-                <p>&copy; 2025 Ocean Tracers Net Co. All rights reserved.</p>
+            <div class="footer-bottom">
+                <div class="copyright">
+                    <p>&copy; <span id="current-year"></span> Ocean Tracers Net Co. All rights reserved.</p>
+                    <p class="footer-tagline">Part of the Networks of Tomorrow</p>
+                </div>
+                
+                <div class="legal-links">
+                    <a href="#privacy">Privacy Policy</a>
+                    <a href="#terms">Terms of Service</a>
+                    <a href="#cookies">Cookie Policy</a>
+                    <a href="#compliance">Compliance</a>
+                </div>
             </div>
         </div>
     </footer>
 
+    <!-- Scripts -->
     <script>
+        // Loading Screen
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loading-screen');
+            setTimeout(() => {
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 1000);
+        });
+
+        // Mobile Menu Toggle
+        document.querySelector('.mobile-menu-btn').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
         // Testimonial Slider
-        document.addEventListener('DOMContentLoaded', function() {
-            const testimonials = document.querySelectorAll('.testimonial');
-            let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        const testimonialDots = document.querySelectorAll('.testimonial-dot');
+        let currentTestimonial = 0;
+        
+        function showTestimonial(index) {
+            testimonials.forEach(testimonial => {
+                testimonial.classList.remove('active');
+            });
             
-            function showTestimonial(index) {
-                testimonials.forEach(testimonial => {
-                    testimonial.classList.remove('active');
-                });
+            testimonialDots.forEach(dot => {
+                dot.classList.remove('active');
+            });
+            
+            testimonials[index].classList.add('active');
+            testimonialDots[index].classList.add('active');
+            currentTestimonial = index;
+        }
+        
+        // Add click events to dots
+        testimonialDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                showTestimonial(index);
+            });
+        });
+        
+        // Auto-rotate testimonials
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }, 5000);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
                 
-                testimonials[index].classList.add('active');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    document.querySelector('.nav-links').classList.remove('active');
+                }
+            });
+        });
+
+        // Sticky header on scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.sticky-header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+                header.style.boxShadow = '0 5px 20px rgba(0, 105, 148, 0.1)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+                header.style.boxShadow = '0 2px 20px rgba(0, 105, 148, 0.1)';
             }
-            
-            // Auto-rotate testimonials
-            setInterval(() => {
-                currentTestimonial = (currentTestimonial + 1) % testimonials.length;
-                showTestimonial(currentTestimonial);
-            }, 5000);
-            
-            // Smooth scrolling for anchor links
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    if(targetId === '#') return;
-                    
-                    const targetElement = document.querySelector(targetId);
-                    if(targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
-            });
-            
-            // Active nav link on scroll
-            const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-links a');
-            
-            window.addEventListener('scroll', () => {
-                let current = '';
-                
-                sections.forEach(section => {
-                    const sectionTop = section.offsetTop;
-                    const sectionHeight = section.clientHeight;
-                    
-                    if(scrollY >= (sectionTop - 100)) {
-                        current = section.getAttribute('id');
-                    }
-                });
-                
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if(link.getAttribute('href') === `#${current}`) {
-                        link.classList.add('active');
-                    }
-                });
-            });
         });
     </script>
 </body>
