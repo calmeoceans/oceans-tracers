@@ -3,26 +3,33 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ocean Tracers Net</title>
-  <meta name="description" content="Ocean Tracers Net — Smart Sanctuary" />
+  <title>Ocean Tracers Net — Smart Sanctuary</title>
+  <meta name="description" content="Ocean Tracers Net — AI-powered marine monitoring and conservation." />
   <link rel="stylesheet" href="oceans.css" />
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <!-- <a class="skip-link" href="#main">Skip to content</a> -->
 
-  <header class="sticky-header">
+  <header class="sticky-header" role="banner">
     <div class="container">
-      <div class="logo" onclick="location.href='#home'">
-        <h1>Ocean Tracers Net</h1>
+      <div class="brand" onclick="location.href='#home'" role="link" tabindex="0">
+        <!-- <div class="mark" aria-hidden="true">🌊</div> -->
+        <div>
+          <h1>Ocean Tracers Net</h1>
+          <p class="tag">Smart Sanctuary</p>
+        </div>
       </div>
-      <nav aria-label="Primary">
-        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-expanded="false">☰</button>
+
+      <nav class="primary-nav" role="navigation" aria-label="Primary">
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-expanded="false" aria-controls="primary-nav">☰</button>
         <ul id="primary-nav" class="nav-links">
           <li><a class="nav-link" href="#home">Home</a></li>
-          <li><a class="nav-link" href="#about">About</a></li>
           <li><a class="nav-link" href="#services">Services</a></li>
+          <li><a class="nav-link" href="#technology">Technology</a></li>
+          <li><a class="nav-link" href="impact.html">Impact</a></li> <!-- changed: links to full Impact page -->
           <li><a class="nav-link" href="#contact">Contact</a></li>
           <li><a class="nav-link" href="#compliance">Compliance</a></li>
+          <li><a class="nav-link" href="admin.html">Admin</a></li>
         </ul>
       </nav>
     </div>
@@ -30,16 +37,28 @@
 
   <main id="main">
     <section id="home" class="hero section-padding">
-      <div class="container">
-        <h2>Smart Sanctuary</h2>
-        <p>Where Technology Meets Tide</p>
-      </div>
-    </section>
-
-    <section id="about" class="section-padding">
-      <div class="container">
-        <h2>About</h2>
-        <p>Connecting communities and marine technology.</p>
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h2 class="eyebrow">Where Technology Meets Tide</h2>
+          <h1 class="hero-title">Smart Sanctuary — trace the future of our oceans</h1>
+          <p class="lead">AI-enabled monitoring, low-energy networks and community-driven conservation.</p>
+          <div class="hero-ctas">
+            <a class="btn btn-primary" href="#contact">Get Started</a>
+            <a class="btn-future" href="#services">Explore Services <span class="arrow">→</span></a>
+          </div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="glow-orb"></div>
+          <svg class="net" viewBox="0 0 300 200" preserveAspectRatio="xMidYMid meet">
+            <g stroke="rgba(255,255,255,0.16)" stroke-width="1.2" fill="none">
+              <circle cx="50" cy="60" r="6"></circle>
+              <circle cx="140" cy="30" r="6"></circle>
+              <circle cx="220" cy="100" r="6"></circle>
+              <circle cx="180" cy="150" r="6"></circle>
+              <path d="M50,60 L140,30 L220,100 L180,150" stroke-linecap="round" stroke-linejoin="round"></path>
+            </g>
+          </svg>
+        </div>
       </div>
     </section>
 
@@ -47,16 +66,41 @@
       <div class="container">
         <h2>Services</h2>
         <div class="services-grid">
-          <article class="service-card">
+          <article class="card">
             <h3>Network Solutions</h3>
-            <p>Reliable marine-grade networking for sensors and telemetry.</p>
+            <p>Marine-grade connectivity for sensors, buoys and remote telemetry.</p>
             <a class="btn-future" href="network-solutions.html">View Info <span class="arrow">→</span></a>
           </article>
-          <article class="service-card">
+
+          <article class="card">
             <h3>AI Monitoring</h3>
-            <p>Automated detections and alerts.</p>
+            <p>Vision and acoustic models to detect threats and ecosystem changes.</p>
             <a class="btn-future" href="ai-monitoring.html">View Info <span class="arrow">→</span></a>
           </article>
+
+          <article class="card">
+            <h3>Consultancy & Projects</h3>
+            <p>Design, deploy and analyse ocean tracer studies with our experts.</p>
+            <a class="btn-future" href="project-outsourcing.html">View Info <span class="arrow">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="technology" class="section-padding">
+      <div class="container">
+        <h2>Technology</h2>
+        <p>Low-power networks · Edge AI · Satellite integration · Secure data pipelines</p>
+      </div>
+    </section>
+
+    <section id="impact" class="section-padding">
+      <div class="container">
+        <h2>Impact</h2>
+        <div class="metrics">
+          <div class="metric"><div class="metric-number" data-count="5000">0</div><div class="metric-label">Lives protected</div></div>
+          <div class="metric"><div class="metric-number" data-count="100">0</div><div class="metric-label">Communities</div></div>
+          <div class="metric"><div class="metric-number" data-count="24">0</div><div class="metric-label">Hrs monitoring</div></div>
         </div>
       </div>
     </section>
@@ -65,24 +109,30 @@
       <div class="container">
         <h2>Contact</h2>
         <form id="contact-form" action="/api/contact" method="post" novalidate>
-          <div class="form-group">
-            <label for="name">Name</label>
-            <input id="name" name="name" required />
+          <div class="form-grid">
+            <label class="form-group">
+              <span>Name</span>
+              <input id="name" name="name" type="text" required />
+            </label>
+            <label class="form-group">
+              <span>Email</span>
+              <input id="email" name="email" type="email" required />
+            </label>
+            <label class="form-group full">
+              <span>Message</span>
+              <textarea id="message" name="message" rows="5" required></textarea>
+            </label>
+            <label class="form-consent">
+              <input id="consent" name="consent" type="checkbox" required />
+              <span>I agree to the <a href="#compliance" rel="noopener noreferrer">Privacy &amp; Data Policy</a></span>
+            </label>
           </div>
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input id="email" name="email" type="email" required />
+
+          <div id="form-status" class="form-status" aria-live="polite"></div>
+          <div class="form-actions">
+            <button id="contact-submit" class="btn btn-primary" type="submit">Send Message</button>
+            <button class="btn btn-ghost" type="button" onclick="document.getElementById('contact-form').reset()">Reset</button>
           </div>
-          <div class="form-group">
-            <label for="message">Message</label>
-            <textarea id="message" name="message" rows="5" required></textarea>
-          </div>
-          <div class="form-group form-consent">
-            <input id="consent" name="consent" type="checkbox" required />
-            <label for="consent">I agree to the Privacy Policy</label>
-          </div>
-          <div id="form-status" aria-live="polite" class="form-status"></div>
-          <button id="contact-submit" type="submit" class="btn btn-primary">Send Message</button>
         </form>
       </div>
     </section>
@@ -90,14 +140,24 @@
     <section id="compliance" class="section-padding">
       <div class="container">
         <h2>Compliance</h2>
-        <p>Privacy and data handling details.</p>
+        <p>We store only required contact data, record consent and secure submissions. See data handling details on request.</p>
       </div>
     </section>
   </main>
 
   <footer class="footer">
-    <div class="container">
-      <p>&copy; <span id="current-year"></span> Ocean Tracers Net</p>
+    <div class="container footer-grid">
+      <div>
+        <strong>Ocean Tracers Net</strong>
+        <div class="small">Tracing tomorrow's oceans</div>
+      </div>
+      <div class="footer-links">
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+        <a href="#compliance">Compliance</a>
+        <a href="admin.html" class="admin-link" aria-label="Admin area (restricted)">Admin</a>
+      </div>
+      <div>&copy; <span id="current-year"></span> Ocean Tracers Net</div>
     </div>
   </footer>
 

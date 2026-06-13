@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Impact — Ocean Tracers Net</title>
+  <meta name="description" content="Impact metrics, case studies and timeline for Ocean Tracers Net." />
+  <link rel="stylesheet" href="oceans.css" />
+</head>
+<body>
+  <!-- <a class="skip-link" href="#impact-main">Skip to content</a> -->
+
+  <header class="sticky-header" role="banner">
+    <div class="container">
+      <div class="brand" onclick="location.href='index.html'" role="link" tabindex="0">
+        <!-- <div class="mark">🌊</div> -->
+        <div>
+          <h1>Ocean Tracers Net</h1>
+          <p class="tag">Where Waves Whisper Wisdom</p>
+        </div>
+      </div>
+
+      <nav class="primary-nav" role="navigation" aria-label="Primary">
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-expanded="false" aria-controls="primary-nav">☰</button>
+        <ul id="primary-nav" class="nav-links">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="network-solutions.html">Services</a></li>
+          <li><a class="nav-link active" href="impact.html">Impact</a></li>
+          <li><a class="nav-link" href="index.html#contact">Contact</a></li>
+          <li><a class="nav-link" href="admin.html">Admin</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="impact-main" tabindex="-1">
+    <section class="impact-hero section-padding">
+      <div class="container">
+        <h2 class="eyebrow">Our Reach</h2>
+        <h1 class="hero-title">Measured impact — real outcomes, transparent data</h1>
+        <p class="lead">We track conservation outcomes, community benefit and operational uptime. Below are verified metrics and case studies from recent deployments.</p>
+
+        <div class="metrics" role="region" aria-label="Impact metrics">
+          <div class="metric card" aria-hidden="false">
+            <div class="metric-number" data-count="5120">5,120</div>
+            <div class="metric-label">Lives Protected</div>
+            <div class="metric-note">since 2021</div>
+          </div>
+          <div class="metric card" aria-hidden="false">
+            <div class="metric-number" data-count="128">128</div>
+            <div class="metric-label">Communities Engaged</div>
+            <div class="metric-note">regional partners</div>
+          </div>
+          <div class="metric card" aria-hidden="false">
+            <div class="metric-number" data-count="24">24</div>
+            <div class="metric-label">24/7 Coverage</div>
+            <div class="metric-note">average monitoring hours</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="impact-timeline section-padding">
+      <div class="container">
+        <h2>Timeline & Milestones</h2>
+        <div class="timeline">
+          <article class="timeline-item">
+            <div class="timeline-year">2021</div>
+            <div class="timeline-body">
+              <h3>Pilot Launch — Lake Victoria</h3>
+              <p>First sensor clusters deployed. Baseline data collection began and local community training initiated.</p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-year">2022</div>
+            <div class="timeline-body">
+              <h3>AI Models In Production</h3>
+              <p>Visual & acoustic models reached 92% detection accuracy for target events; false positives reduced by 40%.</p>
+            </div>
+          </article>
+
+          <article class="timeline-item">
+            <div class="timeline-year">2024</div>
+            <div class="timeline-body">
+              <h3>Pan-Regional Scale</h3>
+              <p>Scaled to coastal sites across East Africa; established managed monitoring service and local ops teams.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="case-studies section-padding">
+      <div class="container">
+        <h2>Case studies</h2>
+        <div class="case-grid">
+          <article class="case-card contact-card">
+            <h3>Community Alerting — Jinja</h3>
+            <p>Installed low-power networks and alerting to reduce illegal fishing events; local rangers responded 3x faster.</p>
+            <a class="btn-future" href="index.html#contact">Request brief</a>
+          </article>
+
+          <article class="case-card contact-card">
+            <h3>Coastal Habitat Recovery</h3>
+            <p>Longitudinal monitoring showed 18% reef recovery in managed zones after targeted interventions.</p>
+            <a class="btn-future" href="index.html#contact">Get data</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-padding">
+      <div class="container">
+        <div class="contact-cta contact-card">
+          <h3>Want similar impact in your region?</h3>
+          <p>Share project details and we will prepare a tailored design and impact estimate.</p>
+          <a class="btn btn-primary" href="index.html#contact">Contact Us</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Ocean Tracers Net</strong>
+      </div>
+      <div>&copy; <span id="current-year"></span></div>
+    </div>
+  </footer>
+
+  <script src="oceans.js" defer></script>
+  <script>
+    // ensure year and provide fallback metric animation if oceans.js missing
+    document.getElementById('current-year').textContent = new Date().getFullYear();
+
+    (function animateMetricsFallback(){
+      const els = document.querySelectorAll('.metric-number');
+      els.forEach(el => {
+        const to = parseInt(el.getAttribute('data-count') || String(el.textContent).replace(/,/g,''), 10) || 0;
+        // if already showing target, skip
+        if (String(el.textContent).replace(/,/g,'') === String(to)) return;
+        let start = 0;
+        const dur = 900;
+        const step = Math.max(1, Math.floor(to / (dur / 16)));
+        function tick(){
+          start += step;
+          if (start >= to){
+            el.textContent = to.toLocaleString();
+          } else {
+            el.textContent = start.toLocaleString();
+            requestAnimationFrame(tick);
+          }
+        }
+        requestAnimationFrame(tick);
+      });
+    })();
+  </script>
+</body>
+</html>
