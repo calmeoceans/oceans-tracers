@@ -609,7 +609,115 @@ class OceanTracersApp {
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    window.oceanTracersApp = new OceanTracersApp();
+  const loadingScreen = document.getElementById('loading-screen');
+  const loadingProgress = document.getElementById('loading-progress');
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const metrics = document.querySelectorAll('.metric-number');
+  const form = document.getElementById('contact-form');
+  const formStatus = document.getElementById('form-status');
+  const submitBtn = document.getElementById('contact-submit');
+  const currentYearEl = document.getElementById('current-year');
+
+  // loader
+  let progress = 0;
+  const iv = setInterval(() => {
+    progress = Math.min(progress + Math.random()*15, 90);
+    if (loadingProgress) loadingProgress.style.width = progress + '%';
+  }, 200);
+  window.addEventListener('load', () => {
+    clearInterval(iv);
+    if (loadingProgress) loadingProgress.style.width = '100%';
+    setTimeout(()=> { if (loadingScreen) loadingScreen.style.display = 'none'; }, 350);
+  });
+
+  // mobile toggle
+  if (mobileBtn) mobileBtn.addEventListener('click', ()=> {
+    document.querySelector('nav')?.classList.toggle('open');
+    mobileBtn.classList.toggle('open');
+  });
+
+  // smooth scroll
+  navLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const el = document.querySelector(href);
+        if (el) window.scrollTo({ top: el.offsetTop - (document.querySelector('.sticky-header')?.offsetHeight || 0), behavior: 'smooth' });
+        document.querySelector('nav')?.classList.remove('open');
+      }
+    });
+  });
+
+  // metrics animate
+  function animateMetric(el, to){
+    let start = 0;
+    const dur = 1400;
+    const step = Math.max(1, Math.floor(to / (dur / 16)));
+    function fn(){
+      start += step;
+      if (start >= to) el.textContent = to;
+      else { el.textContent = start; requestAnimationFrame(fn); }
+    }
+    requestAnimationFrame(fn);
+  }
+  function handleMetrics(){
+    metrics.forEach(m => {
+      if (m.dataset.animated) return;
+      const r = m.getBoundingClientRect();
+      if (r.top < window.innerHeight - 40) {
+        m.dataset.animated = 'true';
+        animateMetric(m, parseInt(m.dataset.count||'0',10));
+      }
+    });
+  }
+  window.addEventListener('scroll', handleMetrics);
+  window.addEventListener('resize', handleMetrics);
+  handleMetrics();
+
+  // current year
+  if (currentYearEl) currentYearEl.textContent = new Date().getFullYear();
+
+  // contact form handler -> posts JSON to /api/contact
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+      if (submitBtn) submitBtn.disabled = true;
+      if (formStatus) { formStatus.textContent = 'Sending...'; formStatus.style.color = '#333'; }
+
+      const payload = {
+        name: (form.querySelector('#name')?.value || '').trim(),
+        email: (form.querySelector('#email')?.value || '').trim(),
+        message: (form.querySelector('#message')?.value || '').trim(),
+        consent: form.querySelector('#consent')?.checked === true,
+        source: window.location.pathname
+      };
+
+      try {
+        const res = await fetch(form.getAttribute('action') || '/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(()=>({}));
+        if (res.ok && data.ok) {
+          if (formStatus) { formStatus.textContent = 'Message sent — thank you.'; formStatus.style.color = 'green'; }
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Submission failed');
+        }
+      } catch (err) {
+        if (formStatus) { formStatus.textContent = 'Error: ' + (err.message || 'Network error'); formStatus.style.color = 'crimson'; }
+      } finally {
+        if (submitBtn) submitBtn.disabled = false;
+      }
+    });
+  }
 });
 
 // Global functions for legal modals

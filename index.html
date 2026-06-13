@@ -65,7 +65,7 @@
                 <p class="slogan">Where Waves Whisper Wisdom</p>
             </div>
             <div class="loading-bar">
-                <div class="loading-progress"></div>
+                <div id="loading-progress" class="loading-progress" style="width:0%"></div>
             </div>
         </div>
     </div>
@@ -94,12 +94,12 @@
                     <li><a href="#contact" class="nav-link">Contact</a></li>
                     <!-- <li><a href="#legal" class="nav-link">Compliance</a></li> -->
                 </ul>
-                <div class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </div>
-            </nav>
-        </div>
-    </header>
+                <div id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle menu">
+                     <i class="fas fa-bars"></i>
+                 </div>
+             </nav>
+         </div>
+     </header>
 
     <!-- Hero Section -->
     <section id="home" class="hero">
@@ -415,36 +415,38 @@ We grow smart, create impact, and build a sustainable digital economy for all.</
             </div>
             
             <div class="contact-container">
-                <form id="contact-form" class="contact-form">
-                    <div class="form-group">
-                        <label for="name">Your Name</label>
-                        <input type="text" id="name" name="name" placeholder="What shall we call you?" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="email">Your Email</label>
-                        <input type="email" id="email" name="email" placeholder="Where shall we find you?" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="message">Your Story</label>
-                        <textarea id="message" name="message" placeholder="What wave do you want to create?" rows="4" required></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label>
-                            <input type="checkbox" name="consent" required>
-                            I agree to the <a href="#privacy">Privacy Policy</a> and data handling
-                        </label>
-                    </div>
-                    
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-paper-plane"></i> Send Your Message
-                    </button>
-                </form>
-            </div>
-        </div>
-    </section>
+                <!-- client posts to backend /api/contact -->
+                <form id="contact-form" class="contact-form" method="post" action="/api/contact">
+                     <div class="form-group">
+                         <label for="name">Your Name</label>
+                         <input type="text" id="name" name="name" placeholder="What shall we call you?" required>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label for="email">Your Email</label>
+                         <input type="email" id="email" name="email" placeholder="Where shall we find you?" required>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label for="message">Your Story</label>
+                         <textarea id="message" name="message" placeholder="What wave do you want to create?" rows="4" required></textarea>
+                     </div>
+                     
+                     <div class="form-group">
+                         <label>
+                             <input type="checkbox" name="consent" id="consent" required>
+                             I agree to the <a href="#privacy">Privacy Policy</a> and data handling
+                         </label>
+                     </div>
++                    
++                    <div id="form-status" aria-live="polite" style="margin-bottom:0.5rem"></div>
+                     <button type="submit" class="btn btn-primary" id="contact-submit">
+                         <i class="fas fa-paper-plane"></i> Send Your Message
+                     </button>
+                 </form>
+             </div>
+         </div>
+     </section>
 
     <!-- Footer -->
     <footer class="footer">
@@ -513,6 +515,5 @@ We grow smart, create impact, and build a sustainable digital economy for all.</
 
     <!-- Scripts -->
     <script src="oceans.js"></script>
-    <script src="oceans database.js"></script>
-</body>
-</html>
+ </body>
+ </html>
