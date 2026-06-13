@@ -609,16 +609,30 @@ class OceanTracersApp {
 
 // Initialize app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+  // mobile toggle
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const nav = document.querySelector('nav');
+  if (mobileBtn && nav) {
+    mobileBtn.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      const expanded = nav.classList.contains('open');
+      mobileBtn.setAttribute('aria-expanded', String(expanded));
+    });
+  }
+
+  // current year
+  const y = document.getElementById('current-year');
+  if (y) y.textContent = String(new Date().getFullYear());
+
+  // contact form
   const form = document.getElementById('contact-form');
   const status = document.getElementById('form-status');
   const submitBtn = document.getElementById('contact-submit');
-
   if (!form) return;
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     status.textContent = '';
-    // basic client-side validation
     const name = (form.querySelector('#name')?.value || '').trim();
     const email = (form.querySelector('#email')?.value || '').trim();
     const message = (form.querySelector('#message')?.value || '').trim();
@@ -639,15 +653,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch(form.getAttribute('action') || '/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(payload)
       });
       const data = await res.json().catch(() => ({}));
-      if (res.ok && data.ok) {
+      if (res.ok && data && data.ok) {
         status.textContent = 'Message sent — thank you.';
         status.style.color = 'green';
         form.reset();
       } else {
-        const msg = data && data.error ? data.error : 'Submission failed. Please try again later.';
+        const msg = data && data.error ? data.error : 'Submission failed.';
         throw new Error(msg);
       }
     } catch (err) {
