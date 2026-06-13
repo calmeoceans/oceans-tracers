@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Ocean Tracers Net</title>
+  <meta name="description" content="Ocean Tracers Net — Smart Sanctuary" />
+  <link rel="stylesheet" href="css/oceans.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="sticky-header">
+    <div class="container">
+      <div class="logo" onclick="location.href='#home'">
+        <h1>Ocean Tracers Net</h1>
+      </div>
+      <nav aria-label="Primary">
+        <button id="mobile-menu-btn" class="mobile-menu-btn" aria-expanded="false">☰</button>
+        <ul id="primary-nav" class="nav-links">
+          <li><a class="nav-link" href="#home">Home</a></li>
+          <li><a class="nav-link" href="#about">About</a></li>
+          <li><a class="nav-link" href="#services">Services</a></li>
+          <li><a class="nav-link" href="#contact">Contact</a></li>
+          <li><a class="nav-link" href="#compliance">Compliance</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="home" class="hero section-padding">
+      <div class="container">
+        <h2>Smart Sanctuary</h2>
+        <p>Where Technology Meets Tide</p>
+      </div>
+    </section>
+
+    <section id="about" class="section-padding">
+      <div class="container">
+        <h2>About</h2>
+        <p>Connecting communities and marine technology.</p>
+      </div>
+    </section>
+
+    <section id="services" class="section-padding">
+      <div class="container">
+        <h2>Services</h2>
+        <div class="services-grid">
+          <article class="service-card">
+            <h3>Network Solutions</h3>
+            <p>Reliable marine-grade networking for sensors and telemetry.</p>
+            <a class="btn-future" href="network-solutions.html">View Info <span class="arrow">→</span></a>
+          </article>
+          <article class="service-card">
+            <h3>AI Monitoring</h3>
+            <p>Automated detections and alerts.</p>
+            <a class="btn-future" href="ai-monitoring.html">View Info <span class="arrow">→</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section-padding">
+      <div class="container">
+        <h2>Contact</h2>
+        <form id="contact-form" action="/api/contact" method="post" novalidate>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+          </div>
+          <div class="form-group form-consent">
+            <input id="consent" name="consent" type="checkbox" required />
+            <label for="consent">I agree to the Privacy Policy</label>
+          </div>
+          <div id="form-status" aria-live="polite" class="form-status"></div>
+          <button id="contact-submit" type="submit" class="btn btn-primary">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="compliance" class="section-padding">
+      <div class="container">
+        <h2>Compliance</h2>
+        <p>Privacy and data handling details.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; <span id="current-year"></span> Ocean Tracers Net</p>
+    </div>
+  </footer>
+
+  <script src="js/oceans.js" defer></script>
+</body>
+</html>
