@@ -26,7 +26,7 @@
           <li><a class="nav-link" href="#home">Home</a></li>
           <li><a class="nav-link" href="#services">Services</a></li>
           <li><a class="nav-link" href="#technology">Technology</a></li>
-          <li><a class="nav-link" href="impact.html">Impact</a></li> <!-- changed: links to full Impact page -->
+          <li><a class="nav-link" href="#impact">Impact</a></li> <!-- changed: links to full Impact page -->
           <li><a class="nav-link" href="#contact">Contact</a></li>
           <li><a class="nav-link" href="#compliance">Compliance</a></li>
           <li><a class="nav-link" href="admin.html">Admin</a></li>
@@ -69,30 +69,255 @@
           <article class="card">
             <h3>Network Solutions</h3>
             <p>Marine-grade connectivity for sensors, buoys and remote telemetry.</p>
-            <a class="btn-future" href="network-solutions.html">View Info <span class="arrow">→</span></a>
+            <a class="btn-future" href="#network-solutions">View Info <span class="arrow">→</span></a>
           </article>
 
           <article class="card">
             <h3>AI Monitoring</h3>
-            <p>Vision and acoustic models to detect threats and ecosystem changes.</p>
-            <a class="btn-future" href="ai-monitoring.html">View Info <span class="arrow">→</span></a>
+            <p>Edge AI for vision & acoustic models — overview, tech and outcomes.</p>
+            <a class="btn-future" href="#ai-monitoring">View Info <span class="arrow">→</span></a>
           </article>
 
           <article class="card">
-            <h3>Consultancy & Projects</h3>
+            <h3>Project Outsourcing</h3>
             <p>Design, deploy and analyse ocean tracer studies with our experts.</p>
-            <a class="btn-future" href="project-outsourcing.html">View Info <span class="arrow">→</span></a>
+            <a class="btn-future" href="#project-outsourcing">View Info <span class="arrow">→</span></a>
           </article>
         </div>
       </div>
     </section>
-
+    
     <section id="technology" class="section-padding">
       <div class="container">
         <h2>Technology</h2>
-        <p>Low-power networks · Edge AI · Satellite integration · Secure data pipelines</p>
+        <p>Our stack combines rugged, low‑power field hardware with on‑edge inference and secure cloud pipelines — designed for long deployments, low bandwidth and privacy‑aware telemetry.</p>
+
+        <!-- compact tech cards -->
+        <div class="tech-grid">
+          <div class="tech-card">
+            <h3>Architecture</h3>
+            <p>Devices → Edge compute → Gateway → Secure cloud ingestion → Analytics</p>
+            <ul class="compliance-list">
+              <li>Local buffering & store‑and‑forward</li>
+              <li>Mutual TLS & device certificates</li>
+              <li>Edge rules: batching & hashed clips</li>
+            </ul>
+          </div>
+
+          <div class="tech-card">
+            <h3>Hardware & Field</h3>
+            <ul class="compliance-list">
+              <li>CTD, turbidity, pH, DO, ADCP, acoustics, cameras</li>
+              <li>Edge platforms: TinyML, Coral, Jetson</li>
+              <li>Comms: LoRaWAN, NB‑IoT, LTE‑M, Satellite</li>
+            </ul>
+          </div>
+
+          <div class="tech-card">
+            <h3>Software & Edge AI</h3>
+            <p>Optimised runtimes + model lifecycle for continuous improvement.</p>
+            <ul class="compliance-list">
+              <li>TFLite, ONNX, containerised JetPack</li>
+              <li>Event detection, species classification, anomaly scoring</li>
+            </ul>
+          </div>
+
+          <div class="tech-card">
+            <h3>Data & Integrations</h3>
+            <ul class="compliance-list">
+              <li>MQTT (TLS) + REST ingestion</li>
+              <li>Time-series + object store for media</li>
+              <li>CSV/NetCDF exports, webhooks & GIS</li>
+            </ul>
+          </div>
+
+          <div class="tech-card">
+            <h3>Security & Privacy</h3>
+            <ul class="compliance-list">
+              <li>End‑to‑end encryption</li>
+              <li>On‑device hashing, ephemeral clips</li>
+              <li>Signed events & device provenance</li>
+            </ul>
+          </div>
+
+          <div class="tech-card">
+            <h3>Deploy & Support</h3>
+            <ul class="compliance-list">
+              <li>Pilots, RF planning, commissioning</li>
+              <li>Fleet OTA, monitoring & SLAs</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
+          <a class="btn btn-primary" href="#contact">Request Technical Brief</a>
+          <a class="btn btn-ghost" href="#network-solutions">View Network Details</a>
+          <a class="btn btn-ghost" href="#ai-monitoring">View AI Details</a>
+        </div>
       </div>
     </section>
+
+    <!-- Begin: Service Detail Pages (single-page anchors) -->
+    <section id="network-solutions" class="section-padding">
+      <div class="container">
+        <h2>Network Solutions</h2>
+        <p>End-to-end connectivity designed for marine sensor networks: from buoy hardware to secure cloud ingestion.</p>
+
+        <div class="network-grid">
+          <div class="network-card">
+            <h3>Overview</h3>
+            <p>Resilient, low-power stacks combining LoRaWAN, NB‑IoT/LTE‑M and satellite backhaul for remote deployments.</p>
+          </div>
+
+          <div class="network-card">
+            <h3>Connectivity</h3>
+            <p>LoRaWAN for long-range low-power; NB‑IoT/LTE‑M for cellular fallback; Iridium/Globalstar for satellite.</p>
+          </div>
+
+          <div class="network-card">
+            <h3>Hardware</h3>
+            <p>Marine‑rated buoys, sealed gateways, corrosion‑resistant enclosures and modular sensor mounts.</p>
+          </div>
+
+          <div class="network-card">
+            <h3>Power</h3>
+            <p>Solar + smart charge controllers, power budgeting for multi-month/year deployments and sleep scheduling.</p>
+          </div>
+
+          <div class="network-card">
+            <h3>Protocols & Security</h3>
+            <p>MQTT over TLS, HTTPS APIs, mutual TLS, device certificates and encrypted payloads with RBAC.</p>
+          </div>
+
+          <div class="network-card">
+            <h3>Deliverables</h3>
+            <p>Site surveys & RF planning, BOM & procurement, field deployment, cloud ingestion pipeline and dashboards.</p>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem">
+          <a class="btn btn-primary" href="#contact">Request Network Quote</a>
+        </div>
+      </div>
+    </section>
+    <!-- End: network-solutions -->
+
+    <section id="ai-monitoring" class="section-padding">
+      <div class="container">
+        <h2>AI Monitoring</h2>
+        <p>Edge and cloud AI to detect events, species and anomalies from audio and video, with privacy‑minded data handling.</p>
+
+        <div class="ai-grid">
+          <div class="ai-card">
+            <h3>Acoustic Models</h3>
+            <p>Real-time detection of marine mammal vocalizations, anthropogenic noise and anomalous acoustic events.</p>
+            <ul class="compliance-list">
+              <li>Cetacean & pinniped call detection</li>
+              <li>Boat/engine signature classification</li>
+              <li>Event batching, confidence scoring & timestamping</li>
+            </ul>
+          </div>
+
+          <div class="ai-card">
+            <h3>Vision Models</h3>
+            <p>Camera-based inference for coral health, debris, entanglement and vessel activity.</p>
+            <ul class="compliance-list">
+              <li>Coral bleaching & substrate classification</li>
+              <li>Object detection: debris, nets, vessels</li>
+              <li>Privacy: on-device hashing & selective clip upload</li>
+            </ul>
+          </div>
+
+          <div class="ai-card">
+            <h3>Edge Runtimes</h3>
+            <p>Optimised runtimes to run inference on low-power devices and edge accelerators.</p>
+            <ul class="compliance-list">
+              <li>TFLite, ONNX, Coral Edge TPU</li>
+              <li>NVIDIA Jetson/JetPack container runtimes</li>
+              <li>On-device buffering and store-and-forward</li>
+            </ul>
+          </div>
+
+          <div class="ai-card">
+            <h3>Model Ops & Lifecycle</h3>
+            <p>CI pipelines for model updates, A/B testing and drift monitoring.</p>
+            <ul class="compliance-list">
+              <li>Remote rollout & versioning</li>
+              <li>Telemetry for drift detection and validation</li>
+              <li>Retraining pipelines with human-in-the-loop review</li>
+            </ul>
+          </div>
+
+          <div class="ai-card">
+            <h3>Outputs & Integration</h3>
+            <p>Standardised inference outputs and media controls for downstream workflows.</p>
+            <ul class="compliance-list">
+              <li>Time-stamped event JSON, short authenticated clips</li>
+              <li>Webhooks, MQTT/REST integration & dashboards</li>
+              <li>Export: CSV, NetCDF and GIS-ready formats</li>
+            </ul>
+          </div>
+
+          <div class="ai-card">
+            <h3>Hardware Options</h3>
+            <p>Recommend hardware by power, throughput and deployment constraints.</p>
+            <ul class="compliance-list">
+              <li>Low-power MCU + TinyML for audio-only sites</li>
+              <li>Coral Edge TPU for efficient vision inference</li>
+              <li>NVIDIA Jetson for multi-camera, high-throughput sites</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
+          <a class="btn btn-primary" href="#contact">Schedule an AI Review</a>
+          <a class="btn btn-ghost" href="#technology">View Technology</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="project-outsourcing" class="section-padding">
+      <div class="container">
+        <h2>Project Outsourcing</h2>
+        <p>Complete project delivery: planning, permitting, deployment, analysis and operations support for ocean tracer and monitoring programs.</p>
+
+        <div class="project-grid">
+          <div class="project-card">
+            <h3>Service Process</h3>
+            <ol class="compliance-list">
+              <li><strong>Discovery</strong> — objectives, KPIs, stakeholder alignment and site constraints</li>
+              <li><strong>Design</strong> — instrument selection, network architecture, data flows and compliance planning</li>
+              <li><strong>Pilot</strong> — small-scale deployment, validation and performance tuning</li>
+            </ol>
+          </div>
+
+          <div class="project-card">
+            <h3>Deploy & Operate</h3>
+            <ol class="compliance-list">
+              <li><strong>Deploy</strong> — field rollout, logistics, training and handover</li>
+              <li><strong>Operate</strong> — maintenance, monitoring, data QA and periodic reporting</li>
+            </ol>
+          </div>
+
+          <div class="project-card">
+            <h3>Deliverables</h3>
+            <ul>
+              <li>Project plan, risk register and runbook</li>
+              <li>Permitting & stakeholder engagement support</li>
+              <li>Data deliverables: raw + cleaned datasets, dashboards, statistical reports</li>
+              <li>Optional: training workshops and community handover materials</li>
+            </ul>
+          </div>
+
+          <div class="project-card">
+            <h3>Engagement Models</h3>
+            <p>Fixed-price pilots, time-and-materials for rollouts, or long-term managed services. Typical pilot: 6–10 weeks with a technical report and next steps.</p>
+            <a class="btn btn-primary" href="#contact">Start a Project Conversation</a>
+          </div>
+        </div>
+       </div>
+     </section>
+    <!-- End: Service Detail Pages -->
 
     <section id="impact" class="section-padding">
       <div class="container">
@@ -105,44 +330,64 @@
       </div>
     </section>
 
-    <section id="contact" class="section-padding">
-      <div class="container">
-        <h2>Contact</h2>
-        <form id="contact-form" action="/api/contact" method="post" novalidate>
-          <div class="form-grid">
-            <label class="form-group">
-              <span>Name</span>
-              <input id="name" name="name" type="text" required />
-            </label>
-            <label class="form-group">
-              <span>Email</span>
-              <input id="email" name="email" type="email" required />
-            </label>
-            <label class="form-group full">
-              <span>Message</span>
-              <textarea id="message" name="message" rows="5" required></textarea>
-            </label>
-            <label class="form-consent">
-              <input id="consent" name="consent" type="checkbox" required />
-              <span>I agree to the <a href="#compliance" rel="noopener noreferrer">Privacy &amp; Data Policy</a></span>
-            </label>
-          </div>
+    <!-- contact + compliance grouped for shared layout -->
+    <div class="contact-compliance-wrapper section-padding">
+      <div class="container contact-compliance-grid">
 
-          <div id="form-status" class="form-status" aria-live="polite"></div>
-          <div class="form-actions">
-            <button id="contact-submit" class="btn btn-primary" type="submit">Send Message</button>
-            <button class="btn btn-ghost" type="button" onclick="document.getElementById('contact-form').reset()">Reset</button>
-          </div>
-        </form>
-      </div>
-    </section>
+        <section id="contact" class="contact-section contact-card">
+          <h2>Contact</h2>
 
-    <section id="compliance" class="section-padding">
-      <div class="container">
-        <h2>Compliance</h2>
-        <p>We store only required contact data, record consent and secure submissions. See data handling details on request.</p>
+          <form id="contact-form" class="contact-form" action="/api/contact" method="post" novalidate>
+            <div class="form-grid">
+              <label class="form-group">
+                <span>Name</span>
+                <input id="name" name="name" type="text" placeholder="Your name" required />
+              </label>
+
+              <label class="form-group">
+                <span>Email</span>
+                <input id="email" name="email" type="email" placeholder="you@example.com" required />
+              </label>
+
+              <label class="form-group full">
+                <span>Message</span>
+                <textarea id="message" name="message" rows="4" placeholder="Short message" required></textarea>
+              </label>
+
+              <label class="form-consent">
+                <input id="consent" name="consent" type="checkbox" required />
+                <span>I agree to the <a href="#compliance">Privacy &amp; Data Policy</a></span>
+              </label>
+            </div>
+
+            <div id="form-status" class="form-status" aria-live="polite"></div>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Send</button>
+              <button class="btn btn-ghost" type="reset">Reset</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="compliance" class="compliance-section">
+          <h2>Compliance</h2>
+          <p>We collect only necessary contact details, record consent with timestamps, and protect submissions with encryption.</p>
+
+          <ul class="compliance-list">
+            <li>Minimal collection: name, email, message</li>
+            <li>Consent logged and auditable</li>
+            <li>Transport and storage encrypted (TLS + at-rest encryption)</li>
+            <li>Retention: data deleted on request; DPA available on inquiry</li>
+          </ul>
+
+          <div class="compliance-meta">
+            <p>For full privacy and data processing details, request our policy or DPA.</p>
+            <a class="btn btn-ghost" href="#contact">Contact Us</a>
+          </div>
+        </section>
+
       </div>
-    </section>
+    </div>
   </main>
 
   <footer class="footer">

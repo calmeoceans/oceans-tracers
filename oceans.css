@@ -853,44 +853,569 @@ h2{color:#cfeff0;margin:0 0 1rem}
   align-items:center;
 }
 
-/* Responsive */
-@media (max-width:980px){
-  .contact-grid{ grid-template-columns:1fr; }
-  .contact-illustration{ order:-1; }
-  .contact-card{ padding:1rem; }
-}
-@media (max-width:640px){
-  .form-actions{ flex-direction:column; align-items:stretch; }
-  .form-actions .btn{ width:100%; }
+/* Contact + Compliance shared container */
+.contact-compliance-wrapper {
+  background: transparent;
 }
 
-/* Visual focus for keyboard users on contact inputs */
-.contact-card .form-group input:focus-visible,
-.contact-card .form-group textarea:focus-visible{
-  outline: 3px solid rgba(0,209,178,0.14);
-  outline-offset: 2px;
+/* grid inside the shared container */
+.contact-compliance-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
 }
 
-/* Network Solutions page specific styling */
-.solutions-hero{ padding-top:2.5rem; padding-bottom:2rem; }
-.solutions-grid{
+/* individual cards */
+.contact-section,
+.compliance-section {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--muted-border, rgba(0,0,0,0.06));
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 6px 18px rgba(8,10,20,0.04);
+}
+
+/* make the contact form take more visual weight */
+.contact-section {
+  min-height: 280px;
+}
+
+/* compact styling for compliance box */
+.compliance-section {
+  align-self: start;
+  max-width: 420px;
+}
+
+/* responsive: side-by-side on wider viewports */
+@media (min-width: 900px) {
+  .contact-compliance-grid {
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+  }
+
+  /* ensure form controls stretch full width inside the card */
+  .contact-section .form-grid { gap: 12px; }
+  .contact-section input,
+  .contact-section textarea {
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+/* small screens: keep stacked and clear spacing */
+@media (max-width: 599px) {
+  .contact-section,
+  .compliance-section {
+    padding: 16px;
+    border-radius: 8px;
+  }
+}
+
+/* ===== Enhanced Contact & Compliance Styling ===== */
+
+/* wrapper visual */
+.contact-compliance-wrapper{
+  padding: 2.5rem 0;
+  background: linear-gradient(180deg, rgba(0,20,30,0.02), rgba(0,20,30,0.04));
+}
+
+/* clearer grid + alignment */
+.contact-compliance-grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns: 1fr;
+  gap:24px;
+  align-items:start;
+}
+
+/* warm card style for contact form */
+.contact-section{
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 18px 50px rgba(0,18,24,0.45);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+
+/* slight lift on hover/focus to indicate interactivity */
+.contact-section:hover,
+.contact-section:focus-within{
+  transform: translateY(-6px);
+  box-shadow: 0 28px 70px rgba(0,18,24,0.55);
+}
+
+/* heading inside contact card */
+.contact-section > h2{
+  margin-top:0;
+  margin-bottom:.6rem;
+  color: #e6fbf6;
+  font-size:1.4rem;
+}
+
+/* form layout refinements */
+.contact-section .form-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:12px;
+  margin-top:0.5rem;
+}
+.contact-section .form-group{ margin-bottom:0 }
+.contact-section .form-group.full{ grid-column:1/-1 }
+
+/* input and textarea polished */
+.contact-section input,
+.contact-section textarea{
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  color: #fff;
+  padding: .85rem;
+  border-radius: 10px;
+  transition: box-shadow .18s ease, transform .12s ease, border-color .12s;
+}
+.contact-section input::placeholder,
+.contact-section textarea::placeholder{ color: rgba(255,255,255,0.45) }
+.contact-section input:focus,
+.contact-section textarea:focus{
+  border-color: var(--accent);
+  box-shadow: 0 10px 30px rgba(0,209,178,0.08);
+  transform: translateY(-2px);
+  outline: none;
+}
+
+/* consent row more readable */
+.contact-section .form-consent{
+  grid-column:1/-1;
+  gap:.6rem;
+  color:rgba(255,255,255,0.85);
+  font-size:0.95rem;
+}
+
+/* form actions — stronger primary CTA and subtle ghost */
+.contact-section .form-actions{
+  display:flex;
+  gap:.8rem;
+  margin-top:12px;
+}
+.contact-section .btn-primary{
+  background: linear-gradient(90deg,var(--accent),var(--accent-2));
+  color:#021;
+  box-shadow: 0 10px 30px rgba(0,209,178,0.10);
+  border-radius: 12px;
+}
+.contact-section .btn-ghost{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.9);
+}
+
+/* helpful status message styling */
+.contact-section .form-status{
+  margin-bottom: .5rem;
+  font-weight:700;
+  color: #fff;
+}
+.form-status.success{ color:#7fffd4 }
+.form-status.error{ color:#ff9b9b }
+
+/* compliance card: compact, legible, and sticky on wider screens */
+.compliance-section{
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border: 1px solid rgba(255,255,255,0.03);
+  padding:1.25rem;
+  border-radius:12px;
+  color: rgba(255,255,255,0.9);
+  box-shadow: 0 10px 30px rgba(0,18,24,0.35);
+}
+
+/* make compliance sidebar sticky for easy reference on large screens */
+@media (min-width: 900px){
+  .compliance-section{
+    position: sticky;
+    top: 100px;
+  }
+}
+
+/* compliance intro */
+.compliance-section h2{ margin-top:0; color:#e6fbf6; font-size:1.25rem }
+.compliance-section p{ margin:.5rem 0 1rem; color:rgba(255,255,255,0.78); line-height:1.5 }
+
+/* checklist style for compliance items */
+.compliance-list{ list-style:none; padding:0; margin:0; display:grid; gap:.5rem }
+.compliance-list li{
+  display:flex;
+  gap:.6rem;
+  align-items:flex-start;
+  background: linear-gradient(180deg, rgba(0,0,0,0.03), transparent);
+  padding:.6rem;
+  border-radius:8px;
+  border:1px solid rgba(255,255,255,0.02);
+  font-size:0.95rem;
+  color: rgba(255,255,255,0.86);
+}
+.compliance-list li:before{
+  content: "•";
+  color: var(--accent);
+  font-weight:700;
+  margin-top:2px;
+}
+
+/* compact meta and links */
+.compliance-meta{ margin-top:.8rem; font-size:0.9rem; color:rgba(255,255,255,0.7) }
+.compliance-meta a{ color: var(--accent); text-decoration:underline; }
+
+/* CTA inside compliance (optional) */
+.compliance-cta{
+  display:flex;
+  gap:.5rem;
+  margin-top:12px;
+}
+.compliance-cta .btn{
+  padding:.5rem .9rem;
+  border-radius:10px;
+  font-weight:700;
+}
+.compliance-cta .btn-primary{ min-width:140px }
+
+/* responsiveness: ensure stacked layout on small screens */
+@media (max-width:899px){
+  .contact-section .form-grid{ grid-template-columns:1fr; }
+  .contact-section .form-actions{ flex-direction:column; }
+  .compliance-section{ position: relative; top:auto; max-width:100%; }
+}
+
+/* subtle entrance */
+.contact-section, .compliance-section{
+  opacity:0;
+  transform: translateY(10px);
+  animation: fadeInUp 0.45s ease forwards;
+}
+.contact-section{ animation-delay: 0.05s }
+.compliance-section{ animation-delay: 0.15s }
+
+/* Compact contact form height overrides */
+.contact-section {
+  /* reduce vertical footprint */
+  min-height: 140px !important;
+  padding: 0.9rem !important;
+  border-radius: 10px;
+}
+
+.contact-section .form-grid {
+  gap: 8px;
+  grid-template-columns: 1fr; /* single column keeps layout compact */
+}
+
+.contact-section .form-group span {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+
+.contact-section .form-group input,
+.contact-section .form-group textarea {
+  padding: 0.6rem;
+  border-radius: 8px;
+}
+
+/* limit textarea length while still allowing vertical resize */
+.contact-section textarea {
+  height: 100px;
+  max-height: 140px;
+  min-height: 80px;
+  resize: vertical;
+  overflow:auto;
+}
+
+/* tighten action spacing */
+.contact-section .form-actions {
+  margin-top: 8px;
+  gap: 0.5rem;
+}
+
+/* smaller status line */
+.contact-section .form-status {
+  min-height: 1rem;
+  margin-bottom: .4rem;
+  font-size: .95rem;
+}
+
+/* ===== Technology: medium container layout ===== */
+.tech-grid{
+  display:flex;
+  flex-wrap:wrap;
   gap:1rem;
+  justify-content:center; /* center medium cards in the container */
+  align-items:stretch;
   margin-top:1rem;
 }
-.feature-card{
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius:14px;
-  padding:1rem;
+
+/* each tech card becomes a medium-width panel */
+.tech-card{
+  flex:0 1 420px;       /* base width for medium card */
+  max-width:520px;      /* limit growth on very wide screens */
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
   border:1px solid rgba(255,255,255,0.03);
-  box-shadow: 0 12px 30px rgba(3,18,26,0.35);
+  padding:1rem 1.25rem;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,18,24,0.28);
+  color:rgba(255,255,255,0.92);
+  display:flex;
+  flex-direction:column;
+  gap:0.45rem;
 }
-.feature-card h3{ margin:0 0 .5rem; color:#e6fbf6 }
-.feature-card p{ margin:0 0 .75rem; color:rgba(255,255,255,0.85) }
-.tech-specs{ list-style:none; padding:0; margin:0 0 1rem; color:rgba(255,255,255,0.78) }
-.tech-specs li{ padding:.25rem 0; border-bottom:1px dashed rgba(255,255,255,0.02); font-size:.95rem; }
-@media (max-width:980px){
-  .solutions-grid{ grid-template-columns:1fr; }
-  .hero-grid{ grid-template-columns:1fr; }
+
+/* tighter headings and body for compact, readable cards */
+.tech-card h3{
+  margin:0;
+  font-size:1.06rem;
+  color:#e6fbf6;
+}
+.tech-card p,
+.tech-card ul{
+  margin:0;
+  color:rgba(255,255,255,0.78);
+  line-height:1.45;
+  font-size:0.96rem;
+}
+
+/* ensure lists inside cards keep compact spacing */
+.tech-card .compliance-list{
+  margin-top:.5rem;
+  display:grid;
+  gap:.45rem;
+  list-style:none;
+  padding:0;
+}
+.tech-card .compliance-list li:before{
+  content: "•";
+  color: var(--accent);
+  margin-right:.5rem;
+  font-weight:700;
+  display:inline-block;
+  transform: translateY(-1px);
+}
+
+/* responsive tweaks */
+@media (max-width:760px){
+  .tech-card{ flex:0 1 calc(100% - 2rem); max-width:100%; padding:0.9rem; }
+  .tech-grid{ gap:0.75rem; }
+}
+
+/* Network Solutions: medium container layout (matches tech cards) */
+.network-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  justify-content:center;
+  align-items:stretch;
+  margin-top:1rem;
+}
+
+/* style either explicit .network-card or existing .card elements inside .network-grid */
+.network-grid .card,
+.network-card{
+  flex:0 1 460px;
+  max-width:540px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border:1px solid rgba(255,255,255,0.03);
+  padding:1rem 1.25rem;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,18,24,0.28);
+  color:rgba(255,255,255,0.92);
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+}
+
+/* headings and body */
+.network-grid .card h3,
+.network-card h3{
+  margin:0;
+  font-size:1.1rem;
+  color:#e6fbf6;
+}
+.network-grid .card p,
+.network-card p,
+.network-grid .card ul,
+.network-card ul{
+  margin:0;
+  color:rgba(255,255,255,0.78);
+  line-height:1.45;
+  font-size:0.96rem;
+}
+
+/* list treatment */
+.network-grid .card .compliance-list,
+.network-card .compliance-list{
+  margin-top:.5rem;
+  display:grid;
+  gap:.45rem;
+  list-style:none;
+  padding:0;
+}
+.network-grid .card .compliance-list li:before,
+.network-card .compliance-list li:before{
+  content: "•";
+  color: var(--accent);
+  margin-right:.5rem;
+  font-weight:700;
+  display:inline-block;
+  transform: translateY(-1px);
+}
+
+/* responsive */
+@media (max-width:760px){
+  .network-grid .card,
+  .network-card{
+    flex:0 1 calc(100% - 2rem);
+    max-width:100%;
+    padding:0.9rem;
+  }
+  .network-grid{ gap:0.75rem; }
+}
+
+/* ===== AI Monitoring: medium container layout (matches tech & network cards) ===== */
+.ai-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  justify-content:center;
+  align-items:stretch;
+  margin-top:1rem;
+}
+
+/* style either explicit .ai-card or .card elements placed inside .ai-grid */
+.ai-grid .card,
+.ai-card{
+  flex:0 1 460px;
+  max-width:540px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border:1px solid rgba(255,255,255,0.03);
+  padding:1rem 1.25rem;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,18,24,0.28);
+  color:rgba(255,255,255,0.92);
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+}
+
+/* headings and body */
+.ai-grid .card h3,
+.ai-card h3{
+  margin:0;
+  font-size:1.1rem;
+  color:#e6fbf6;
+}
+.ai-grid .card p,
+.ai-card p,
+.ai-grid .card ul,
+.ai-card ul{
+  margin:0;
+  color:rgba(255,255,255,0.78);
+  line-height:1.45;
+  font-size:0.96rem;
+}
+
+/* list treatment */
+.ai-grid .card .compliance-list,
+.ai-card .compliance-list{
+  margin-top:.5rem;
+  display:grid;
+  gap:.45rem;
+  list-style:none;
+  padding:0;
+}
+.ai-grid .card .compliance-list li:before,
+.ai-card .compliance-list li:before{
+  content: "•";
+  color: var(--accent);
+  margin-right:.5rem;
+  font-weight:700;
+  display:inline-block;
+  transform: translateY(-1px);
+}
+
+/* responsive */
+@media (max-width:760px){
+  .ai-grid .card,
+  .ai-card{
+    flex:0 1 calc(100% - 2rem);
+    max-width:100%;
+    padding:0.9rem;
+  }
+  .ai-grid{ gap:0.75rem; }
+}
+
+/* ===== Project Outsourcing: medium container layout (matches tech, network & ai cards) ===== */
+.project-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:1rem;
+  justify-content:center;
+  align-items:stretch;
+  margin-top:1rem;
+}
+
+/* style either explicit .project-card or .card elements placed inside .project-grid */
+.project-grid .card,
+.project-card{
+  flex:0 1 460px;
+  max-width:540px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));
+  border:1px solid rgba(255,255,255,0.03);
+  padding:1rem 1.25rem;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,18,24,0.28);
+  color:rgba(255,255,255,0.92);
+  display:flex;
+  flex-direction:column;
+  gap:0.6rem;
+}
+
+/* headings and body */
+.project-grid .card h3,
+.project-card h3{
+  margin:0;
+  font-size:1.1rem;
+  color:#e6fbf6;
+}
+.project-grid .card p,
+.project-card p,
+.project-grid .card ul,
+.project-card ul{
+  margin:0;
+  color:rgba(255,255,255,0.78);
+  line-height:1.45;
+  font-size:0.96rem;
+}
+
+/* list treatment */
+.project-grid .card .compliance-list,
+.project-card .compliance-list{
+  margin-top:.5rem;
+  display:grid;
+  gap:.45rem;
+  list-style:none;
+  padding:0;
+}
+.project-grid .card .compliance-list li:before,
+.project-card .compliance-list li:before{
+  content: "•";
+  color: var(--accent);
+  margin-right:.5rem;
+  font-weight:700;
+  display:inline-block;
+  transform: translateY(-1px);
+}
+
+/* responsive */
+@media (max-width:760px){
+  .project-grid .card,
+  .project-card{
+    flex:0 1 calc(100% - 2rem);
+    max-width:100%;
+    padding:0.9rem;
+  }
+  .project-grid{ gap:0.75rem; }
 }
