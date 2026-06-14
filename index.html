@@ -19,7 +19,19 @@
   <header class="sticky-header" role="banner" aria-label="Main header">
     <div class="container header-row">
       <div class="brand" onclick="location.href='#home'" role="link" tabindex="0" aria-label="Go to home">
-        <img src="images/footer-mark.png" alt="Ocean Tracers logo" class="brand-logo" />
+        <!-- 3-dots logo (inline SVG for crisp rendering) -->
+        <svg class="brand-mark" width="48" height="48" viewBox="0 0 48 48" role="img" aria-label="Ocean Tracers logo" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="false">
+          <title>Ocean Tracers logo</title>
+          <desc>Triangular three-dot mark using three colored dots</desc>
+          <!-- three dots arranged as a triangle -->
+          <circle cx="24" cy="8"  r="6.5" fill="#0A66C2" />   <!-- top: corporate blue -->
+          <circle cx="10.5" cy="34" r="6.5" fill="#17A2B8" /> <!-- bottom-left: teal -->
+          <circle cx="37.5" cy="34" r="6.5" fill="#10B981" /> <!-- bottom-right: green -->
+          <!-- subtle ring to unify mark -->
+          <g fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1">
+            <path d="M24 8 L10.5 34 L37.5 34 Z" stroke-linejoin="round"/>
+          </g>
+        </svg>
         <div class="brand-text">
           <div class="brand-title">Ocean Tracers</div>
           <div class="brand-sub">Smart Sanctuary</div>
@@ -57,11 +69,14 @@
         </div>
 
         <div class="hero-visual" aria-hidden="true">
-          <picture>
-            <source srcset="images/hero-visual-1200.webp 1200w, images/hero-visual-800.webp 800w" type="image/webp">
-            <source srcset="images/hero-visual-1200.jpg 1200w, images/hero-visual-800.jpg 800w" type="image/jpeg">
-            <img src="images/hero-visual-800.jpg" alt="Buoy with sensors at sunrise" loading="lazy" />
-          </picture>
+          <img
+            src="images/hero-visual-1200.png"
+            srcset="images/hero-visual-1200.png 1200w, images/hero-visual-900.png 900w, images/hero-visual-600.png 600w"
+            sizes="(min-width:1100px) 460px, (min-width:760px) 40vw, 100vw"
+            alt="Buoy with sensors at sunrise"
+            loading="lazy"
+            data-generate-png="Hero|Buoy with sensors at sunrise"
+          />
         </div>
       </div>
     </section>
@@ -73,8 +88,14 @@
         <div class="services-grid">
           <article class="card">
             <picture>
-              <source srcset="images/network-thumb-800.webp 800w" type="image/webp">
-              <img src="images/network-thumb-800.jpg" alt="Coastal gateway" loading="lazy" />
+              <source srcset="images/network-thumb-1200.png 1200w, images/network-thumb-800.png 800w" type="image/png">
+              <img
+                src="images/network-thumb-800.png"
+                alt="Coastal gateway on a mast"
+                loading="lazy"
+                sizes="(min-width:1100px) 33vw, (min-width:760px) 30vw, 100vw"
+                data-generate-png="Network|LoRa gateway on a mast"
+              />
             </picture>
             <h3>Network Solutions</h3>
             <p>Marine-grade connectivity combining LoRaWAN, NB‑IoT/LTE‑M and satellite fallbacks for resilient telemetry.</p>
@@ -83,8 +104,14 @@
 
           <article class="card">
             <picture>
-              <source srcset="images/ai-thumb-800.webp 800w" type="image/webp">
-              <img src="images/ai-thumb-800.jpg" alt="Edge AI device" loading="lazy" />
+              <source srcset="images/ai-thumb-1200.png 1200w, images/ai-thumb-800.png 800w" type="image/png">
+              <img
+                src="images/ai-thumb-800.png"
+                alt="Edge AI device on buoy"
+                loading="lazy"
+                sizes="(min-width:1100px) 33vw, (min-width:760px) 30vw, 100vw"
+                data-generate-png="AI|Edge AI device"
+              />
             </picture>
             <h3>AI Monitoring</h3>
             <p>On-device inference for acoustic and visual models with selective upload and event-driven telemetry.</p>
@@ -93,8 +120,14 @@
 
           <article class="card">
             <picture>
-              <source srcset="images/project-thumb-800.webp 800w" type="image/webp">
-              <img src="images/project-thumb-800.jpg" alt="Field deployment" loading="lazy" />
+              <source srcset="images/project-thumb-1200.png 1200w, images/project-thumb-800.png 800w" type="image/png">
+              <img
+                src="images/project-thumb-800.png"
+                alt="Field deployment team"
+                loading="lazy"
+                sizes="(min-width:1100px) 33vw, (min-width:760px) 30vw, 100vw"
+                data-generate-png="Project|Field deployment team"
+              />
             </picture>
             <h3>Project Outsourcing</h3>
             <p>End-to-end project delivery: planning, permitting, deployment, analytics and operations support.</p>
@@ -112,28 +145,40 @@
 
         <div class="tech-grid">
           <div class="tech-card">
-            <picture>
-              <source srcset="images/tech-architecture.webp" type="image/webp">
-              <img src="images/tech-architecture.svg" alt="Architecture diagram" loading="lazy" />
-            </picture>
+            <img
+              src="images/tech-architecture-1200.png"
+              srcset="images/tech-architecture-1200.png 1200w, images/tech-architecture-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Architecture diagram"
+              loading="lazy"
+              data-generate-png="Architecture|Device → Edge → Cloud"
+            />
             <h3>Architecture</h3>
             <p>Devices → Edge compute → Gateway → Secure ingestion → Dashboards & analytics.</p>
           </div>
 
           <div class="tech-card">
-            <picture>
-              <source srcset="images/tech-hardware-800.webp 800w" type="image/webp">
-              <img src="images/tech-hardware-800.jpg" alt="Marine sensors" loading="lazy" />
-            </picture>
+            <img
+              src="images/tech-hardware-1200.png"
+              srcset="images/tech-hardware-1200.png 1200w, images/tech-hardware-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Marine sensors"
+              loading="lazy"
+              data-generate-png="Hardware|Marine sensors & enclosures"
+            />
             <h3>Hardware & Field</h3>
             <p>IP67/IP68 enclosures, corrosion-resistant materials, solar power and smart charge controllers.</p>
           </div>
 
           <div class="tech-card">
-            <picture>
-              <source srcset="images/tech-ai-800.webp 800w" type="image/webp">
-              <img src="images/tech-ai-800.jpg" alt="Edge AI models" loading="lazy" />
-            </picture>
+            <img
+              src="images/tech-ai-1200.png"
+              srcset="images/tech-ai-1200.png 1200w, images/tech-ai-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Edge AI models"
+              loading="lazy"
+              data-generate-png="Edge AI|On-device inference"
+            />
             <h3>Software & Edge AI</h3>
             <p>TensorFlow Lite / ONNX runtimes, model lifecycle, on-device filters and selective clip uploads.</p>
           </div>
@@ -153,10 +198,14 @@
         <h2>Network Solutions</h2>
         <div class="network-grid">
           <div class="network-card card">
-            <picture>
-              <source srcset="images/network-gateway-800.webp 800w" type="image/webp">
-              <img src="images/network-gateway-800.jpg" alt="Gateway installation" loading="lazy" />
-            </picture>
+            <img
+              src="images/network-gateway-1200.png"
+              srcset="images/network-gateway-1200.png 1200w, images/network-gateway-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Gateway installation"
+              loading="lazy"
+              data-generate-png="Gateway|Coastal gateway installation"
+            />
             <h3>Overview</h3>
             <ul class="feature-list">
               <li>LoRaWAN primary, NB‑IoT/LTE‑M fallback, Iridium satellite backhaul</li>
@@ -167,10 +216,14 @@
           </div>
 
           <div class="network-card card">
-            <picture>
-              <source srcset="images/network-sensor-800.webp 800w" type="image/webp">
-              <img src="images/network-sensor-800.jpg" alt="Sensor array" loading="lazy" />
-            </picture>
+            <img
+              src="images/network-sensor-1200.png"
+              srcset="images/network-sensor-1200.png 1200w, images/network-sensor-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Sensor array"
+              loading="lazy"
+              data-generate-png="Sensor|Buoy sensor array"
+            />
             <h3>Deliverables</h3>
             <ul class="feature-list">
               <li>Bill of Materials, configuration & test scripts</li>
@@ -187,20 +240,28 @@
         <h2>AI Monitoring</h2>
         <div class="ai-grid">
           <div class="ai-card card">
-            <picture>
-              <source srcset="images/ai-acoustics-800.webp 800w" type="image/webp">
-              <img src="images/ai-acoustics-800.jpg" alt="Acoustic spectrogram" loading="lazy" />
-            </picture>
+            <img
+              src="images/ai-acoustics-1200.png"
+              srcset="images/ai-acoustics-1200.png 1200w, images/ai-acoustics-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Acoustic spectrogram"
+              loading="lazy"
+              data-generate-png="Acoustics|Spectrogram & detections"
+            />
             <h3>Acoustic Models</h3>
             <p>Cetacean detection, engine noise classification, anomaly scoring and event batching.</p>
             <a class="btn btn-primary" href="#contact">Schedule Review</a>
           </div>
 
           <div class="ai-card card">
-            <picture>
-              <source srcset="images/ai-vision-800.webp 800w" type="image/webp">
-              <img src="images/ai-vision-800.jpg" alt="Coral monitoring" loading="lazy" />
-            </picture>
+            <img
+              src="images/ai-vision-1200.png"
+              srcset="images/ai-vision-1200.png 1200w, images/ai-vision-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Coral monitoring"
+              loading="lazy"
+              data-generate-png="Vision|Coral health monitoring"
+            />
             <h3>Vision Models</h3>
             <p>Coral health classification, debris detection and vessel activity recognition with privacy controls.</p>
           </div>
@@ -213,19 +274,27 @@
         <h2>Project Outsourcing</h2>
         <div class="project-grid">
           <div class="project-card card">
-            <picture>
-              <source srcset="images/project-planning-800.webp 800w" type="image/webp">
-              <img src="images/project-planning-800.jpg" alt="Project planning" loading="lazy" />
-            </picture>
+            <img
+              src="images/project-planning-1200.png"
+              srcset="images/project-planning-1200.png 1200w, images/project-planning-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Project planning"
+              loading="lazy"
+              data-generate-png="Planning|Project planning & design"
+            />
             <h3>Discovery & Design</h3>
             <p>Objectives, KPIs, instrument selection and compliance planning.</p>
           </div>
 
           <div class="project-card card">
-            <picture>
-              <source srcset="images/project-deploy-800.webp 800w" type="image/webp">
-              <img src="images/project-deploy-800.jpg" alt="Deployment" loading="lazy" />
-            </picture>
+            <img
+              src="images/project-deploy-1200.png"
+              srcset="images/project-deploy-1200.png 1200w, images/project-deploy-800.png 800w"
+              sizes="(min-width:1100px) 420px, (min-width:760px) 45vw, 100vw"
+              alt="Deployment"
+              loading="lazy"
+              data-generate-png="Deployment|Field deployment & operations"
+            />
             <h3>Deploy & Operate</h3>
             <p>Pilot deployments, commissioning, training and operational handover.</p>
             <a class="btn btn-primary" href="#contact">Start Conversation</a>
@@ -240,12 +309,26 @@
         <h2>Impact</h2>
         <div class="metrics">
           <div class="metric">
-            <img src="images/impact-1.png" alt="Sites monitored icon" loading="lazy" />
+            <img
+              src="images/impact-1-1200.png"
+              srcset="images/impact-1-1200.png 1200w, images/impact-1-400.png 400w"
+              sizes="64px"
+              alt="Sites monitored icon"
+              loading="lazy"
+              data-generate-png="Metric|Sites monitored"
+            />
             <div class="metric-number">120+</div>
             <div class="metric-label">Sites Monitored</div>
           </div>
           <div class="metric">
-            <img src="images/impact-2.png" alt="Species icon" loading="lazy" />
+            <img
+              src="images/impact-2-1200.png"
+              srcset="images/impact-2-1200.png 1200w, images/impact-2-400.png 400w"
+              sizes="64px"
+              alt="Species icon"
+              loading="lazy"
+              data-generate-png="Metric|Species detected"
+            />
             <div class="metric-number">35</div>
             <div class="metric-label">Species Detected</div>
           </div>
@@ -293,7 +376,15 @@
 
         <section id="compliance" class="compliance-section" aria-labelledby="compliance-h">
           <h2 id="compliance-h">Compliance</h2>
-          <img src="images/compliance-shield.svg" alt="Compliance shield" loading="lazy" class="compliance-icon" />
+          <img
+            src="images/compliance-shield-1200.png"
+            srcset="images/compliance-shield-1200.png 1200w, images/compliance-shield-400.png 400w"
+            sizes="64px"
+            alt="Compliance shield"
+            loading="lazy"
+            class="compliance-icon"
+            data-generate-png="Compliance|Privacy & data shield"
+          />
           <p>We record consent, store only required contact details and secure submissions with TLS and at-rest encryption. DPA available on request.</p>
           <ul class="compliance-list">
             <li>Minimal collection: name, email, message</li>
@@ -307,9 +398,19 @@
     <footer class="footer" role="contentinfo">
       <div class="container footer-grid">
         <div class="footer-brand">
-          <img src="images/footer-mark.png" alt="Ocean Tracers logo" loading="lazy" />
-          <div>&copy; <span id="current-year"></span> Ocean Tracers Net</div>
-        </div>
+          <!-- inline 3-dots logo (same as header) -->
+          <svg class="brand-mark" width="36" height="36" viewBox="0 0 48 48" role="img" aria-label="Ocean Tracers logo" xmlns="http://www.w3.org/2000/svg" focusable="false">
+            <title>Ocean Tracers logo</title>
+            <desc>Triangular three-dot mark using three colored dots</desc>
+            <circle cx="24" cy="8"  r="6.5" fill="#0A66C2" />
+            <circle cx="10.5" cy="34" r="6.5" fill="#17A2B8" />
+            <circle cx="37.5" cy="34" r="6.5" fill="#10B981" />
+            <g fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1">
+              <path d="M24 8 L10.5 34 L37.5 34 Z" stroke-linejoin="round"/>
+            </g>
+          </svg>
+           <div>&copy; <span id="current-year"></span> Ocean Tracers Net</div>
+         </div>
         <nav class="footer-nav" aria-label="Footer">
           <a href="#services">Services</a>
           <a href="#technology">Technology</a>
