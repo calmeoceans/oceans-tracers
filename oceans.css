@@ -124,6 +124,11 @@ p{margin:0 0 .85rem;color:var(--text-soft)}
 .ai-grid,
 .project-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));gap:1rem;margin-top:1rem}
 
+.tours-grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));gap:1.25rem;margin-top:1rem;align-items:stretch}
+
+.tour-card img{width:100%;height:220px;object-fit:cover;object-position:center;border-radius:16px;margin-bottom:1rem;transition:transform .25s ease}
+.tour-card:hover img{transform:scale(1.02)}
+
 /* Capabilities section */
 .capabilities-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem}
 .cap-card{padding:1rem;display:flex;flex-direction:column;gap:.6rem;border-radius:14px;border:1px solid rgba(255,255,255,0.06);background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));}
