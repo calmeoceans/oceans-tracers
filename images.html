@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Images — Ocean Tracers Net</title>
+  <meta name="description" content="Image overview for Ocean Tracers Net site assets." />
+  <link rel="stylesheet" href="oceans.css" />
+</head>
+<body>
+  <header class="sticky-header" role="banner">
+    <div class="container header-row">
+      <div class="brand" onclick="location.href='index.html'" role="link" tabindex="0">
+        <svg class="brand-mark" width="36" height="36" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true">
+          <circle cx="24" cy="8"  r="6.5" fill="#0A66C2" />
+          <circle cx="10.5" cy="34" r="6.5" fill="#17A2B8" />
+          <circle cx="37.5" cy="34" r="6.5" fill="#10B981" />
+        </svg>
+        <div>
+          <div class="brand-title">Ocean Tracers</div>
+          <div class="brand-sub">Image Overview</div>
+        </div>
+      </div>
+
+      <nav class="primary-nav" role="navigation" aria-label="Primary">
+        <ul class="nav-links">
+          <li><a class="nav-link" href="index.html">Home</a></li>
+          <li><a class="nav-link" href="impact.html">Impact</a></li>
+          <li><a class="nav-link" href="images.html">Images</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="section-padding">
+    <div class="container">
+      <h1>Image Assets</h1>
+      <p class="lead">Gallery and filenames for images included in this workspace. Use these when updating templates or generating responsive sources.</p>
+
+      <section class="images-overview">
+        <article class="image-card portrait-card" role="group" aria-label="Portrait: Salim">
+          <img src="img/salim.jpg" alt="Salim portrait" loading="lazy" />
+          <div class="meta"><strong>salim.jpg</strong><span> — portrait / field photo</span></div>
+        </article>
+
+        <article class="image-card">
+          <img src="img/tech2.jpg" alt="Coastal equipment" loading="lazy" />
+          <div class="meta"><strong>tech2.jpg</strong><span> — gateway / sensor</span></div>
+        </article>
+
+        <article class="image-card">
+          <img src="img/tech3.jpg" alt="Field deployment" loading="lazy" />
+          <div class="meta"><strong>tech3.jpg</strong><span> — deployment team</span></div>
+        </article>
+
+        <article class="image-card">
+          <img src="img/tech4.jpg" alt="Monitoring imagery" loading="lazy" />
+          <div class="meta"><strong>tech4.jpg</strong><span> — monitoring / sensors</span></div>
+        </article>
+
+      </section>
+
+      <p class="small" style="margin-top:1rem;color:var(--text-dim)">Note: videos in `img/` (MP4) are not shown here; add thumbnails if needed.</p>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div class="footer-brand"><div>&copy; <span id="current-year"></span> Ocean Tracers Net</div></div>
+      <nav class="footer-nav">
+        <a href="index.html">Home</a>
+        <a href="impact.html">Impact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Lightbox overlay (used for portrait / gallery preview) -->
+  <div id="lightbox-overlay" class="lightbox-overlay" aria-hidden="true">
+    <div class="lightbox-inner" role="dialog" aria-modal="true">
+      <button class="lightbox-close" aria-label="Close image">✕</button>
+      <div class="lightbox-content">
+        <img src="" alt="" />
+        <div class="lightbox-caption"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+  <script src="oceans.js" defer></script>
+</body>
+</html>
