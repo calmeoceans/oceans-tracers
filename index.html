@@ -51,148 +51,49 @@
   </header>
 
   <main id="main" role="main">
-    <!-- HERO -->
     <section id="home" class="hero section-padding">
       <div class="container hero-grid">
         <div class="hero-content">
-          <h1> — Where Waves Whisper Wisdom </h1>
-          <p class="lead">AI-powered marine monitoring, resilient telemetry and expert project delivery for conservation and science.</p>
+          <h1 id="hero-title">Where Waves Whisper Wisdom</h1>
+          <p id="hero-lead" class="lead">AI-powered marine monitoring, resilient telemetry and expert project delivery for conservation and science.</p>
           <div class="hero-ctas">
             <a class="btn btn-primary" href="#services">Explore Services</a>
             <a class="btn btn-ghost" href="#technology">Technology</a>
           </div>
-          <ul class="hero-features">
-            <li>Low-power field hardware</li>
-            <li>Edge AI for audio & vision</li>
-            <li>Secure cloud ingestion & analytics</li>
-          </ul>
+          <ul id="hero-features" class="hero-features"></ul>
         </div>
 
         <div class="hero-visual" aria-hidden="true">
-          <img
-            src="img/OTN.jpeg"
-            alt="Ocean monitoring team on a coastal site"
-            loading="eager"
-          />
+          <img id="hero-image" src="img/OTN.jpeg" alt="Ocean monitoring team on a coastal site" loading="eager" />
         </div>
       </div>
     </section>
 
-    <!-- SERVICES -->
     <section id="services" class="section-padding">
       <div class="container">
         <h2>Services</h2>
-        <div class="services-grid">
-          <article class="card">
-            <img src="img/tech2.jpg" alt="Coastal gateway and marine monitoring hardware" loading="lazy" />
-            <h3>Network Solutions</h3>
-            <p>Marine-grade connectivity combining LoRaWAN, NB‑IoT/LTE‑M and satellite fallbacks for resilient telemetry.</p>
-            <a class="btn btn-outline" href="#network-solutions">Details</a>
-          </article>
-
-          <article class="card">
-            <img src="img/tech3.jpg" alt="Marine technology and edge AI hardware" loading="lazy" />
-            <h3>AI Monitoring</h3>
-            <p>On-device inference for acoustic and visual models with selective upload and event-driven telemetry.</p>
-            <a class="btn btn-outline" href="#ai-monitoring">Details</a>
-          </article>
-
-          <article class="card">
-            <img src="img/tech4.jpg" alt="Field deployment team at a marine site" loading="lazy" />
-            <h3>Project Outsourcing</h3>
-            <p>End-to-end project delivery: planning, permitting, deployment, analytics and operations support.</p>
-            <a class="btn btn-outline" href="#project-outsourcing">Details</a>
-          </article>
-
-          <article class="card">
-            <img src="img/salim.jpg" alt="Marine eco-tour on the coast" loading="lazy" />
-            <h3>Tours & Safaris</h3>
-            <p>Guided marine eco-tours and conservation safaris that connect stakeholders with site insights, wildlife, and deployment operations.</p>
-            <a class="btn btn-outline" href="#tours-safaris">Details</a>
-          </article>
-
-          <article class="card">
-            <img src="img/tours.jpeg" alt="Marine event and workshop at coastal site" loading="lazy" />
-            <h3>Events</h3>
-            <p>Targeted workshops, site open days and stakeholder events that bring marine monitoring, conservation science, and technology together.</p>
-            <a class="btn btn-outline" href="#events">Details</a>
-          </article>
-        </div>
+        <div id="services-grid" class="services-grid"></div>
       </div>
     </section>
 
-    <!-- TECHNOLOGY (medium cards) -->
     <section id="technology" class="section-padding">
       <div class="container">
         <h2>Technology</h2>
-        <p class="lead">Rugged hardware, optimised runtimes and secure cloud pipelines designed for long deployments and low bandwidth.</p>
+        <p id="technology-intro" class="lead">Rugged hardware, optimised runtimes and secure cloud pipelines designed for long deployments and low bandwidth.</p>
 
-        <div class="tech-grid">
-          <div class="tech-card">
-            <img src="img/tech2.jpg" alt="Coastal architecture for marine telemetry" loading="lazy" />
-            <h3>Architecture</h3>
-            <p>Devices → Edge compute → Gateway → Secure ingestion → Dashboards & analytics.</p>
-          </div>
-
-          <div class="tech-card">
-            <img src="img/tech3.jpg" alt="Marine sensors and hardware in the field" loading="lazy" />
-            <h3>Hardware & Field</h3>
-            <p>IP67/IP68 enclosures, corrosion-resistant materials, solar power and smart charge controllers.</p>
-          </div>
-
-          <div class="tech-card">
-            <img src="img/tech4.jpg" alt="Edge AI monitoring setup at sea" loading="lazy" />
-            <h3>Software & Edge AI</h3>
-            <p>TensorFlow Lite / ONNX runtimes, model lifecycle, on-device filters and selective clip uploads.</p>
-          </div>
-
-          <div class="tech-card">
-            <img src="img/salim.jpg" alt="Marine monitoring deployment site" loading="lazy" />
-            <h3>Field Deployment</h3>
-            <p>Integrated field hardware, gateway infrastructure and remote monitoring for coastal conservation sites.</p>
-          </div>
-        </div>
+        <div id="tech-grid" class="tech-grid"></div>
 
         <div class="tech-ctas">
           <a class="btn btn-primary" href="#contact">Request Technical Brief</a>
           <a class="btn btn-ghost" href="#network-solutions">Network</a>
           <a class="btn btn-ghost" href="#ai-monitoring">AI</a>
         </div>
-        
-        <!-- CAPABILITIES -->
+
         <section id="capabilities" class="section-padding">
           <div class="container">
             <h2>Capabilities</h2>
             <p class="lead">Practical, field-proven capabilities we deliver for resilient marine monitoring.</p>
-
-            <div class="capabilities-grid">
-              <div class="cap-card card">
-                <img src="img/tech2.jpg" alt="Low-power hardware" loading="lazy" />
-                <h3>Low-power Field Hardware</h3>
-                <p>Rugged, energy-efficient instrument stacks with solar charging, smart sleep cycles and long-life telemetry suitable for remote deployments.</p>
-                <div class="cap-actions">
-                  <button class="btn btn-primary cap-request" data-subject="Low-power Field Hardware">Request Brief</button>
-                </div>
-              </div>
-
-              <div class="cap-card card">
-                <img src="img/tech3.jpg" alt="Edge AI" loading="lazy" />
-                <h3>Edge AI for Audio & Vision</h3>
-                <p>On-device machine learning for acoustic event detection and visual classification, reducing bandwidth by uploading only salient clips.</p>
-                <div class="cap-actions">
-                  <button class="btn btn-primary cap-request" data-subject="Edge AI for Audio & Vision">Request Brief</button>
-                </div>
-              </div>
-
-              <div class="cap-card card">
-                <img src="img/tech4.jpg" alt="Secure cloud ingestion" loading="lazy" />
-                <h3>Secure Cloud Ingestion & Analytics</h3>
-                <p>TLS-authenticated pipelines, device identity, and scalable analytics for near-real-time dashboards and alerting.</p>
-                <div class="cap-actions">
-                  <button class="btn btn-primary cap-request" data-subject="Secure Cloud Ingestion & Analytics">Request Brief</button>
-                </div>
-              </div>
-            </div>
+            <div id="capabilities-grid" class="capabilities-grid"></div>
           </div>
         </section>
       </div>
@@ -307,44 +208,11 @@
       </div>
     </section>
 
-    <!-- IMPACT -->
     <section id="impact" class="section-padding">
       <div class="container">
         <h2>Impact</h2>
-        <div class="metrics">
-          <div class="metric">
-            <div class="metric-media">
-              <img src="img/tech4.jpg" alt="Sites monitored illustration" loading="lazy" />
-            </div>
-            <div class="metric-number">120+</div>
-            <div class="metric-label">Sites Monitored</div>
-          </div>
-          <div class="metric">
-            <div class="metric-media">
-              <img src="img/salim.jpg" alt="Species monitoring illustration" loading="lazy" />
-            </div>
-            <div class="metric-number">35</div>
-            <div class="metric-label">Species Detected</div>
-          </div>
-        </div>
-
-        <!-- Impact photo gallery (uses existing workspace images) -->
-        <div class="impact-gallery" aria-hidden="false">
-          <figure class="impact-photo">
-            <img src="img/tech2.jpg" alt="Coastal site and gateway" loading="lazy" />
-            <figcaption>Coastal gateway and monitoring hardware</figcaption>
-          </figure>
-
-          <figure class="impact-photo">
-            <img src="img/tech3.jpg" alt="Field deployment team" loading="lazy" />
-            <figcaption>Field deployment and commissioning</figcaption>
-          </figure>
-
-          <figure class="impact-photo">
-            <img src="img/salim.jpg" alt="Species monitoring example" loading="lazy" />
-            <figcaption>Species monitoring in action</figcaption>
-          </figure>
-        </div>
+        <div id="metrics" class="metrics"></div>
+        <div id="impact-gallery" class="impact-gallery" aria-hidden="false"></div>
       </div>
     </section>
 
